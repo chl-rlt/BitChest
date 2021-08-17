@@ -16,8 +16,9 @@ class CreateMarketsTable extends Migration
         Schema::create('markets', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->float('price');
-            $table->unsignedBigInteger('date_id')->nullable();
-            $table->foreign('date_id')->references('id')->on('dates');
+            // $table->unsignedBigInteger('date_id')->nullable();
+            // $table->foreign('date_id')->references('id')->on('dates');
+            $table->dateTimeTz('date');
             $table->unsignedTinyInteger('cryptocurrencie_id')->nullable();
             $table->foreign('cryptocurrencie_id')->references('id')->on('cryptocurrencies');
         });

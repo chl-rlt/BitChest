@@ -10,7 +10,9 @@ class Cryptocurrencie extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name','logo'];
+
+    public $timestamps = false;
 
     public function markets(){
         return $this->belongsToMany(Market::class);

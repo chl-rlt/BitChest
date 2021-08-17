@@ -16,7 +16,7 @@ class CreatePurchasesTable extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->float('quantity');
-            $table->float('price_bought');
+            //$table->float('price_bought');
             $table->datetime('bought_at');
             $table->unsignedInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');

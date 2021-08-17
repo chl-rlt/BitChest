@@ -11,6 +11,7 @@ class Date extends Model
     use HasFactory;
 
     protected $fillable = ['date'];
+    public $timestamps = false;
 
     public function markets() {
         $this->belongsToMany(Market::class);

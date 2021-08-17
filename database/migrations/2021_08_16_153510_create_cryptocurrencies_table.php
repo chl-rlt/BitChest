@@ -16,6 +16,7 @@ class CreateCryptocurrenciesTable extends Migration
         Schema::create('cryptocurrencies', function (Blueprint $table) {
             $table->tinyIncrements('id');
             $table->string('name', 50);
+            $table->string('logo', 255);
         });
     }
 
