@@ -61,8 +61,8 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function roles(){
-        return $this->hasOne(Role::class);
+    public function role(){
+        return $this->belongsTo(Role::class);
     }
 
     public function purchases(){
