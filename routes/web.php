@@ -29,6 +29,9 @@ use App\Http\Controllers\UserController;
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
 // })->name('dashboard');
+Route::get('/', function() {
+    return Redirect::route('dashboard');
+});
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function(){
 
@@ -40,7 +43,4 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
         Route::resource('users', UserController::class);
     });
 
-    Route::get('/', function() {
-        return Redirect::route('dashboard');
-    });
 });

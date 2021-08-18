@@ -2,7 +2,7 @@
 
 <div class="page-wrapper chiller-theme toggled">
   <a id="show-sidebar" class="btn btn-sm btn-dark" href="#" @click="showSidebar">
-    <i class="fas fa-bars"></i>
+     <font-awesome-icon icon="user-secret" />
     O
   </a>
   <nav id="sidebar" class="sidebar-wrapper">
@@ -13,7 +13,7 @@
         </h2>
         <div id="close-sidebar" @click="closeSidebar">
           <i class="fas fa-times"></i>
-          X
+         X
         </div>
       </div>
       <div class="sidebar-header">
@@ -96,6 +96,7 @@
 </template>
 
 <script>
+
     import { Link } from '@inertiajs/inertia-vue3';
 
 export default {
@@ -118,36 +119,6 @@ export default {
       },
   },
 }
-
-
-// $(".sidebar-dropdown > a").click(function() {
-//   $(".sidebar-submenu").slideUp(200);
-//   if (
-//     $(this)
-//       .parent()
-//       .hasClass("active")
-//   ) {
-//     $(".sidebar-dropdown").removeClass("active");
-//     $(this)
-//       .parent()
-//       .removeClass("active");
-//   } else {
-//     $(".sidebar-dropdown").removeClass("active");
-//     $(this)
-//       .next(".sidebar-submenu")
-//       .slideDown(200);
-//     $(this)
-//       .parent()
-//       .addClass("active");
-//   }
-// });
-
-// $("#close-sidebar").click(function() {
-//   $(".page-wrapper").removeClass("toggled");
-// });
-// $("#show-sidebar").click(function() {
-//   $(".page-wrapper").addClass("toggled");
-// });
 
 
 
@@ -221,6 +192,7 @@ body {
 
 .page-wrapper {
   height: 100vh;
+  width: 20%;
 }
 
 .page-wrapper .theme {

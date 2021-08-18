@@ -5,13 +5,19 @@
                 Dashboard
             </h2>
         </template> -->
-        <Sidebar :user="user"/>
+        <!-- <div class="">
+            <Sidebar :user="user"/>
+        </div> -->
+
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                     <!-- <client v-if="user.role == 'client'"/> -->
-                    <admin v-if="user.role == 'admin'" />
+                    <!-- <admin v-if="user.role == 'admin'" > -->
+                        <!-- <slot></slot> -->
+                    <!-- </admin> -->
+                    Dashboard
                 </div>
             </div>
         </div>

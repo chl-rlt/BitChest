@@ -5,6 +5,8 @@
         <jet-banner />
 
         <div class="min-h-screen bg-gray-100">
+
+            <!-- Nav -->
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -131,11 +133,16 @@
                     <slot name="header"></slot>
                 </div>
             </header>
+            <div class="flex">
+            <aside class="" v-if="$page.url.startsWith('/dashboard')">
+                <Sidebar :user="user"/>
+            </aside>
 
             <!-- Page Content -->
-            <main>
+            <main class="flex-1 px-16 py-8">
                 <slot></slot>
             </main>
+            </div>
         </div>
     </div>
 </template>
@@ -147,7 +154,9 @@
     import JetDropdownLink from '@/Jetstream/DropdownLink.vue'
     import JetNavLink from '@/Jetstream/NavLink.vue'
     import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink.vue'
-    import { Head, Link } from '@inertiajs/inertia-vue3';
+    import { Head, Link, usePage } from '@inertiajs/inertia-vue3';
+    import Sidebar from '@/components/Sidebar.vue'
+    import { computed } from 'vue'
 
     export default {
         props: {
@@ -163,6 +172,7 @@
             JetNavLink,
             JetResponsiveNavLink,
             Link,
+            Sidebar,
         },
 
         data() {
@@ -175,6 +185,11 @@
             logout() {
                 this.$inertia.post(route('logout'));
             },
-        }
+        },
+
+        setup() {
+            const user = computed(()=> usePage().props.value.auth.user);
+            return { user };
+        },
     }
 </script>
