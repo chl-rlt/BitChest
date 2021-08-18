@@ -5,9 +5,10 @@
 </template>
 
 <script>
+// import Users from '@/Pages/Admin/Users.vue';
 
 export default {
-    name: 'ShowAdmin',
+    // name: 'ShowAdmin',
     components: {
 
     }

@@ -10,8 +10,8 @@
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <show-client v-if="user.role == 'client'"/>
-                    <show-admin v-else-if="user.role == 'admin'"/>
+                    <!-- <client v-if="user.role == 'client'"/> -->
+                    <admin v-if="user.role == 'admin'" />
                 </div>
             </div>
         </div>
@@ -21,8 +21,8 @@
 <script>
     import AppLayout from '@/Layouts/AppLayout.vue'
     import Sidebar from '@/components/Sidebar.vue'
-    import ShowClient from '@/Pages/Client/ShowClient.vue'
-    import ShowAdmin from '@/Pages/Admin/Show.vue'
+    import Client from '@/Pages/Client/Index.vue'
+    import Admin from '@/Pages/Admin/Index.vue'
     import { computed } from 'vue'
     import { usePage } from '@inertiajs/inertia-vue3'
 
@@ -31,8 +31,8 @@
         components: {
             AppLayout,
             Sidebar,
-            ShowClient,
-            ShowAdmin
+            Client,
+            Admin
         },
         setup() {
             const user = computed(()=> usePage().props.value.auth.user);

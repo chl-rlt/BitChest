@@ -37,7 +37,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
             return Inertia::render('Dashboard');
         })->name('dashboard');
 
-        Route::resource('/users', UserController::class);
+        Route::resource('users', UserController::class);
     });
 
     Route::get('/', function() {
