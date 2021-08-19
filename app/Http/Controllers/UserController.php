@@ -46,7 +46,7 @@ class UserController extends Controller
     {
 
         $validated = $request->validate([
-            'name' => 'required|min:1',
+            'name' => 'required|min:3',
             'email' => 'required|email',
             'password' => ['required', Password::min(6)->letters()->mixedCase()->numbers()],
             'password_confirm' => 'required|same:password',
@@ -82,7 +82,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return Inertia::render('Admin/Users/Edit', ['user' => $user]);
+        $roles = Role::all();
+        return Inertia::render('Admin/Users/Edit', ['userToUpdate' => $user, 'roles' => $roles]);
     }
 
     /**
@@ -94,7 +95,14 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+
+        $req = $request->all();
+        if($request->input('password')) {
+            $req['password'] = Hash::make($request->input('password'));
+        }
+
+        $user->update($req);
+        return Redirect::route('users.index')->with('message', 'User has been updated successfully !');
     }
 
     /**

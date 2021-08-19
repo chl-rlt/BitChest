@@ -15,11 +15,18 @@
                 <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static"> {{ user.email }} </td>
                 <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static"> {{ user.role.name }} </td>
                 <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
-                    <Link :href="route('users.edit', user)">E</Link>
-                    <button class="" @click="showModal" >X</button>
-                    <ConfirmationModal v-show="isModalVisible" @close="closeModal" />
+                    <div class="flex flex-row justify-center text-center ">
+                        <Link class="flex-1 w-1/4 ml-12	" :href="route('users.edit', user)">
+                        <svg class="h-6 w-6 text-green-500" width="24"  height="24"  viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg"  fill="none"  stroke="currentColor">  <path stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round" />  <path d="M12 20h9" />  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
+                        </Link>
+                        <button class="flex-1 w-1/4 -ml-10" @click="selectUser(user.id)" >
+                            <svg class="h-6 w-6 text-red-500"  fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
                 </td>
             </tr>
+            <ConfirmationModal v-show="isModalVisible" @close="closeModal" @delete-confirmation="deleteUser" :id="idUser"/>
         </tbody>
     </table>
     <div class="inline-block mr-2 mt-2">
@@ -47,16 +54,30 @@ export default {
     data() {
       return {
         isModalVisible: false,
+        idUser: null,
       };
     },
+    watch: {
+        idUser(val) {
+            if(val) this.showModal()
+        }
+    },
     methods: {
-
+        selectUser(id) {
+            this.idUser = id;
+        },
         showModal() {
-        this.isModalVisible = true;
+            this.isModalVisible = true;
         },
         closeModal() {
-        this.isModalVisible = false;
+            this.isModalVisible = false;
         },
+        deleteUser($id) {
+            this.$inertia.delete(route('users.destroy',$id))
+            this.idUser = null,
+            this.closeModal()
+            console.log($id);
+        }
     },
 }
 </script>

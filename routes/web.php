@@ -41,6 +41,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
         })->name('dashboard');
 
         Route::resource('users', UserController::class);
+        Route::get('/market', 'MarketController@index');
     });
 
 });

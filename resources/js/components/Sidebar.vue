@@ -12,8 +12,9 @@
             <a href="#">Dashboard</a>
         </h2>
         <div id="close-sidebar" @click="closeSidebar">
-          <i class="fas fa-times"></i>
-         X
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </div>
       </div>
       <div class="sidebar-header">
@@ -41,23 +42,34 @@
       <!-- sidebar-search  -->
       <div class="sidebar-menu">
         <ul>
-          <li class="sidebar-dropdown">
-            <a href="#">
-              <!-- <i class="fa fa-tachometer-alt"></i> -->
-              <span>Dashboard</span>
+          <li class="sidebar-dropdown ">
+            <a class="flex flex-row" href="#">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 w-1/5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              <span class="flex-1 w-4/5">
+                Dashboard
+              </span>
+
+
             </a>
           </li>
           <li class="sidebar-dropdown">
-            <a href="#">
-              <!-- <i class="fa fa-shopping-cart"></i> -->
-              <span>Market</span>
+            <a class="flex flex-row" href="#">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 w-1/5 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+            </svg>
+              <span class="flex-1 w-4/5">Market</span>
             </a>
           </li>
 
           <li class="sidebar-dropdown">
-            <Link :href="route('users.index')" v-if="user.role == 'admin'">
+            <Link class="flex flex-row" :href="route('users.index')" v-if="user.role == 'admin'">
               <!-- <i class="far fa-gem"></i> -->
-              <span>Users</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 w-1/5 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+              </svg>
+              <span class="flex-1 w-4/5">Users</span>
             </Link>
             <a href="#" v-else-if="user.role == 'client'">
               <span>My Wallet</span>
@@ -350,11 +362,11 @@ body {
   font-weight: bold;
   font-size: 14px;
   padding: 15px 20px 5px 20px;
-  display: inline-block;
+  /* display: inline-block; */
 }
 
 .sidebar-wrapper .sidebar-menu ul li a {
-  display: inline-block;
+  /* display: inline-block; */
   width: 100%;
   text-decoration: none;
   position: relative;
@@ -372,11 +384,11 @@ body {
 }
 
 .sidebar-wrapper .sidebar-menu ul li a:hover > i::before {
-  display: inline-block;
+  /* display: inline-block; */
   animation: swing ease-in-out 0.5s 1 alternate;
 }
 
-.sidebar-wrapper .sidebar-menu .sidebar-dropdown > a:after {
+/* .sidebar-wrapper .sidebar-menu .sidebar-dropdown > a:after {
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
   content: "\f105";
@@ -392,7 +404,7 @@ body {
   position: absolute;
   right: 15px;
   top: 26px;
-}
+} */
 
 .sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu ul {
   padding: 5px 0;
