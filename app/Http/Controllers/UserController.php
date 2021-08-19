@@ -53,17 +53,14 @@ class UserController extends Controller
             'role_id' => 'required',
         ]);
 
-        // dd($validated);
-        // $validated['password'] = Hash::make($validated['password']);
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'role_id' => $validated['role_id'],
         ]);
-        // User::create($validated);
 
-        return Redirect::route('users.index')->with('success', 'User has been added successfully !');
+        return Redirect::route('users.index')->with('message', 'User has been added successfully !');
     }
 
     /**
@@ -112,7 +109,7 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        return Redirect::route('users.index');
+        return Redirect::route('users.index')->with('message', 'Client Deleted');
 
 
 

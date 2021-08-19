@@ -37,7 +37,7 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request)
     {
         return array_merge(parent::share($request), [
-            //
+            // send logged in user infos
             'auth.user' => fn () => $request->user() ?
             [
                 'id' => $request->user()->id,
@@ -45,6 +45,10 @@ class HandleInertiaRequests extends Middleware
                 'email' => $request->user()->email,
                 'role' => $request->user()->role->name,
             ] : null,
+            // send message after request
+            'flash' => [
+                'message' => fn () => $request->session()->get('message')
+            ],
         ]);
     }
 }

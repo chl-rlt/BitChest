@@ -6,7 +6,7 @@ import { InertiaProgress } from '@inertiajs/progress';
 import AppLayout from '@/Layouts/AppLayout.vue'
 // import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
+const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'BitChest';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

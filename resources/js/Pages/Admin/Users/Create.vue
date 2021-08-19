@@ -109,9 +109,6 @@ export default {
         }
     },
 
-    mounted() {
-        console.log(this.errors)
-    },
     validations(){
         return {
             user:{
@@ -133,12 +130,8 @@ export default {
                 this.isError = true;
                 return false;
             }
-            console.log(this.user)
             this.$inertia.post('/dashboard/users', this.user);
         }
-    },
-
-    mounted() {
     },
 
     setup(){
