@@ -1,5 +1,4 @@
 <template>
-    <app-layout>
          <h1 class="text-2xl py-8 uppercase">Create new user</h1>
             <div class="mt-10 sm:mt-0">
                 <div class="md:grid md:grid-cols-3 md:gap-6">
@@ -78,12 +77,9 @@
                 </div>
                 </div>
             </div>
-
-    </app-layout>
 </template>
 
 <script>
-import AppLayout from '@/Layouts/AppLayout.vue'
 import useVuelidate from '@vuelidate/core'
 import { required, email, minLength, alphaNum, sameAs, helpers } from '@vuelidate/validators'
 
@@ -91,7 +87,6 @@ const containsMajAndNumber = helpers.regex(/^(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.
 
 export default {
     components: {
-        AppLayout,
     },
     props:{
         roles: {

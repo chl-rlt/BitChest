@@ -239,7 +239,7 @@ body {
   position: relative;
   top: 0;
   left: -300px;
-  z-index: 999;
+  z-index: 1;
 }
 
 .sidebar-wrapper ul {

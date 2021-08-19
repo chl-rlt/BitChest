@@ -1,5 +1,5 @@
 <template>
-    <app-layout title="Dashboard">
+    <!-- <app-layout title="Dashboard"> -->
         <!-- <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Dashboard
@@ -21,11 +21,11 @@
                 </div>
             </div>
         </div>
-    </app-layout>
+    <!-- </app-layout> -->
 </template>
 
 <script>
-    import AppLayout from '@/Layouts/AppLayout.vue'
+    // import AppLayout from '@/Layouts/AppLayout.vue'
     import Sidebar from '@/components/Sidebar.vue'
     import Client from '@/Pages/Client/Index.vue'
     import Admin from '@/Pages/Admin/Index.vue'
@@ -35,7 +35,7 @@
 
     export default {
         components: {
-            AppLayout,
+            // AppLayout,
             Sidebar,
             Client,
             Admin

@@ -63,7 +63,7 @@ class UserController extends Controller
         ]);
         // User::create($validated);
 
-        return Redirect::route('users.index');
+        return Redirect::route('users.index')->with('success', 'User has been added successfully !');
     }
 
     /**

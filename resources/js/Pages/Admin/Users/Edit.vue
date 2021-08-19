@@ -1,15 +1,11 @@
 <template>
-    <app-layout>
-        Update User
-    </app-layout>
+        <h1>Update User</h1>
 </template>
 
 <script>
-import AppLayout from '@/Layouts/AppLayout.vue'
 
 export default {
     components: {
-        AppLayout,
     },
     props:{
         user: {

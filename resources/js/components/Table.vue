@@ -15,12 +15,14 @@
                 <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static"> {{ user.email }} </td>
                 <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static"> {{ user.role.name }} </td>
                 <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
-                    <Link :href="route('users.edit', user.id)">E</Link> --
+                    <Link :href="route('users.edit', user.id)">E</Link>
                     <!-- <Link :href="route('users.destroy', user.id)">X</Link> -->
                     <form class="delete" method="POST" :action="route('users.destroy', user.id)">
-                        <input type="submit" value="X">
+                        {{ method_field('DELETE') }}
+
+                        <input type="button" value="X" data-toggle="modal" data-target="#myModal">
                         <!--Modal--->
-                        <div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                        <div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" id="myModal" role="dialog" aria-modal="true">
                             <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                                 <!--
                                 Background overlay, show/hide based on modal state.
@@ -105,3 +107,9 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+div#myModal{
+    display: none;
+}
+</style>
