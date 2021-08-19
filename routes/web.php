@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MarketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +42,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
         })->name('dashboard');
 
         Route::resource('users', UserController::class);
-        Route::get('/market', 'MarketController@index');
+
+        Route::get('/market', [MarketController::class, 'index'])->name('markets.index');
     });
 
 });

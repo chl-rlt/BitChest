@@ -11,9 +11,9 @@
         <tbody>
             <tr v-for="user in users" :key='user.id'
             class="bg-white lg:hover:bg-gray-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0">
-                <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static"> {{ user.name }} </td>
-                <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static"> {{ user.email }} </td>
-                <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static"> {{ user.role.name }} </td>
+                <row-link :href="route('users.show',user)"> {{ user.name }} </row-link>
+                <row-link :href="route('users.show',user)"> {{ user.email }} </row-link>
+                <row-link :href="route('users.show',user)"> {{ user.role.name }} </row-link>
                 <td class="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
                     <div class="flex flex-row justify-center text-center ">
                         <Link class="flex-1 w-1/4 ml-12	" :href="route('users.edit', user)">
@@ -38,13 +38,14 @@
 <script>
 import { Link } from '@inertiajs/inertia-vue3';
 import ConfirmationModal from '@/components/ConfirmationModal.vue';
-
+import RowLink from '@/components/RowLink.vue'
 
 export default {
     name: 'Table',
     components: {
         Link,
-        ConfirmationModal
+        ConfirmationModal,
+        RowLink,
     },
     props: {
         users: {

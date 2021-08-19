@@ -2,7 +2,7 @@
 
 <div class="page-wrapper chiller-theme toggled">
   <a id="show-sidebar" class="btn btn-sm btn-dark" href="#" @click="showSidebar">
-     <font-awesome-icon icon="user-secret" />
+     <!-- <font-awesome-icon icon="user-secret" /> -->
     O
   </a>
   <nav id="sidebar" class="sidebar-wrapper">
@@ -43,7 +43,7 @@
       <div class="sidebar-menu">
         <ul>
           <li class="sidebar-dropdown ">
-            <a class="flex flex-row" href="#">
+            <Link class="flex flex-row" :href="route('dashboard')">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 w-1/5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
               </svg>
@@ -52,15 +52,15 @@
               </span>
 
 
-            </a>
+            </Link>
           </li>
           <li class="sidebar-dropdown">
-            <a class="flex flex-row" href="#">
+            <Link class="flex flex-row" :href="route('markets.index')" >
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 w-1/5 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
             </svg>
               <span class="flex-1 w-4/5">Market</span>
-            </a>
+            </Link>
           </li>
 
           <li class="sidebar-dropdown">
