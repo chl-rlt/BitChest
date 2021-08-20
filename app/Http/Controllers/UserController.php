@@ -12,6 +12,7 @@ use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::select('id', 'name', 'email', 'role_id', 'profile_photo_path')->with('role')->get();
+        $users = User::select('id', 'name', 'email', 'role_id', 'profile_photo_path', 'created_at')->with('role')->get();
         return Inertia::render('Admin/Users/Index', [
             'users' => $users
         ]);

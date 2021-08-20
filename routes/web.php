@@ -44,6 +44,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
         Route::resource('users', UserController::class);
 
         Route::get('/market', [MarketController::class, 'index'])->name('markets.index');
+        Route::get('/market/{id}', [MarketController::class, 'show'])->name('markets.show');
     });
 
 });

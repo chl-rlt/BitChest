@@ -1,5 +1,5 @@
 <template>
-    <td class="w-full lg:w-auto text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
+    <td :class="className">
         <Link :href="href" class="p-3 block">
             <slot />
         </Link>
@@ -13,6 +13,6 @@ export default {
     components: {
         Link,
     },
-    props: ['href'],
+    props: ['href','className'],
 }
 </script>

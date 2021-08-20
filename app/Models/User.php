@@ -62,6 +62,10 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public function getCreatedAtAttribute($value) {
+        return date('m-d-Y H:i:s',strtotime("$value"));
+    }
+
     public function role(){
         return $this->belongsTo(Role::class);
     }

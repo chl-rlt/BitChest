@@ -1,46 +1,48 @@
 <template>
-<div class="flex items-center">
-  <div class="col-span-12">
-    <div class="overflow-auto lg:overflow-visible ">
-      <table class="table text-gray-400 border-separate space-y-6 text-sm">
+
+<div class="flex justify-center">
+    <div class="overflow-auto lg:overflow-visible w-full">
+      <table class="table text-gray-400 border-separate space-y-6 text-sm w-full">
         <thead class="bg-gray-300 text-gray-500">
           <tr>
             <th class="p-3">Crypto</th>
             <th class="p-3 text-left">Last Price</th>
             <th class="p-3 text-left">24 hour change</th>
-            <th class="p-3 text-left"></th>
-			<th class="p-3 text-left"></th>
+            <th class="p-3 text-left">Actions</th>
+			      <th class="p-3 text-left"></th>
           </tr>
         </thead>
         <tbody>
-          <tr class="bg-gray-100" v-for="market in markets" :key='market.id'>
-			  {{market.price}}
-            <td class="p-3">
+          <tr class="bg-white" v-for="crypto in lastCryptos" :key='crypto.id' >
+            <row-link :href="route('markets.show', crypto.id)">
               <div class="flex align-items-center">
-                <img class="rounded-full h-12 w-12  object-cover" src="https://images.unsplash.com/photo-1613588718956-c2e80305bf61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=634&q=80" alt="unsplash image">
+                <img class="rounded-full h-7 w-6 object-contain" :src="'/images/logo/'+ crypto.logo" alt="logo">
                 <div class="ml-3">
-                  <div class="text-gray-500">{{}}</div>
+                  <div class="text-gray-500 mt-1.5">{{crypto.name}}</div>
                 </div>
               </div>
-            </td>
+            </row-link>
+            <row-link :href="route('markets.show', crypto.id)" class="font-bold">
+               {{crypto.price}} $
+            </row-link>
+            <row-link :href="route('markets.show', crypto.id)" class="p-3 font-bold" :class="[priceVariation[crypto.id - 1]>0 ? 'text-green-500' : 'text-red-500']">
+               {{ priceVariation[crypto.id - 1] }} %
+            </row-link>
             <td class="p-3">
-              {{market.price}}
-            </td>
-            <td class="p-3 font-bold">
-              200.00$
-            </td>
-            <td class="p-3">
-              <span class="bg-green-400 text-gray-50 rounded-md px-2">available</span>
+              <Link class="" :href="route('markets.show', crypto.id)" >
+              <span class="bg-green-400 text-gray-50 rounded-md px-2">Show </span>
+              </Link>
+              <span class="bg-red-400 text-gray-50 rounded-md px-2 ml-1.5"> Buy</span>
             </td>
             <td class="p-3 ">
               <a href="#" class="text-gray-400 hover:text-gray-100 mr-2">
-                <i class="material-icons-outlined text-base">visibility</i>
+                <i class="material-icons-outlined text-base"></i>
               </a>
               <a href="#" class="text-gray-400 hover:text-gray-100  mx-2">
-                <i class="material-icons-outlined text-base">edit</i>
+                <i class="material-icons-outlined text-base"></i>
               </a>
               <a href="#" class="text-gray-400 hover:text-gray-100  ml-2">
-                <i class="material-icons-round text-base">delete_outline</i>
+                <i class="material-icons-round text-base"></i>
               </a>
             </td>
           </tr>
@@ -48,30 +50,47 @@
         </tbody>
       </table>
     </div>
-  </div>
 </div>
-
 
 </template>
 
 <script>
+import { Link } from '@inertiajs/inertia-vue3';
+import RowLink from '@/components/RowLink.vue'
+
 export default {
     name: 'CryptoList',
 
-	props: {
-        markets: {
-            type: Array,
-        },
-
-		cryptos: {
-			type: Array,
-		},
-
-		name: {
-			type:String,
-		}
-
+    components: {
+      Link,
+      RowLink
     },
+
+	props: {
+        cryptos: {
+          type: Array,
+        },
+    },
+
+  computed: {
+      lastCryptos() {
+          return this.cryptos.slice(0,10);
+      },
+      priceVariation() {
+        const reducedCryptos = this.cryptos.reduce((acc, curr)=> {
+            let cle = curr['cryptocurrencie_id'];
+            if(!acc[cle]) acc[cle] = [];
+            acc[cle].push(curr)
+            return acc;
+          }, {})
+        return Object.keys(reducedCryptos).map(el => {
+            return Number(reducedCryptos[el].reduce((acc, curr) => {
+                if(acc !== 0) return acc = ((acc - Number(curr.price))/acc) * 100
+                return acc = Number(curr.price)
+            }, 0).toFixed(2))
+        })
+      }
+  },
 
 
 }

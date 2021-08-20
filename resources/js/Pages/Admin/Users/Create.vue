@@ -1,4 +1,6 @@
 <template>
+    <back-button>Go back</back-button>
+
     <h1 class="text-2xl py-8 uppercase">Create new user</h1>
     <div class="mt-10 sm:mt-0">
         <div class="md:grid md:grid-cols-3 md:gap-6">
@@ -11,10 +13,12 @@
 
 <script>
 import UserForm from '@/components/UserForm.vue'
+import BackButton from '@/components/BackButton.vue'
 
 export default {
     components: {
         UserForm,
+        BackButton,
     },
     props:{
         roles: {
