@@ -5,7 +5,7 @@
       <table class="table text-gray-400 border-separate space-y-6 text-sm w-full">
         <thead class="bg-gray-300 text-gray-500">
           <tr>
-            <th class="p-3">Crypto</th>
+            <th class="p-3 text-left pl-8">Crypto</th>
             <th class="p-3 text-left">Last Price</th>
             <th class="p-3 text-left">24 hour change</th>
             <th class="p-3 text-left">Actions</th>

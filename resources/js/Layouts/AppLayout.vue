@@ -134,8 +134,8 @@
                 </div>
             </header>
 
-            <div class="page-wrapper chiller-theme toggled mt-16">
-                <a id="show-sidebar" class="btn btn-sm btn-dark" href="#" @click.prevent="showSidebar">
+            <div class="page-wrapper chiller-theme mt-16" :class="{toggled: !mobileView}">
+                <a id="show-sidebar" class="btn btn-sm btn-dark top-20 pl-1.5 bg-white rounded-tr-md" href="#" @click.prevent="showSidebar">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
@@ -179,10 +179,15 @@
             Link,
             Sidebar,
         },
+        setup() {
+            const user = computed(()=> usePage().props.value.auth.user);
+            return { user };
+        },
 
         data() {
             return {
                 showingNavigationDropdown: false,
+                mobileView: null,
             }
         },
 
@@ -196,12 +201,19 @@
             showSidebar() {
                 document.querySelector('.page-wrapper').classList.add('toggled');
             },
-        },
+            isMobileView() {
+                if(window.matchMedia('(max-width: 639px)').matches) return this.mobileView = true;
+                return this.mobileView = false;
+            }
 
-        setup() {
-            const user = computed(()=> usePage().props.value.auth.user);
-            return { user };
         },
+        created() {
+            this.isMobileView()
+            window.addEventListener('resize', this.isMobileView)
+        },
+        destroyed() {
+            window.removeEventListener('resize', this.isMobileView)
+        }
     }
 </script>
 

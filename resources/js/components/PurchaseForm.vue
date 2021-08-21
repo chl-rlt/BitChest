@@ -3,6 +3,9 @@
     <form @submit.prevent="onSubmit">
         <label for="quantity">Quantity : </label>
         <input type="number" v-model="purchase.quantity"  id="quantity" min="1">
+        <div class="error" v-if="v$.purchase.quantity.$error || errors.name ">
+                    <p class="text-sm">{{ v$.purchase.quantity.$error ? v$.purchase.quantity.$errors[0].$message : errors.name }}</p>
+                </div>
         <blue-button>
             Buy
         </blue-button>
@@ -18,11 +21,6 @@ import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 
 export default {
-    name: 'PurchaseForm',
-
-    components: {
-        BlueButton,
-    },
 
     setup(){
       return {
@@ -32,21 +30,35 @@ export default {
 
     emits: ['on-submit'],
 
+    name: 'PurchaseForm',
+
+    components: {
+        BlueButton,
+    },
+
+
     props: {
         errors: {
             type: Object,
             default: null,
         },
+        user_id: {
+            type: Number,
+            required:true,
+        },
+        market: {
+            type: Object,
+            required: true,
+        }
     },
 
     data() {
         return {
             purchase: {
-                id: '',
                 quantity: '',
-                market_id: '',
-                user_id: ''
-
+                market_id: this.market.id,
+                user_id: this.user_id,
+                bought_at: ''
             }
         }
     },
@@ -55,9 +67,6 @@ export default {
         return {
             purchase :{
                 quantity: {required},
-                bought_at: { required},
-                role_id : { required },
-                market_id: {required}
             }
         }
     },
@@ -66,6 +75,7 @@ export default {
         onSubmit() {
             this.v$.$validate();
             if(this.v$.$error) return
+            this.purchase['bought_at'] = Date.now();
             this.$emit('on-submit',this.purchase);
         }
     },

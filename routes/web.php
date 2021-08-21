@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MarketController;
+use App\Http\Controllers\WalletController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
 
         Route::get('/market', [MarketController::class, 'index'])->name('markets.index');
         Route::get('/market/{id}', [MarketController::class, 'show'])->name('markets.show');
+        Route::post('/wallet', [WalletController::class, 'buy'])->name('wallet.buy');
     });
 
 });

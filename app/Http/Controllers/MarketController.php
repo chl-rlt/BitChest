@@ -33,7 +33,10 @@ class MarketController extends Controller
     public function show($id)
     {
         $crypto = Cryptocurrencie::find($id);
-        $markets = Market::select('id', 'price', 'cryptocurrencie_id', 'date')->where('cryptocurrencie_id', $id)->get();
+        $markets = Market::select('id', 'price', 'cryptocurrencie_id', 'date')
+            ->where('cryptocurrencie_id', $id)
+            ->orderBy('date', 'desc')
+            ->get();
 
         return Inertia::render('Market/Show', ['cryptoShow' => $crypto, 'markets' => $markets ]);
     }

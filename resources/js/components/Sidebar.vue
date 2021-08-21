@@ -40,38 +40,40 @@
 
       <div class="sidebar-menu">
         <ul>
-          <li class="sidebar-dropdown ">
-            <Link class="flex flex-row" :href="route('dashboard')">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 w-1/5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-              </svg>
-              <span class="flex-1 w-4/5">
-                Dashboard
-              </span>
+            <li class="sidebar-dropdown ">
+                <Link class="flex flex-row" :href="route('dashboard')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-1/5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    <span class="flex items-center">Dashboard</span>
+                </Link>
+            </li>
+            <li class="sidebar-dropdown ">
+                <!-- v-if="user.role" == 'client' -->
+                <Link class="flex flex-row" href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-1/5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="flex items-center">Wallets</span>
+                </Link>
+            </li>
+            <li class="sidebar-dropdown">
+                <Link class="flex flex-row" :href="route('markets.index')" >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-1/5 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="flex items-center">Market</span>
+                </Link>
+            </li>
 
-
-            </Link>
-          </li>
-          <li class="sidebar-dropdown">
-            <Link class="flex flex-row" :href="route('markets.index')" >
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 w-1/5 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
-            </svg>
-              <span class="flex-1 w-4/5">Market</span>
-            </Link>
-          </li>
-
-          <li class="sidebar-dropdown">
-            <Link class="flex flex-row" :href="route('users.index')" v-if="user.role == 'admin'">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 w-1/5 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-              </svg>
-              <span class="flex-1 w-4/5">Users</span>
-            </Link>
-            <a href="#" v-else-if="user.role == 'client'">
-              <span>My Wallet</span>
-            </a>
-          </li>
+            <li class="sidebar-dropdown">
+                <Link class="flex flex-row" :href="route('users.index')" v-if="user.role == 'admin'">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-1/5 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                    </svg>
+                    <span class="flex items-center">Users</span>
+                </Link>
+            </li>
         </ul>
       </div>
       <!-- sidebar-menu  -->
@@ -119,12 +121,8 @@ export default {
   },
   methods: {
       closeSidebar() {
-        //   document.querySelector('.page-wrapper').classList.remove('toggled');
         this.$emit('close-sidebar');
       },
-    //   showSidebar() {
-    //       document.querySelector('.page-wrapper').classList.add('toggled');
-    //   },
   },
 }
 
@@ -133,7 +131,7 @@ export default {
 
 </script>
 
-<style>
+<style >
 
 @keyframes swing {
   0% {
@@ -229,7 +227,6 @@ body {
 #show-sidebar {
   position: fixed;
   left: 0;
-  top: 10px;
   border-radius: 0 4px 4px 0px;
   width: 35px;
   transition-delay: 0.3s;
@@ -246,7 +243,7 @@ body {
   position: fixed;
   top: 64px;
   left: -100%;
-  z-index: 999;
+  z-index: 1;
 }
 
 .sidebar-wrapper ul {

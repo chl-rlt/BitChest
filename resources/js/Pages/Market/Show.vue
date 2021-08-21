@@ -14,11 +14,11 @@
 
   <div class="w-full overflow-hidden p-5 bg-white mb-3 rounded-md ml-0.3 bloc-buy">
     <p class="text-3xl font-semibold">{{cryptoShow.name}}<span class="text-gray-500 mt-1.5 text-xl font-light"> BTC</span>{{markets.price}}</p>
-    <PurchaseForm />
+    <purchase-form @on-submit="submit" :purchases="purchases" :errors="$page.props.errors" :user_id="user.id" :market="markets[0]" />
   </div>
 
 </div>
-<div class="mt-3 bg-white p-10 rounded-md">
+<div class="md:w-auto overflow-hidden mt-3 bg-white p-10 rounded-md mx-10">
     <h1 class="font-bold">About {{cryptoShow.name}}</h1>
     <p class="mt-3">Adolescebat autem obstinatum propositum erga haec et similia multa scrutanda, stimulos admovente regina, quae abrupte mariti fortunas trudebat in exitium praeceps, cum eum potius lenitate feminea ad veritatis humanitatisque viam reducere utilia suadendo deberet, ut in Gordianorum actibus factitasse Maximini truculenti illius imperatoris rettulimus coniugem. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam eius, sapiente optio facere iusto quae explicabo libero culpa expedita possimus architecto assumenda perferendis neque illum labore excepturi maxime repellat. Aperiam?Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas adipisci voluptates culpa rerum quaerat quas dolorem. Fugiat molestiae architecto voluptatibus dolor repellat laboriosam dolore. In enim numquam sit iste expedita?</p>
 </div>
@@ -41,16 +41,17 @@ export default {
         },
 
         markets: {
-            type: Object,
-        }
-    },
+            type: Array,
+        },
 
-    data() {
-        return {
-            purchase: {
-                id: '',
-                quantity: '',
-            }
+        purchases: {
+            type: Array,
+        },
+        user: Object
+    },
+    methods: {
+        submit(purchase) {
+            this.$inertia.post(route('wallet.buy'), purchase);
         }
     },
 

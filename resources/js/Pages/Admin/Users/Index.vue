@@ -1,5 +1,5 @@
 <template>
-        <h1 class="text-2xl py-8 uppercase">Users</h1>
+        <h1 class="text-3xl pt-10 uppercase font-bold px-10">Users</h1>
         <toast :message="$page.props.flash.message"/>
         <div>
             <Table :users="users"/>

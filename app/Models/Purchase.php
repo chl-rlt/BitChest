@@ -13,7 +13,11 @@ class Purchase extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['quantity', 'bought_at'];
+    protected $fillable = ['quantity', 'bought_at', 'user_id', 'market_id'];
+
+    public function setBoughtAtAttribute($value) {
+        $this->attributes['bought_at'] = date('Y-m-d H:i:s',intval($value/1000));
+    }
 
     public function users(){
         return $this->hasOne(User::class);

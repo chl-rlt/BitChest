@@ -2,13 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Purchase;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 
 class WalletController extends Controller
 {
+
+    public function index(){
+
+    }
+
+
+    public function createPurchase()
+    {
+        $purchases = Purchase::all();
+        return Inertia::render('Market/Index', ['purchases'=>$purchase]);
+    }
+
     public function buy(Request $request)
     {
         $validated = $request->validate([
@@ -18,10 +31,7 @@ class WalletController extends Controller
             'market_id' => 'required'
         ]);
 
-        $purchase= Purchase::create([
-            'quantity' => $validated['quantity'],
-            'bought_at' => $validated['bought_at'],
-        ]);
+        $purchase = Purchase::create($request->all());
 
         return Redirect::route('markets.index')->with('message', 'Successful purchase !');
     }

@@ -1,5 +1,5 @@
 <template>
-        <h1 class="text-2xl pt-8 uppercase">Markets</h1>
+        <h1 class="text-3xl pt-10 uppercase font-bold px-10 ">Markets</h1>
         <div>
             <CryptoList :cryptos="cryptos" />
         </div>
