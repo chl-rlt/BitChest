@@ -1,11 +1,6 @@
 <template>
 
-<div class="page-wrapper chiller-theme toggled">
-  <a id="show-sidebar" class="btn btn-sm btn-dark" href="#" @click="showSidebar">
-     <!-- <font-awesome-icon icon="user-secret" /> -->
-    O
-  </a>
-  <nav id="sidebar" class="sidebar-wrapper">
+<nav id="sidebar" class="sidebar-wrapper sm:w-72 w-full">
     <div class="sidebar-content">
       <div class="sidebar-brand flex justify-between">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -17,6 +12,7 @@
           </svg>
         </div>
       </div>
+
       <div class="sidebar-header">
         <div class="user-pic">
           <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="User picture">
@@ -27,6 +23,7 @@
         </div>
       </div>
       <!-- sidebar-header  -->
+
       <!-- <div class="sidebar-search">
         <div>
           <div class="input-group">
@@ -40,6 +37,7 @@
         </div>
       </div> -->
       <!-- sidebar-search  -->
+
       <div class="sidebar-menu">
         <ul>
           <li class="sidebar-dropdown ">
@@ -65,7 +63,6 @@
 
           <li class="sidebar-dropdown">
             <Link class="flex flex-row" :href="route('users.index')" v-if="user.role == 'admin'">
-              <!-- <i class="far fa-gem"></i> -->
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 w-1/5 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
               <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
               </svg>
@@ -74,15 +71,13 @@
             <a href="#" v-else-if="user.role == 'client'">
               <span>My Wallet</span>
             </a>
-
           </li>
-
-
-
         </ul>
       </div>
       <!-- sidebar-menu  -->
+
     </div>
+
     <!-- sidebar-content  -->
     <!-- <div class="sidebar-footer">
       <a href="#">
@@ -101,8 +96,7 @@
         <i class="fa fa-power-off"></i>
       </a>
     </div> -->
-  </nav>
-</div>
+</nav>
 <!-- page-wrapper -->
 
 </template>
@@ -113,6 +107,7 @@
 
 export default {
   name: 'Sidebar',
+  emits:['close-sidebar'],
   components: {
       Link,
   },
@@ -124,11 +119,12 @@ export default {
   },
   methods: {
       closeSidebar() {
-          document.querySelector('.page-wrapper').classList.remove('toggled');
+        //   document.querySelector('.page-wrapper').classList.remove('toggled');
+        this.$emit('close-sidebar');
       },
-      showSidebar() {
-          document.querySelector('.page-wrapper').classList.add('toggled');
-      },
+    //   showSidebar() {
+    //       document.querySelector('.page-wrapper').classList.add('toggled');
+    //   },
   },
 }
 
@@ -137,7 +133,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style>
 
 @keyframes swing {
   0% {
@@ -203,8 +199,7 @@ body {
 /*----------------page-wrapper----------------*/
 
 .page-wrapper {
-  height: 100vh;
-  width: 20%;
+  min-height: calc(100vh - 4rem);
 }
 
 .page-wrapper .theme {
@@ -227,7 +222,7 @@ body {
 
 @media screen and (min-width: 768px) {
   .page-wrapper.toggled .page-content {
-    padding-left: 300px;
+    padding-left: 330px;
   }
 }
 /*----------------show sidebar button----------------*/
@@ -245,13 +240,13 @@ body {
 /*----------------sidebar-wrapper----------------*/
 
 .sidebar-wrapper {
-  width: 300px;
+  /* width: 300px; */
   height: 100%;
   max-height: 100%;
-  position: relative;
-  top: 0;
-  left: -300px;
-  z-index: 1;
+  position: fixed;
+  top: 64px;
+  left: -100%;
+  z-index: 999;
 }
 
 .sidebar-wrapper ul {

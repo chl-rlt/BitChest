@@ -3,9 +3,6 @@
         <div>
             <CryptoList :cryptos="cryptos" />
         </div>
-
-
-
 </template>
 
 <script>

@@ -4,10 +4,10 @@
 
         <jet-banner />
 
-        <div class="min-h-screen bg-gray-100">
+        <div class="bg-gray-100 relative content-area">
 
             <!-- Nav -->
-            <nav class="bg-white border-b border-gray-100">
+            <nav class="bg-white border-b border-gray-100 fixed top-0 w-full">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -133,16 +133,21 @@
                     <slot name="header"></slot>
                 </div>
             </header>
-            <div class="flex">
-            <aside class="" v-if="$page.url.startsWith('/dashboard')">
-                <Sidebar :user="user"/>
-            </aside>
 
-            <!-- Page Content -->
-            <main class="flex-1 px-16 py-8">
-                <slot></slot>
-            </main>
+            <div class="page-wrapper chiller-theme toggled mt-16">
+                <a id="show-sidebar" class="btn btn-sm btn-dark" href="#" @click.prevent="showSidebar">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </a>
+                <Sidebar v-if="$page.url.startsWith('/dashboard')" :user="user" @close-sidebar="closeSidebar"/>
+
+                <!-- Page Content -->
+                <main class="page-content">
+                    <slot></slot>
+                </main>
             </div>
+
         </div>
     </div>
 </template>
@@ -185,6 +190,12 @@
             logout() {
                 this.$inertia.post(route('logout'));
             },
+            closeSidebar() {
+                document.querySelector('.page-wrapper').classList.remove('toggled');
+            },
+            showSidebar() {
+                document.querySelector('.page-wrapper').classList.add('toggled');
+            },
         },
 
         setup() {
@@ -193,3 +204,9 @@
         },
     }
 </script>
+
+<style scoped>
+.content-area {
+    min-height: calc(100vh - 4rem);
+}
+</style>
