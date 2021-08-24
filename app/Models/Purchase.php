@@ -16,7 +16,9 @@ class Purchase extends Model
     protected $fillable = ['quantity', 'bought_at', 'user_id', 'market_id'];
 
     public function setBoughtAtAttribute($value) {
-        $this->attributes['bought_at'] = date('Y-m-d H:i:s',intval($value/1000));
+        $this->attributes['bought_at'] = date('Y-m-d H:i:s'); 
+        // $value->format('Y-m-d H:i:s', intval($value/1000));
+        // date('datetime:Y-m-d H:i:s',intval($value/1000));
     }
 
     public function users(){

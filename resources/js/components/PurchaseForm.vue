@@ -1,8 +1,9 @@
 <template>
 <div>
-    <form @submit.prevent="onSubmit">
-        <label for="quantity">Quantity : </label>
-        <input type="number" v-model="purchase.quantity"  id="quantity" min="1">
+    <form @submit.prevent="onSubmit" class="flex flex-col mt-10">
+        <label for="quantity" class="text-gray-500 text-sm mb-2 " >Quantity:  </label>
+        <input type="number" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 sm:text-sm border-gray-300 rounded-md mb-10" v-model="purchase.quantity"  id="quantity" min="1">
+       
         <div class="error" v-if="v$.purchase.quantity.$error || errors.name ">
                     <p class="text-sm">{{ v$.purchase.quantity.$error ? v$.purchase.quantity.$errors[0].$message : errors.name }}</p>
                 </div>
@@ -20,6 +21,7 @@ import BlueButton from '@/components/BlueButton.vue'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
 
+
 export default {
 
     setup(){
@@ -27,6 +29,8 @@ export default {
         v$: useVuelidate()
       }
     },
+
+    
 
     emits: ['on-submit'],
 
@@ -49,7 +53,7 @@ export default {
         market: {
             type: Object,
             required: true,
-        }
+        }, 
     },
 
     data() {
@@ -59,7 +63,7 @@ export default {
                 market_id: this.market.id,
                 user_id: this.user_id,
                 bought_at: ''
-            }
+            },
         }
     },
 
@@ -68,6 +72,7 @@ export default {
             purchase :{
                 quantity: {required},
             }
+
         }
     },
 
