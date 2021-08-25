@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Purchase;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
@@ -11,8 +12,12 @@ use Illuminate\Support\Facades\Redirect;
 class WalletController extends Controller
 {
 
-    public function index(){
-
+    public function index()
+    {
+        $purchases = Purchase::select('id', 'quantity', 'bought_at', 'user_id', 'market_id')->get();
+        return Inertia::render('Wallet/Index', [
+            'purchases' => $purchases
+        ]);
     }
 
 
