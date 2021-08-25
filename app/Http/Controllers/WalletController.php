@@ -23,11 +23,11 @@ class WalletController extends Controller
             cryptocurrencies.name as crypto_name,
             cryptocurrencies.logo as crypto_logo,
             SUM(purchases.quantity) as quantity,
-            SUM(markets.price) as prices"
+            ROUND(SUM(markets.price * purchases.quantity), 2) as prices"
             )
         ->groupBy('cryptocurrencies.id', 'cryptocurrencies.name', 'cryptocurrencies.logo' )
         ->get();
-
+            return $purchases;
         return Inertia::render('Wallet/Index', ['purchases'=>$purchases]);
     }
 
