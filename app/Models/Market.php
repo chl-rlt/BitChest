@@ -17,14 +17,14 @@ class Market extends Model
     public $timestamps = false;
 
     public function cryptocurrencies() {
-        $this->hasOne(Cryptocurrencie::class);
+        return $this->belongsTo(Cryptocurrencie::class);
     }
 
     public function dates(){
-        $this->hasOne(Date::class);
+        return $this->hasOne(Date::class);
     }
 
     public function purchases(){
-        $this->hasMany(Purchase::class);
+        return $this->hasMany(Purchase::class);
     }
 }

@@ -15,7 +15,7 @@ class Cryptocurrencie extends Model
     public $timestamps = false;
 
     public function markets(){
-        return $this->belongsToMany(Market::class);
+        return $this->hasMany(Market::class);
     }
 
 }

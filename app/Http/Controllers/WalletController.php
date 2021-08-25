@@ -12,12 +12,23 @@ use Illuminate\Support\Facades\Redirect;
 class WalletController extends Controller
 {
 
-    public function index()
-    {
-        $purchases = Purchase::select('id', 'quantity', 'bought_at', 'user_id', 'market_id')->get();
-        return Inertia::render('Wallet/Index', [
-            'purchases' => $purchases
-        ]);
+    public function index($id){
+
+        // get all different crypto purchased by user.id, regroup them by their id and SUM their total quantities and prices
+        $purchases = Purchase::where('user_id',$id)
+        ->join('markets','markets.id','=','market_id')
+        ->join('cryptocurrencies','cryptocurrencies.id','=','cryptocurrencie_id')
+        ->selectRaw("
+            cryptocurrencies.id as crypto_id,
+            cryptocurrencies.name as crypto_name,
+            cryptocurrencies.logo as crypto_logo,
+            SUM(purchases.quantity) as quantity,
+            SUM(markets.price) as prices"
+            )
+        ->groupBy('cryptocurrencies.id', 'cryptocurrencies.name', 'cryptocurrencies.logo' )
+        ->get();
+
+        return Inertia::render('Wallet/Index', ['purchases'=>$purchases]);
     }
 
 

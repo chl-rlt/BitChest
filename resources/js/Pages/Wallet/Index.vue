@@ -11,7 +11,25 @@
 
     <div class="md:w-auto overflow-hidden mt-3 bg-white p-10 rounded-md mx-10">
     <h1 class="font-bold">Your cryptos </h1>
-
+        <table class="table text-gray-400 border-separate space-y-6 text-sm w-full">
+            <thead class="bg-gray-300 text-gray-500">
+                <tr>
+                    <th class="p-3 text-left pl-8">Market ({{ purchases.length }})</th>
+                    <th class="p-3 text-left">Quantity</th>
+                    <th class="p-3 text-left">Invested</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="purchase in purchases" :key="purchase.crypto_id" class="bg-white">
+                    <td class="p-3 flex items-center">
+                        <img class="rounded-full h-7 w-6 object-contain mr-4" :src="'/images/logo/'+ purchase.crypto_logo" alt="logo">
+                        {{ purchase.crypto_name }}
+                        </td>
+                    <td class="p-3">{{ purchase.quantity }}</td>
+                    <td class="p-3">{{ purchase.prices }} $</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     </div>
@@ -21,7 +39,9 @@
 
 <script>
 export default {
-
+    props: {
+        purchases: Array
+    }
 
 }
 </script>
