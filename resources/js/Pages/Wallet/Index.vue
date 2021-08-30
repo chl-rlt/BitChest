@@ -21,12 +21,12 @@
             </thead>
             <tbody>
                 <tr v-for="purchase in purchases" :key="purchase.crypto_id" class="bg-white">
-                    <td class="p-3 flex items-center">
+                    <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="p-3 flex items-center">
                         <img class="rounded-full h-7 w-6 object-contain mr-4" :src="'/images/logo/'+ purchase.crypto_logo" alt="logo">
                         {{ purchase.crypto_name }}
-                        </td>
-                    <td class="p-3">{{ purchase.quantity }}</td>
-                    <td class="p-3">{{ purchase.prices }} €</td>
+                    </row-link>
+                    <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="p-3">{{ purchase.prices }} €</row-link>
+                    <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="p-3">{{ purchase.quantity }}</row-link>
                 </tr>
             </tbody>
         </table>
@@ -38,23 +38,24 @@
 </template>
 
 <script>
+import RowLink from '@/components/RowLink.vue'
+
 export default {
     props: {
         purchases: Array,
-        default: [], 
-    }, 
+        default: [],
+    },
+    components: {
+        RowLink
+    },
 
     computed: {
         totalBTC() {
-            return this.purchases.reduce( (acc, item) => {
-            return acc + (item.quantity)
-        }, 0)
-        }, 
+            return this.purchases.reduce( (acc, item) => acc + (item.quantity), 0)
+        },
 
         totalInvested() {
-            return this.purchases.reduce( (acc, item) => {
-            return acc + (item.prices)
-        }, 0)
+            return this.purchases.reduce( (acc, item) =>  acc + (item.prices), 0).toFixed(2)
         }
     }
 
