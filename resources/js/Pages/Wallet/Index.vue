@@ -5,8 +5,8 @@
 
     <div class="md:w-auto overflow-hidden mt-3 bg-white p-10 rounded-md mx-10">
     <h1 class="font-bold">Account details </h1>
-    <p class="mt-3">Account balance : BTC </p>
-    <p class="mt-3">Estimated value : $0.00 </p>
+    <p class="mt-3">Account balance : {{ totalBTC }} BTC </p>
+    <p class="mt-3">Estimated value : {{ totalInvested }} € </p>
     </div>
 
     <div class="md:w-auto overflow-hidden mt-3 bg-white p-10 rounded-md mx-10">
@@ -26,7 +26,7 @@
                         {{ purchase.crypto_name }}
                         </td>
                     <td class="p-3">{{ purchase.quantity }}</td>
-                    <td class="p-3">{{ purchase.prices }} $</td>
+                    <td class="p-3">{{ purchase.prices }} €</td>
                 </tr>
             </tbody>
         </table>
@@ -40,7 +40,22 @@
 <script>
 export default {
     props: {
-        purchases: Array
+        purchases: Array,
+        default: [], 
+    }, 
+
+    computed: {
+        totalBTC() {
+            return this.purchases.reduce( (acc, item) => {
+            return acc + (item.quantity)
+        }, 0)
+        }, 
+
+        totalInvested() {
+            return this.purchases.reduce( (acc, item) => {
+            return acc + (item.prices)
+        }, 0)
+        }
     }
 
 }

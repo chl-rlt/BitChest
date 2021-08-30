@@ -23,7 +23,7 @@
               </div>
             </row-link>
             <row-link :href="route('markets.show', crypto.id)" class="font-bold">
-               {{crypto.price}} $
+               {{crypto.price}} €
             </row-link>
             <row-link :href="route('markets.show', crypto.id)" class="p-3 font-bold" :class="[priceVariation[crypto.id - 1]>0 ? 'text-green-500' : 'text-red-500']">
                {{ priceVariation[crypto.id - 1] }} %
