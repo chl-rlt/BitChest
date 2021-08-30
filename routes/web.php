@@ -49,6 +49,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
         Route::post('/wallet', [WalletController::class, 'buy'])->name('wallet.buy');
 
         Route::get('/mywallet/{id}', [WalletController::class, 'index'])->name('wallet.index');
+        Route::get('/mywallet/{user_id}/market/{crypto_id}', [WalletController::class, 'show'])->name('wallet.show');
     });
 
 });

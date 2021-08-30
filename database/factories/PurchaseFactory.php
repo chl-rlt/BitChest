@@ -25,7 +25,7 @@ class PurchaseFactory extends Factory
         return [
             'quantity'=>$this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 5),
             'bought_at'=>$this->faker->dateTime(),
-
+            'status'=> $this->faker->randomElement($array = array('sold','holding')),
         ];
     }
 }

@@ -54,4 +54,22 @@ class WalletController extends Controller
     public function sell(){
 
     }
+
+    /**
+    * Show the form for editing the specified resource.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function show(int $user_id, int $crypto_id) {
+
+        $purchase = Purchase::holding()
+        ->join('markets', 'market_id','=','markets.id')
+        ->join('cryptocurrencies','markets.cryptocurrencie_id','=','cryptocurrencies.id')
+        ->where(['user_id'=> $user_id, 'cryptocurrencie_id' => $crypto_id])
+        ->orderBy('bought_at', 'DESC')
+        ->get();
+
+        return Inertia::render('Wallet/Show', ['purchase' => $purchase]);
+    }
 }
