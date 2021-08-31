@@ -9,11 +9,11 @@
 <div class="flex flex-wrap overflow-hidden mt-3">
 
   <div class="w-full overflow-hidden md:w-8/12 lg:w-8/12 bg-white mb-3 rounded-md p-5 mr-7">
-    Graphique
+    <CryptoChart v-bind:chartData="state.chartData" v-bind:chartOptions="state.chartOptions" />
   </div>
 
   <div class="w-full overflow-hidden p-5 bg-white mb-3 rounded-md ml-0.3 bloc-buy">
-    <p class="text-3xl font-semibold">{{cryptoShow.name}}<span class="text-gray-500 mt-1.5 text-xl font-light"> BTC</span>{{markets.price}}</p>
+    <p class="text-3xl font-semibold">{{cryptoShow.name}}<span class="text-gray-500 mt-1.5 text-xl font-light"> BTC</span></p>
     <purchase-form @on-submit="submit" :purchases="purchases" :errors="$page.props.errors" :user_id="user.id" :market="markets[0]" />
   </div>
 
@@ -27,13 +27,17 @@
 </template>
 
 <script>
+import { defineComponent } from 'vue';
+import CryptoChart from '@/components/CryptoChart.vue'; 
 import PurchaseForm from '@/components/PurchaseForm.vue';
 
-export default {
+
+export default defineComponent ({
     name: 'CryptoShow',
 
     components: {
-        PurchaseForm
+        PurchaseForm,
+        CryptoChart
     },
 
     props: {
@@ -50,13 +54,24 @@ export default {
         },
         user: Object
     },
+
+    data () {
+    return {
+      state: {
+        chartData: {},
+        chartOptions: {
+          responsive: true
+        }
+      }
+    }
+    },
     methods: {
         submit(purchase) {
             this.$inertia.post(route('wallet.buy'), purchase);
-        }
+        }, 
     },
 
-}
+})
 </script>
 
 <style scoped>

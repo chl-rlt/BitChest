@@ -3,7 +3,7 @@
 <div>
     <h2>{{ purchase[0].name }}</h2>
     <img class="h-7 w-6 object-contain mr-4" :src="'/images/logo/'+ purchase[0].logo" alt="logo">
-</div>
+
 
 <table class="table text-gray-400 border-separate space-y-6 text-sm w-full">
     <thead class="bg-gray-300 text-gray-500">
@@ -28,6 +28,7 @@
     </tbody>
 </table>
 
+</div>
 </template>
 
 <script>

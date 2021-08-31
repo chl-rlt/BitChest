@@ -12,7 +12,7 @@ class Market extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['price'];
+    protected $fillable = ['price', 'date', 'cryptocurrencie_id'];
 
     public $timestamps = false;
 
