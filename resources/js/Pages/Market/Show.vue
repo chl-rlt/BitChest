@@ -28,7 +28,7 @@
 
 <script>
 import { defineComponent } from 'vue';
-import CryptoChart from '@/components/CryptoChart.vue'; 
+import CryptoChart from '@/components/CryptoChart.vue';
 import PurchaseForm from '@/components/PurchaseForm.vue';
 
 
@@ -58,9 +58,9 @@ export default defineComponent ({
     data () {
     return {
       state: {
-        chartData: {},
+        chartData: this.markets,
         chartOptions: {
-          responsive: true
+          responsive: true,
         }
       }
     }
@@ -68,7 +68,7 @@ export default defineComponent ({
     methods: {
         submit(purchase) {
             this.$inertia.post(route('wallet.buy'), purchase);
-        }, 
+        },
     },
 
 })
