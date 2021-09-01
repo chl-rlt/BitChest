@@ -38,20 +38,18 @@ class CreateCotation extends Command
      *
      * @return int
      */
-    public function handle($cryptos)
+    public function handle()
     {
-        // $crypto = Cryptocurrencie::pluck('name', 'id')->all();
         $markets = Market::orderByDesc('date')->limit(10)
         ->join('cryptocurrencies','markets.cryptocurrencie_id','=','cryptocurrencies.id')
         ->get();
         foreach($markets as $market) {
             DB::table('markets')->insert([
-                "price" => $market['price'] + this.getCotationFor($market['name']),
+                "price" => $market['price'] + $this->getCotationFor($market['name']),
                 "date" => date('Y-m-d H:i:s'),
                 "cryptocurrencie_id" => $market['cryptocurrencie_id']
             ]);
         }
-        // return 0;
     }
 
     private function getCotationFor($cryptoname){

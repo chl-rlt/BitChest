@@ -22971,11 +22971,19 @@ __webpack_require__.r(__webpack_exports__);
     var prices = this.chartData.map(function (data) {
       return data.price;
     }).reverse();
+    this.gradient = this.$refs.canvas.getContext('2d').createLinearGradient(0, 0, 0, 450);
+    this.gradient.addColorStop(0, 'rgba(247,108,6, 0.9)');
+    this.gradient.addColorStop(0.5, 'rgba(247,108,6, 0.25)');
+    this.gradient.addColorStop(1, 'rgba(247,108,6, 0)');
     this.renderChart({
       labels: date,
       datasets: [{
         label: 'Price',
-        backgroundColor: '#f87979',
+        borderColor: '#FC2525',
+        pointBackgroundColor: '#FC2525',
+        borderWidth: 1,
+        pointBorderColor: 'white',
+        backgroundColor: this.gradient,
         data: prices
       }]
     }, this.chartOptions); // this.renderChart(this.chartData, this.chartOptions);
@@ -25949,19 +25957,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "py-12"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_1 = {
+  "class": "py-12 "
+};
+var _hoisted_2 = {
   "class": "max-w-7xl mx-auto sm:px-6 lg:px-8"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "bg-white overflow-hidden shadow-xl sm:rounded-lg"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <client v-if=\"user.role == 'client'\"/> "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <admin v-if=\"user.role == 'admin'\" > "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <slot></slot> "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </admin> "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Dashboard ")])])], -1
-/* HOISTED */
-);
-
+};
+var _hoisted_3 = {
+  "class": "bg-white overflow-hidden shadow-xl sm:rounded-lg p-5"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <app-layout title=\"Dashboard\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template #header>\n            <h2 class=\"font-semibold text-xl text-gray-800 leading-tight\">\n                Dashboard\n            </h2>\n        </template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"\">\n            <Sidebar :user=\"user\"/>\n        </div> "), _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </app-layout> ")], 2112
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <app-layout title=\"Dashboard\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template #header>\r\n            <h2 class=\"font-semibold text-xl text-gray-800 leading-tight\">\r\n                Dashboard\r\n            </h2>\r\n        </template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"\">\r\n            <Sidebar :user=\"user\"/>\r\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <client v-if=\"user.role == 'client'\"/> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <admin v-if=\"user.role == 'admin'\" > "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <slot></slot> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </admin> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Bonjour " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.user.name) + " 🙂 ", 1
+  /* TEXT */
+  )])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </app-layout> ")], 2112
   /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
   );
 }
@@ -26037,33 +26045,39 @@ var _hoisted_6 = {
   "class": "flex flex-wrap overflow-hidden mt-3"
 };
 var _hoisted_7 = {
-  "class": "w-full overflow-hidden md:w-8/12 lg:w-8/12 bg-white mb-3 rounded-md p-5 mr-7"
+  "class": "w-full overflow-hidden md:w-8/12 lg:w-8/12 bg-white mb-4 rounded-md p-5 mr-4 bloc-chart"
 };
 var _hoisted_8 = {
-  "class": "w-full overflow-hidden p-5 bg-white mb-3 rounded-md ml-0.3 bloc-buy"
+  "class": "w-full overflow-hidden  h-full bloc-buy"
 };
 var _hoisted_9 = {
+  "class": "bg-white rounded-md p-5 mb-3 ml-0.3"
+};
+var _hoisted_10 = {
   "class": "text-3xl font-semibold"
 };
 
-var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "text-gray-500 mt-1.5 text-xl font-light"
 }, " BTC", -1
 /* HOISTED */
 );
 
-var _hoisted_11 = {
-  "class": "md:w-auto overflow-hidden mt-3 bg-white p-10 rounded-md"
-};
-var _hoisted_12 = {
-  "class": "font-bold"
-};
-
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-  "class": "mt-3"
-}, "Adolescebat autem obstinatum propositum erga haec et similia multa scrutanda, stimulos admovente regina, quae abrupte mariti fortunas trudebat in exitium praeceps, cum eum potius lenitate feminea ad veritatis humanitatisque viam reducere utilia suadendo deberet, ut in Gordianorum actibus factitasse Maximini truculenti illius imperatoris rettulimus coniugem. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam eius, sapiente optio facere iusto quae explicabo libero culpa expedita possimus architecto assumenda perferendis neque illum labore excepturi maxime repellat. Aperiam?Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas adipisci voluptates culpa rerum quaerat quas dolorem. Fugiat molestiae architecto voluptatibus dolor repellat laboriosam dolore. In enim numquam sit iste expedita?", -1
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  "class": "text-gray-500 text-sm mt-3"
+}, " Last Price : ", -1
 /* HOISTED */
 );
+
+var _hoisted_13 = {
+  "class": "w-full overflow-hidden p-5 bg-white mb-3 rounded-md ml-0.3 h-full mt-4"
+};
+var _hoisted_14 = {
+  "class": "font-bold"
+};
+var _hoisted_15 = {
+  "class": "mt-3 text-gray-500"
+};
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
@@ -26073,7 +26087,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_purchase_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("purchase-form");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    "class": "rounded-full h-12 w-12 object-cover",
+    "class": "h-12 w-12 object-cover",
     src: '/images/logo/' + _ctx.cryptoShow.logo,
     alt: "logo"
   }, null, 8
@@ -26085,9 +26099,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     chartOptions: _ctx.state.chartOptions
   }, null, 8
   /* PROPS */
-  , ["chartData", "chartOptions"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.cryptoShow.name), 1
+  , ["chartData", "chartOptions"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.cryptoShow.name), 1
   /* TEXT */
-  ), _hoisted_10]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_purchase_form, {
+  ), _hoisted_11]), _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_purchase_form, {
     onOnSubmit: _ctx.submit,
     purchases: _ctx.purchases,
     errors: _ctx.$page.props.errors,
@@ -26095,9 +26109,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     market: _ctx.markets[0]
   }, null, 8
   /* PROPS */
-  , ["onOnSubmit", "purchases", "errors", "user_id", "market"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_12, "About " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.cryptoShow.name), 1
+  , ["onOnSubmit", "purchases", "errors", "user_id", "market"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_14, "About " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.cryptoShow.name), 1
   /* TEXT */
-  ), _hoisted_13])]);
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.cryptoShow.description), 1
+  /* TEXT */
+  )])])])]);
 }
 
 /***/ }),
@@ -27598,7 +27614,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "flex flex-col mt-10"
   }, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
-    "class": "focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 sm:text-sm border-gray-300 rounded-md mb-10",
+    "class": "focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md mb-5",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.purchase.quantity = $event;
     }),
@@ -28558,7 +28574,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.bloc-buy[data-v-274e21f7] {\n    width: 30%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.bloc-buy[data-v-274e21f7] {\r\n    width: 30%;\n}\n@media (max-width:700px){\n.bloc-buy[data-v-274e21f7] {\r\n    width: 100%;\n}\n.bloc-chart[data-v-274e21f7] {\r\n  margin-right: 0px;\n}\n}\r\n\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -2,7 +2,7 @@
 <div>
     <form @submit.prevent="onSubmit" class="flex flex-col mt-10">
         <label for="quantity" class="text-gray-500 text-sm mb-2 " >Quantity:  </label>
-        <input type="number" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 sm:text-sm border-gray-300 rounded-md mb-10" v-model="purchase.quantity"  id="quantity" min="1">
+        <input type="number" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md mb-5" v-model="purchase.quantity"  id="quantity" min="1">
 
         <div class="error" v-if="v$.purchase.quantity.$error || errors.name ">
                     <p class="text-sm">{{ v$.purchase.quantity.$error ? v$.purchase.quantity.$errors[0].$message : errors.name }}</p>
