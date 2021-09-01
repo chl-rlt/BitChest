@@ -45,7 +45,7 @@ class CreateCotation extends Command
         ->get();
         foreach($markets as $market) {
             DB::table('markets')->insert([
-                "price" => $market['price'] + getCotationFor($market['name']),
+                "price" => getCotationFor($market['name'], $market['price']),
                 "date" => date('Y-m-d H:i:s'),
                 "cryptocurrencie_id" => $market['cryptocurrencie_id']
             ]);

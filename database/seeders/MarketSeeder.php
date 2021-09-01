@@ -22,12 +22,9 @@ class MarketSeeder extends Seeder
         foreach($crypto as $key => $name) {
 
             $firstPrice = getFirstCotation($name);
-
-
+            $nextPrice;
 
             for($i=0;$i<30;$i++) {
-
-                $nextPrices;
 
                 if($i===0){
                     DB::table('markets')->insert(
@@ -37,10 +34,10 @@ class MarketSeeder extends Seeder
                         'date' => date('Y-m-d H:i:s', strtotime($i.' day'))
                         ]
                     );
-                    $nextPrices = $firstPrice;
+                    $nextPrice = $firstPrice;
                 }
                 else {
-                    $price = $nextPrices + getCotationFor($name);
+                    $price = getCotationFor($name, $nextPrice);
                     DB::table('markets')->insert(
                         [
                         'cryptocurrencie_id' => $key,
@@ -48,7 +45,7 @@ class MarketSeeder extends Seeder
                         'date' => date('Y-m-d H:i:s', strtotime(" - 1 month + $i day"))
                         ]
                     );
-                    $nextPrices = $price;
+                    $nextPrice = $price;
                 }
             }
 
