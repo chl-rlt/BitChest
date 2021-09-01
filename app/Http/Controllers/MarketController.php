@@ -24,7 +24,7 @@ class MarketController extends Controller
             ->orderBy('date', 'desc')
             ->limit(20)
             ->get();
-        // dd($cryptos);
+
         return Inertia::render('Market/Index', [
             'cryptos' => $cryptos
         ]);
