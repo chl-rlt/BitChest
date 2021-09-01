@@ -45,15 +45,11 @@ class CreateCotation extends Command
         ->get();
         foreach($markets as $market) {
             DB::table('markets')->insert([
-                "price" => $market['price'] + $this->getCotationFor($market['name']),
+                "price" => $market['price'] + getCotationFor($market['name']),
                 "date" => date('Y-m-d H:i:s'),
                 "cryptocurrencie_id" => $market['cryptocurrencie_id']
             ]);
         }
-    }
-
-    private function getCotationFor($cryptoname){
-        return ((rand(0, 99)>40) ? 1 : -1) * ((rand(0, 99)>49) ? ord(substr($cryptoname,0,1)) : ord(substr($cryptoname,-1))) * (rand(1,10) * .01);
     }
 }
 

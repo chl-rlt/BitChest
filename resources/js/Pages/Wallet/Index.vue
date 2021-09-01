@@ -17,6 +17,7 @@
                     <th class="p-3 text-left pl-8">Market ({{ purchases.length }})</th>
                     <th class="p-3 text-left">Quantity</th>
                     <th class="p-3 text-left">Invested</th>
+                    <th class="p-3 text-left">Sell</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,6 +28,7 @@
                     </row-link>
                     <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="p-3">{{ purchase.prices }} €</row-link>
                     <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="p-3">{{ purchase.quantity }}</row-link>
+                    <td>sell</td>
                 </tr>
             </tbody>
         </table>
