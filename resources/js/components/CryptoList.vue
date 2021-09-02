@@ -1,8 +1,8 @@
 <template>
 
 <div class="flex justify-center">
-    <div class="overflow-auto lg:overflow-visible w-full">
-      <table class="table text-gray-400 border-separate space-y-6 text-sm w-full">
+    <div class="overflow-auto lg:overflow-visible md:w-full">
+      <table class="table text-gray-400 border-separate space-y-6 text-sm md:w-full">
         <thead class="bg-gray-300 text-gray-500">
           <tr>
             <th class="p-3 text-left pl-8">Crypto</th>
@@ -13,7 +13,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="bg-white" v-for="crypto in lastCryptos" :key='crypto.id' >
+          <tr class="bg-white shadow-md" v-for="crypto in lastCryptos" :key='crypto.id' >
             <row-link :href="route('markets.show', crypto.id)">
               <div class="flex align-items-center">
                 <img class="rounded-full h-7 w-6 object-contain" :src="'/images/logo/'+ crypto.logo" alt="logo">

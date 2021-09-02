@@ -1,17 +1,17 @@
 <template>
 
     <div>
-    <h1 class="text-3xl pt-10 uppercase font-bold px-10 ">My wallet</h1>
+    <h1 class="text-gray-800 text-3xl font-semibold py-5 uppercase">My wallet</h1>
 
-    <div class="md:w-auto overflow-hidden mt-3 bg-white p-10 rounded-md mx-10">
+    <div class="md:w-auto overflow-hidden mt-3 bg-white p-10 rounded-md shadow-md">
     <h1 class="font-bold">Account details </h1>
     <p class="mt-3">Account balance : {{ totalBTC }} BTC </p>
     <p class="mt-3">Estimated value : {{ totalInvested }} € </p>
     </div>
 
-    <div class="md:w-auto overflow-hidden mt-3 bg-white p-10 rounded-md mx-10">
-    <h1 class="font-bold">Your cryptos </h1>
-        <table class="table text-gray-400 border-separate space-y-6 text-sm w-full">
+    <div class="overflow-hidden mt-3 bg-white p-10 rounded-md shadow-md md:w-full">
+    <h1 class="font-bold mb-2">Your cryptos </h1>
+        <table class="table text-gray-400 border-separate space-y-6 text-sm md:w-full">
             <thead class="bg-gray-300 text-gray-500">
                 <tr>
                     <th class="p-3 text-left pl-8">Market ({{ purchases.length }})</th>

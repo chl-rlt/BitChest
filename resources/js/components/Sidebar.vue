@@ -4,7 +4,7 @@
     <div class="sidebar-content">
       <div class="sidebar-brand flex justify-between">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <a href="#">Dashboard</a>
+            <a href="#"></a>
         </h2>
         <div id="close-sidebar" @click="closeSidebar">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -40,12 +40,20 @@
 
       <div class="sidebar-menu">
         <ul>
-            <li class="sidebar-dropdown ">
+            <!-- <li class="sidebar-dropdown ">
                 <Link class="flex flex-row" :href="route('dashboard')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-1/5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                     </svg>
                     <span class="flex items-center">Dashboard</span>
+                </Link>
+            </li> -->
+            <li class="sidebar-dropdown">
+                <Link class="flex flex-row" :href="route('markets.index')" :active="route().current('markets.index')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-1/5 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="flex items-center">Markets</span>
                 </Link>
             </li>
             <li class="sidebar-dropdown ">
@@ -54,19 +62,10 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-1/5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span class="flex items-center">Wallets</span>
+                    <span class="flex items-center">Wallet</span>
                 </Link>
             </li>
-            <li class="sidebar-dropdown">
-                <Link class="flex flex-row" :href="route('markets.index')" >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-1/5 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
-                    </svg>
-                    <span class="flex items-center">Market</span>
-                </Link>
-            </li>
-
-            <li class="sidebar-dropdown">
+            <li class="sidebar-dropdown active:text-yellow-300">
                 <Link class="flex flex-row" :href="route('users.index')" v-if="user.role == 'admin'">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-1/5 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
@@ -76,30 +75,9 @@
             </li>
         </ul>
       </div>
-      <!-- sidebar-menu  -->
-
     </div>
 
-    <!-- sidebar-content  -->
-    <!-- <div class="sidebar-footer">
-      <a href="#">
-        <i class="fa fa-bell"></i>
-        <span class="badge badge-pill badge-warning notification">3</span>
-      </a>
-      <a href="#">
-        <i class="fa fa-envelope"></i>
-        <span class="badge badge-pill badge-success notification">7</span>
-      </a>
-      <a href="#">
-        <i class="fa fa-cog"></i>
-        <span class="badge-sonar"></span>
-      </a>
-      <a href="#">
-        <i class="fa fa-power-off"></i>
-      </a>
-    </div> -->
 </nav>
-<!-- page-wrapper -->
 
 </template>
 
@@ -131,7 +109,7 @@ export default {
 
 </script>
 
-<style >
+<style>
 
 @keyframes swing {
   0% {
@@ -523,9 +501,9 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #525965;
 }
-::-webkit-scrollbar-thumb:active {
+/* ::-webkit-scrollbar-thumb:active {
   background: #525965;
-}
+} */
 ::-webkit-scrollbar-track {
   background: transparent;
   border: 0px none #ffffff;
@@ -534,9 +512,9 @@ body {
 ::-webkit-scrollbar-track:hover {
   background: transparent;
 }
-::-webkit-scrollbar-track:active {
+/* ::-webkit-scrollbar-track:active {
   background: transparent;
-}
+} */
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
@@ -561,7 +539,7 @@ body {
     box-shadow: none;
 }
 
-.chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-role,
+/* .chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-role,
 .chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-status,
 .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
 .chiller-theme .sidebar-wrapper .sidebar-search .input-group-text,
@@ -569,7 +547,7 @@ body {
 .chiller-theme .sidebar-wrapper .sidebar-menu ul li a,
 .chiller-theme .sidebar-footer>a {
     color: rgba(31, 41, 55, var(--tw-text-opacity));;
-}
+} */
 
 .chiller-theme .sidebar-wrapper .sidebar-menu ul li:hover>a,
 .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active>a,
@@ -577,6 +555,7 @@ body {
 .chiller-theme .sidebar-wrapper .sidebar-brand>a:hover,
 .chiller-theme .sidebar-footer>a:hover i {
     color: #b8bfce;
+
 }
 
 .page-wrapper.chiller-theme.toggled #close-sidebar {
@@ -584,17 +563,24 @@ body {
 }
 
 .page-wrapper.chiller-theme.toggled #close-sidebar:hover {
-    color: #ffffff;
+    color: #6c7b88;
 }
 
-.chiller-theme .sidebar-wrapper ul li:hover a i,
-.chiller-theme .sidebar-wrapper .sidebar-dropdown .sidebar-submenu li a:hover:before,
+/* .chiller-theme .sidebar-wrapper ul li:active a i,
+.chiller-theme .sidebar-wrapper .sidebar-dropdown .sidebar-submenu li a:active:before,
 .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu:focus+span,
 .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active a i {
-    color: #16c7ff;
+    color: #16c7ff!important;
     text-shadow:0px 0px 10px rgba(22, 199, 255, 0.5);
-}
+} */
 
+/* .sidebar-dropdown:active{
+  color: #16c7ff!important;
+} */
+
+/* .sidebar-dropdown:focus{
+  color: #16c7ff!important;
+} */
 .chiller-theme .sidebar-wrapper .sidebar-menu ul li a i,
 .chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown div,
 .chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,
@@ -606,19 +592,22 @@ body {
     color: #6c7b88;
 }
 
-.chiller-theme .sidebar-footer {
-    background: #3a3f48;
-    box-shadow: 0px -1px 5px #282c33;
-    border-top: 1px solid #464a52;
+@media (max-width: 500px){
+
 }
 
-.chiller-theme .sidebar-footer>a:first-child {
-    border-left: none;
+@media (max-width:375px){
+    .page-wrapper .page-content > div {
+    padding: 0px 23px!important;
+    }
 }
 
-.chiller-theme .sidebar-footer>a:last-child {
-    border-right: none;
+@media (max-width:320px){
+    .page-wrapper .page-content > div {
+    padding: 0px 5px!important;
 }
+}
+
 
 
 </style>

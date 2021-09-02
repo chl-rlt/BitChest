@@ -32,12 +32,12 @@ use App\Http\Controllers\WalletController;
 //     return Inertia::render('Dashboard');
 // })->name('dashboard');
 Route::get('/', function() {
-    return Redirect::route('dashboard');
+    return Redirect::route('markets.index');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function(){
 
-    Route::prefix('dashboard')->group(function() {
+    Route::prefix('home')->group(function() {
         Route::get('/', function () {
             return Inertia::render('Dashboard');
         })->name('dashboard');

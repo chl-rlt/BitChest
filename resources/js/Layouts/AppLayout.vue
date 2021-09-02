@@ -13,18 +13,18 @@
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
-                            <div class="flex-shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
-                                    <jet-application-logo class="block h-16 w-auto" />
+                            <div class="flex-shrink-0 flex items-center xl:-ml-11">
+                                <Link :href="route('markets.index')">
+                                    <jet-application-logo class="block h-16 w-auto " />
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <!-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <jet-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </jet-nav-link>
-                            </div>
+                            </div> -->
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -87,15 +87,21 @@
                 </div>
 
                 <!-- Responsive Navigation Menu -->
-                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
+                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden submenu-burger">
                     <div class="pt-2 pb-3 space-y-1">
-                        <jet-responsive-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
+                        <jet-responsive-nav-link :href="route('markets.index')" :active="route().current('markets.index')">
+                            Markets
+                        </jet-responsive-nav-link>
+                        <jet-responsive-nav-link :href="route('wallet.index', user.id)" :active="route().current('wallet.index', user.id)">
+                            Wallet
+                        </jet-responsive-nav-link>
+                        <jet-responsive-nav-link :href="route('users.index')" :active="route().current('users.index')" v-if="user.role == 'admin'">
+                            Users
                         </jet-responsive-nav-link>
                     </div>
 
                     <!-- Responsive Settings Options -->
-                    <div class="pt-4 pb-1 border-t border-gray-200">
+                    <div class="pt-4 pb-1 border-t border-gray-200 bg-white">
                         <div class="flex items-center px-4">
                             <div v-if="$page.props.jetstream.managesProfilePhotos" class="flex-shrink-0 mr-3" >
                                 <img class="h-10 w-10 rounded-full object-cover" :src="$page.props.user.profile_photo_url" :alt="$page.props.user.name" />
@@ -140,7 +146,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </a>
-                <Sidebar v-if="$page.url.startsWith('/dashboard')" :user="user" @close-sidebar="closeSidebar"/>
+                <Sidebar v-if="$page.url.startsWith('/home')" :user="user" @close-sidebar="closeSidebar"/>
 
                 <!-- Page Content -->
                 <main class="page-content">
@@ -220,5 +226,15 @@
 <style scoped>
 .content-area {
     min-height: calc(100vh - 4rem);
+}
+
+.submenu-burger {
+    z-index: 999999999999999!important;
+}
+
+@media (max-width:500px){
+    #show-sidebar{
+        display: none;
+    }
 }
 </style>
