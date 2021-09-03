@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('cotation:create')->daily();
+        $schedule->command('cotation:create')->everyMinute();
     }
 
     /**

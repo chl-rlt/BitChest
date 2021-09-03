@@ -66,9 +66,11 @@
                             <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
+                            <!-- <img :src="userShowww.profile_photo_url" alt=""> -->
                         </span>
                         <span class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Browse</span>
-                        <input type="file" class="hidden" :multiple="multiple" :accept="accept">
+                        <input type="file" class="hidden" ref="file" @change="imageSelected">                        
+            
                     </label>
                 </div>
             </div>
@@ -85,6 +87,8 @@
 <script>
 import BlueButton from '@/components/BlueButton.vue'
 import useVuelidate from '@vuelidate/core'
+import JetLabel from '@/Jetstream/Label.vue'
+import JetSecondaryButton from '@/Jetstream/SecondaryButton.vue'
 import { required, requiredIf, email, minLength, alphaNum, sameAs, helpers } from '@vuelidate/validators'
 
 const containsMajAndNumber = helpers.regex(/^(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/);
@@ -97,7 +101,9 @@ export default {
     },
     emits: ['on-submit'],
     components: {
-        BlueButton
+        BlueButton,
+        JetLabel,
+        JetSecondaryButton
     },
     props:{
         userToUpdate: Object,
@@ -109,6 +115,10 @@ export default {
             type: Object,
             default: null,
         },
+        userShowww: {
+            type: Object,
+            required: true,
+        }
     },
     data() {
         return {
@@ -118,7 +128,8 @@ export default {
                 role_id: '',
                 email: '',
                 password: '',
-                password_confirm: ''
+                password_confirm: '',
+                profile_photo_path: null
             }
         }
     },
@@ -127,7 +138,9 @@ export default {
             this.user.id = this.userToUpdate.id,
             this.user.name = this.userToUpdate.name,
             this.user.role_id = this.userToUpdate.role_id,
-            this.user.email = this.userToUpdate.email
+            this.user.email = this.userToUpdate.email,
+            this.user.profile_photo_path = this.userToUpdate.profile_photo_path
+        
         }
     },
     validations(){
@@ -148,7 +161,12 @@ export default {
             this.v$.$validate();
             if(this.v$.$error) return
             this.$emit('on-submit',this.user);
-        }
+        }, 
+        imageSelected(e){
+            this.profile_photo_path = e.target.files[0];
+            let reader = new FileReader();
+            reader.readAsDataURL(this.profile_photo_path);
+        },
     }
 }
 </script>

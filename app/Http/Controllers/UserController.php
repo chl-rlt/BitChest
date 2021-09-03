@@ -51,13 +51,18 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => ['required', Password::min(6)->letters()->mixedCase()->numbers()],
             'password_confirm' => 'required|same:password',
+            'profile_photo_path' => 'required|mimes:jpg,jpeg,png,csv,txt,xlx,xls,pdf|max:2048',
             'role_id' => 'required',
+
         ]);
 
+        $im = $request->file('profile_photo_path');
+        
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+            'profile_photo_path' =>$validated['profile_photo_path'],
             'role_id' => $validated['role_id'],
         ]);
 

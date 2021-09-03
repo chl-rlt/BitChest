@@ -10,24 +10,14 @@
 <script>
 
 import CryptoList from '@/components/CryptoList.vue';
-import Sidebar from '@/components/Sidebar.vue'
-    import Client from '@/Pages/Client/Index.vue'
-    import Admin from '@/Pages/Admin/Index.vue'
-    import { computed } from 'vue'
-    import { usePage } from '@inertiajs/inertia-vue3'
-    import Toast from '@/components/Toast.vue'
-
+import Toast from '@/components/Toast.vue'
 export default {
     name: 'Markets',
     components: {
         CryptoList,
-        Sidebar,
-        Client,
-        Admin,
         Toast
         
     },
-
     props: {
        markets: {
            type: Array
@@ -36,9 +26,6 @@ export default {
            type: Array
        }
     },
-    setup() {
-            const user = computed(()=> usePage().props.value.auth.user);
-            return { user };
-        }
+    
 }
 </script>
