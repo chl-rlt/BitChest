@@ -18,7 +18,6 @@ class MarketController extends Controller
         // return Inertia::render('Market/Index', [
         //     'markets' => $markets, 'cryptos' => $cryptos
         // ]);
-
         $cryptos = DB::table('markets')
             ->join('cryptocurrencies', 'markets.cryptocurrencie_id', '=', 'cryptocurrencies.id')
             ->orderBy('date', 'desc')
