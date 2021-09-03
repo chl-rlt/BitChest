@@ -194,7 +194,20 @@
             return {
                 showingNavigationDropdown: false,
                 mobileView: null,
+                latests_markets:null
             }
+        },
+        watch: {
+            latests_markets: function() {
+                console.log(this.latests_markets)
+            }
+        },
+        mounted() {
+            window.Echo.channel('markets_quotations')
+            .listen('.new.quotations', e => {
+                console.log(e);
+                this.latests_markets = e;
+            });
         },
 
         methods: {

@@ -3,10 +3,11 @@ require('./bootstrap');
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
-import AppLayout from '@/Layouts/AppLayout.vue'
-// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import AppLayout from '@/Layouts/AppLayout.vue';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'BitChest';
+
+// Pusher.log = function (message) { window.console.log(message); }
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

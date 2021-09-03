@@ -17,7 +17,7 @@
                     <!-- <admin v-if="user.role == 'admin'" > -->
                         <!-- <slot></slot> -->
                     <!-- </admin> -->
-                    Bonjour {{user.name}} 🙂 
+                    Bonjour {{user.name}} 🙂
                 </div>
             </div>
         </div>
@@ -43,6 +43,6 @@
         setup() {
             const user = computed(()=> usePage().props.value.auth.user);
             return { user };
-        }
+        },
     }
 </script>

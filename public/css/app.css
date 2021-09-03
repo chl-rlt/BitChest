@@ -787,6 +787,7 @@ select {
 .container {
 	width: 100%;
 }
+<<<<<<< HEAD
 @media (min-width: 320px) {
 
 	.container {
@@ -799,6 +800,8 @@ select {
 		max-width: 475px;
 	}
 }
+=======
+>>>>>>> 'broadcasting'
 @media (min-width: 640px) {
 
 	.container {
@@ -1162,6 +1165,10 @@ select {
 .mx-auto {
 	margin-left: auto;
 	margin-right: auto;
+}
+.my-1 {
+	margin-top: 0.25rem;
+	margin-bottom: 0.25rem;
 }
 .mx-2 {
 	margin-left: 0.5rem;
