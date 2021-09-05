@@ -154,6 +154,12 @@
                 </main>
             </div>
 
+            <ul>
+                <li v-for="market in lastest_markets" :key="market.price">
+                    {{ market.date }}
+                </li>
+            </ul>
+
         </div>
     </div>
 </template>
@@ -168,6 +174,7 @@
     import { Head, Link, usePage } from '@inertiajs/inertia-vue3';
     import Sidebar from '@/components/Sidebar.vue'
     import { computed } from 'vue'
+    import { mapState, mapActions, mapGetters } from 'vuex'
 
     export default {
         props: {
@@ -194,20 +201,12 @@
             return {
                 showingNavigationDropdown: false,
                 mobileView: null,
-                latests_markets:null
             }
         },
-        watch: {
-            latests_markets: function() {
-                console.log(this.latests_markets)
-            }
-        },
-        mounted() {
-            window.Echo.channel('markets_quotations')
-            .listen('.new.quotations', e => {
-                console.log(e);
-                this.latests_markets = e;
-            });
+        computed: {
+            ...mapState('markets', {
+                lastest_markets: state => state.lasts_markets
+            }),
         },
 
         methods: {
@@ -223,12 +222,16 @@
             isMobileView() {
                 if(window.matchMedia('(max-width: 639px)').matches) return this.mobileView = true;
                 return this.mobileView = false;
-            }
-
+            },
+            ...mapActions({
+                listenToLastsMarkets: 'markets/listenToLastsMarkets'
+            }),
         },
+
         created() {
             this.isMobileView()
             window.addEventListener('resize', this.isMobileView)
+            this.listenToLastsMarkets();
         },
         destroyed() {
             window.removeEventListener('resize', this.isMobileView)

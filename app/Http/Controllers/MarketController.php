@@ -18,15 +18,40 @@ class MarketController extends Controller
         // return Inertia::render('Market/Index', [
         //     'markets' => $markets, 'cryptos' => $cryptos
         // ]);
-        $cryptos = DB::table('markets')
-            ->join('cryptocurrencies', 'markets.cryptocurrencie_id', '=', 'cryptocurrencies.id')
+
+        // $cryptos = Market::whereBetween('date', [date('Y-m-d H:i:s', strtotime('- 24 hours')), date('Y-m-d H:i:s')])
+        // // where('date', Market::max('date'))
+        //         ->offset(10)
+        //         ->orderByDesc('date')
+        //         ->get();
+        //     // dd($cryptos);
+        // return Inertia::render('Market/Index', [
+        //         'cryptos' => $cryptos
+        // ]);
+
+        $markets = DB::table('markets')
+            ->whereBetween('date', [date('Y-m-d H:i:s', strtotime('- 24 hours')), date('Y-m-d H:i:s')])
             ->orderBy('date', 'desc')
-            ->limit(20)
+            ->offset(10)
+            ->limit(
+                DB::table('markets')->whereBetween('date', [date('Y-m-d H:i:s', strtotime('- 24 hours')), date('Y-m-d H:i:s')])->count()
+                )
             ->get();
 
         return Inertia::render('Market/Index', [
-            'cryptos' => $cryptos
+            'markets' => $markets
         ]);
+
+
+        // $cryptos = DB::table('markets')
+        //     ->join('cryptocurrencies', 'markets.cryptocurrencie_id', '=', 'cryptocurrencies.id')
+        //     ->orderBy('date', 'desc')
+        //     ->limit(20)
+        //     ->get();
+        //     // dd($cryptos);
+        // return Inertia::render('Market/Index', [
+        //     'cryptos' => $cryptos
+        // ]);
     }
 
     public function show($id)
@@ -38,6 +63,11 @@ class MarketController extends Controller
             ->get();
 
         return Inertia::render('Market/Show', ['cryptoShow' => $crypto, 'markets' => $markets ]);
+    }
+
+    public function getLastValues() {
+        $last_markets = Market::orderByDesc('date')->take(10)->get();
+        dd($last_markets);
     }
 
 }

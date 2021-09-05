@@ -17,6 +17,7 @@ class CreateCryptocurrenciesTable extends Migration
             $table->tinyIncrements('id');
             $table->string('name', 50);
             $table->string('logo', 255);
+            $table->string('tag', 20);
         });
     }
 

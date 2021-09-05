@@ -36,6 +36,7 @@
         "@vuelidate/validators": "^2.0.0-alpha.21",
         "chart.js": "^3.5.1",
         "vue": "^3.0.0",
-        "vue3-chart-v2": "^0.8.3"
+        "vue3-chart-v2": "^0.8.3",
+        "vuex": "^4.0.2"
     }
 }

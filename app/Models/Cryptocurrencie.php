@@ -10,7 +10,7 @@ class Cryptocurrencie extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','logo', 'description'];
+    protected $fillable = ['name','logo', 'description', 'tag'];
 
     public $timestamps = false;
 
