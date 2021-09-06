@@ -24,11 +24,15 @@
                 <tr v-for="purchase in purchases" :key="purchase.crypto_id" class="bg-white">
                     <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="p-3 flex items-center">
                         <img class="rounded-full h-7 w-6 object-contain mr-4" :src="'/images/logo/'+ purchase.crypto_logo" alt="logo">
-                        {{ purchase.crypto_name }}
+                        <span>{{ purchase.crypto_name }}</span>
                     </row-link>
-                    <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="p-3">{{ purchase.prices }} €</row-link>
                     <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="p-3">{{ purchase.quantity }}</row-link>
-                    <td>sell</td>
+                    <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="p-3">{{ purchase.prices }} €</row-link>
+                    <td>
+                        <span class="sellbutton p-1 border-gray-400 border rounded-sm relative" @click="sell(purchase.crypto_id)">
+                        {{ lastPrice(purchase.crypto_id, purchase.quantity) }}
+                        </span> €
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -46,6 +50,9 @@ export default {
     props: {
         purchases: Array,
         default: [],
+        initial_latest_markets_values: {
+          type: Array,
+        },
     },
     components: {
         RowLink
@@ -58,12 +65,31 @@ export default {
 
         totalInvested() {
             return this.purchases.reduce( (acc, item) =>  acc + (item.prices), 0).toFixed(2)
+        },
+
+        lastPrice() {
+            return (id, quantity) => {
+                return this.initial_latest_markets_values.find(market => market.cryptocurrencie_id === id).price * quantity
+            }
+        }
+    },
+
+    methods: {
+        sell(id) {
+            this.$inertia.patch(route('wallet.sell'), {id});
         }
     }
 
 }
 </script>
 
-<style>
+<style scoped>
+
+/* .sellbutton::before {
+    content: 'V';
+    color: rgba(107, 114, 128, 1);
+    background-color: rgba(209, 213, 219, 1);
+    position: absolute;
+} */
 
 </style>

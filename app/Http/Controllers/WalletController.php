@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 
@@ -16,6 +17,7 @@ class WalletController extends Controller
 
         // get all different crypto purchased by user.id, regroup them by their id and SUM their total quantities and prices
         $purchases = Purchase::where('user_id',$id)
+        ->holding()
         ->join('markets','markets.id','=','market_id')
         ->join('cryptocurrencies','cryptocurrencies.id','=','cryptocurrencie_id')
         ->selectRaw("
@@ -27,6 +29,7 @@ class WalletController extends Controller
             )
         ->groupBy('cryptocurrencies.id', 'cryptocurrencies.name', 'cryptocurrencies.logo' )
         ->get();
+
         return Inertia::render('Wallet/Index', ['purchases'=>$purchases]);
     }
 
@@ -51,7 +54,21 @@ class WalletController extends Controller
         return Redirect::route('markets.index')->with('message', 'Successful purchase !');
     }
 
-    public function sell(){
+    public function sell(Request $request){
+
+        $user = Auth::user()->id;
+
+        $purchases = Purchase::holding()
+        ->join('markets', 'market_id', '=', 'markets.id')
+        ->where(['markets.cryptocurrencie_id' => $request->input('id'), 'user_id' => $user])
+        ->select('purchases.id', 'quantity', 'bought_at', 'user_id', 'market_id', 'status')->get();
+
+
+        foreach($purchases as $purchase) {
+            $purchase->update(['status' => 'sold']);
+        }
+
+        return Redirect::route('wallet.index', $user)->with('message', 'Crypto successfuly sold !');
 
     }
 

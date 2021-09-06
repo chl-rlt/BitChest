@@ -8,7 +8,7 @@
 <script>
 export default {
     props: {
-        message: Object,
+        message: String,
     },
     // emits: ['close-toast'],
 

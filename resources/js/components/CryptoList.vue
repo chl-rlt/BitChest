@@ -115,8 +115,8 @@ export default {
   watch: {
       currentMarkets: {
           handler(newVal, oldVal) {
-            console.log(newVal)
-            console.log(oldVal)
+            // console.log(newVal)
+            // console.log(oldVal)
           }
       }
   }

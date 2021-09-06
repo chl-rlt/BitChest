@@ -47,6 +47,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function(){
         Route::get('/market', [MarketController::class, 'index'])->name('markets.index');
         Route::get('/market/{id}', [MarketController::class, 'show'])->name('markets.show');
         Route::post('/wallet', [WalletController::class, 'buy'])->name('wallet.buy');
+        Route::patch('/wallet/sell', [WalletController::class, 'sell'])->name('wallet.sell');
 
         Route::get('/mywallet/{id}', [WalletController::class, 'index'])->name('wallet.index');
         Route::get('/mywallet/{user_id}/market/{crypto_id}', [WalletController::class, 'show'])->name('wallet.show');
