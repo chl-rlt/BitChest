@@ -12,8 +12,10 @@
             <th class="p-3 text-left">Amount</th>
             <th class="p-3 text-left">Units</th>
             <th class="p-3 text-left">Open</th>
+            <th class="p-3 text-left">Current</th>
             <th class="p-3 text-left">P/L(€)</th>
             <th class="p-3 text-left">P/L(%)</th>
+            <th class="p-3 text-left">Sell</th>
         </tr>
     </thead>
     <tbody>
@@ -22,7 +24,9 @@
             <td class="p-3">{{  totalPrice(crypto) }} €</td>
             <td class="p-3">{{  crypto.quantity  }}</td>
             <td class="p-3">{{ crypto.price }} €</td>
-            <td class="p-3">***</td>
+            <td class="p-3"><dynamic-value>{{ currentLatest.price }}</dynamic-value></td>
+            <td class="p-3">{{ (currentLatest.price - crypto.price).toFixed(2) }}</td>
+            <td class="p-3">{{ (((currentLatest.price - crypto.price)/currentLatest.price)*100).toFixed(2) }} %</td>
             <td class="p-3">***</td>
         </tr>
     </tbody>
@@ -32,17 +36,36 @@
 </template>
 
 <script>
+import DynamicValue from '@/components/DynamicValue'
+
 export default {
+
+    components: {
+        DynamicValue
+    },
+
     props: {
         purchase: {
             type: Array,
             required: true
+        },
+        initial_latest_markets_values: Array
+    },
+
+    data() {
+        return {
+            currentLatest: {},
         }
     },
+
     methods: {
         totalPrice(crypto) {
             return (crypto.quantity * crypto.price).toFixed(2);
         }
+    },
+
+    mounted() {
+        this.currentLatest = {...this.initial_latest_markets_values.find(market => market.cryptocurrencie_id === this.purchase[0].cryptocurrencie_id)}
     }
 }
 </script>

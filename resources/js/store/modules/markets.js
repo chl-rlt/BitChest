@@ -11,6 +11,14 @@ export default {
             return (id) => state.lasts_markets.find(market => market.cryptocurrencie_id === id)
         },
 
+        getLastsMarkets(state) {
+            return (arr) => {
+                // if(state.lasts_markets.length <= 0) return arr
+                if(new Date(state.lasts_markets[0]?.date) > new Date(arr[0].date)) return state.lasts_markets
+                return arr
+            }
+        }
+
     },
 
     mutations: {

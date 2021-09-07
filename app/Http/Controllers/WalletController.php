@@ -63,7 +63,6 @@ class WalletController extends Controller
         ->where(['markets.cryptocurrencie_id' => $request->input('id'), 'user_id' => $user])
         ->select('purchases.id', 'quantity', 'bought_at', 'user_id', 'market_id', 'status')->get();
 
-
         foreach($purchases as $purchase) {
             $purchase->update(['status' => 'sold']);
         }

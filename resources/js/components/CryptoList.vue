@@ -6,16 +6,15 @@
         <thead class="bg-gray-300 text-gray-500">
             <tr>
                 <th class="p-3 text-left pl-8">Crypto</th>
-                <th class="p-3 text-left">Last Price</th>
-                <th class="p-3 text-left">24 hour change</th>
-                <th class="p-3 text-left">Actions</th>
-                <th class="p-3 text-left"></th>
+                <th class="p-3 text-center">Last Price</th>
+                <th class="p-3 text-center">24 hour change</th>
+                <th class="p-3 text-center">Actions</th>
             </tr>
         </thead>
         <tbody>
 
-            <tr class="bg-white shadow-md" v-for="crypto in currentMarkets" :key='crypto.id' >
-                <row-link :href="route('markets.show', crypto.cryptocurrencie_id)">
+            <tr class="bg-white shadow-md" v-for="crypto in initial_latest_markets" :key='crypto.id' >
+                <row-link :href="route('markets.show', crypto.cryptocurrencie_id)" class="text-left">
                     <div class="flex align-items-center">
                         <img class="rounded-full h-7 w-6 object-contain" :src="'/images/logo/'+ crypto.logo" alt="logo">
                         <div class="ml-3">
@@ -23,19 +22,19 @@
                         </div>
                     </div>
                 </row-link>
-                <row-link :href="route('markets.show', crypto.cryptocurrencie_id)" class="font-bold">
-                    <dynamic-value :data="crypto.price"> €</dynamic-value>
+                <row-link :href="route('markets.show', crypto.cryptocurrencie_id)" class="font-bold text-center">
+                    <dynamic-value :data="currentValue(crypto.price, crypto.cryptocurrencie_id)"> €</dynamic-value>
                 </row-link>
-                <row-link :href="route('markets.show', crypto.cryptocurrencie_id)" class="p-3 font-bold" :class="[dayPriceVariation(crypto.price, crypto.cryptocurrencie_id) > 0 ? 'text-green-500' : 'text-red-500']">
-                    {{ dayPriceVariation(crypto.price, crypto.cryptocurrencie_id) }} %
+                <row-link :href="route('markets.show', crypto.cryptocurrencie_id)" class="p-3 font-bold text-center" :class="[dayPriceVariation(crypto.price, crypto.cryptocurrencie_id) > 0 ? 'text-green-500' : 'text-red-500']">
+                    <dynamic-value :data="dayPriceVariation(crypto.price, crypto.cryptocurrencie_id)"> %</dynamic-value>
                 </row-link>
-                <td class="p-3">
+                <td class="p-3 text-center">
                     <Link class="" :href="route('markets.show', crypto.cryptocurrencie_id)" >
                     <span class="bg-green-400 text-gray-50 rounded-md px-2">Show </span>
                     </Link>
                     <span class="bg-red-400 text-gray-50 rounded-md px-2 ml-1.5"> Buy</span>
                 </td>
-                <td class="p-3 ">
+                <!-- <td class="p-3 text-right">
                     <a href="#" class="text-gray-400 hover:text-gray-100 mr-2">
                     <i class="material-icons-outlined text-base"></i>
                     </a>
@@ -45,7 +44,7 @@
                     <a href="#" class="text-gray-400 hover:text-gray-100  ml-2">
                     <i class="material-icons-round text-base"></i>
                     </a>
-                </td>
+                </td> -->
             </tr>
 
         </tbody>
@@ -76,27 +75,31 @@ export default {
         },
         day_markets: {
             type: Array,
+        },
+        users: {
+            type:Object
         }
     },
 
+
     computed: {
 
-        currentMarkets() {
+        currentValue() {
+            return (price, id) => {
                 if(new Date(this.lasts_markets[0]?.date) > new Date(this.initial_latest_markets[0].date)) {
-                    return this.initial_latest_markets.map((el, index) => {
-                        return {
-                            ...el,
-                            price: Number(this.lasts_markets[index].price).toFixed(2),
-                            date: this.lasts_markets[index].date,
-                            id: this.lasts_markets[index].id,
-                        }
-                    })
+                    return (this.lasts_markets.find(market => market.cryptocurrencie_id === id).price).toFixed(2)
                 }
-                return this.initial_latest_markets
+                return price
+            }
         },
 
         dayPriceVariation() {
-            return (last_price, id) => {
+            return (price, id) => {
+                let last_price = price
+                if(new Date(this.lasts_markets[0]?.date) > new Date(this.initial_latest_markets[0].date)) {
+                    last_price = (this.lasts_markets.find(market => market.cryptocurrencie_id === id).price).toFixed(2)
+                }
+
                 const arr = this.day_markets.filter(market => market.cryptocurrencie_id === id)
                 if(arr.length > 0) return (( (last_price - arr[arr.length - 1].price) / last_price ) * 100).toFixed(2)
                 return 0
@@ -111,15 +114,6 @@ export default {
             lasts_markets: state => state.lasts_markets
         }),
     },
-
-  watch: {
-      currentMarkets: {
-          handler(newVal, oldVal) {
-            // console.log(newVal)
-            // console.log(oldVal)
-          }
-      }
-  }
 
 }
 </script>

@@ -17,6 +17,9 @@
                     <th class="p-3 text-left pl-8">Market ({{ purchases.length }})</th>
                     <th class="p-3 text-left">Quantity</th>
                     <th class="p-3 text-left">Invested</th>
+                    <th class="p-3 text-left">P/L(€)</th>
+                    <th class="p-3 text-left">P/L(%)</th>
+                    <th class="p-3 text-left">Value</th>
                     <th class="p-3 text-left">Sell</th>
                 </tr>
             </thead>
@@ -28,9 +31,14 @@
                     </row-link>
                     <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="p-3">{{ purchase.quantity }}</row-link>
                     <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="p-3">{{ purchase.prices }} €</row-link>
+                    <td>{{ ((lastPrice(purchase.crypto_id) * purchase.quantity) - purchase.prices).toFixed(2) }} €</td>
+                    <td>
+                        {{ ((((lastPrice(purchase.crypto_id) * purchase.quantity)-purchase.prices)/(lastPrice(purchase.crypto_id) * purchase.quantity))*100).toFixed(2) }} %
+                    </td>
+                    <td>{{ lastPrice(purchase.crypto_id) * purchase.quantity }} €</td>
                     <td>
                         <span class="sellbutton p-1 border-gray-400 border rounded-sm relative" @click="sell(purchase.crypto_id)">
-                        {{ lastPrice(purchase.crypto_id, purchase.quantity) }}
+                        {{ lastPrice(purchase.crypto_id)  }}
                         </span> €
                     </td>
                 </tr>
@@ -45,6 +53,7 @@
 
 <script>
 import RowLink from '@/components/RowLink.vue'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
     props: {
@@ -68,10 +77,14 @@ export default {
         },
 
         lastPrice() {
-            return (id, quantity) => {
-                return this.initial_latest_markets_values.find(market => market.cryptocurrencie_id === id).price * quantity
+            return (id) => {
+                return this.lasts_markets(this.initial_latest_markets_values).find(market => market.cryptocurrencie_id === id).price
             }
-        }
+        },
+
+        ...mapGetters('markets', {
+            lasts_markets : 'getLastsMarkets'
+        }),
     },
 
     methods: {

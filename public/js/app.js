@@ -23026,6 +23026,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _components_RowLink_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/RowLink.vue */ "./resources/js/components/RowLink.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
@@ -23038,7 +23046,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     RowLink: _components_RowLink_vue__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  computed: {
+  computed: _objectSpread({
     totalBTC: function totalBTC() {
       return this.purchases.reduce(function (acc, item) {
         return acc + item.quantity;
@@ -23052,13 +23060,15 @@ __webpack_require__.r(__webpack_exports__);
     lastPrice: function lastPrice() {
       var _this = this;
 
-      return function (id, quantity) {
-        return _this.initial_latest_markets_values.find(function (market) {
+      return function (id) {
+        return _this.lasts_markets(_this.initial_latest_markets_values).find(function (market) {
           return market.cryptocurrencie_id === id;
-        }).price * quantity;
+        }).price;
       };
     }
-  },
+  }, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)('markets', {
+    lasts_markets: 'getLastsMarkets'
+  })),
   methods: {
     sell: function sell(id) {
       this.$inertia.patch(route('wallet.sell'), {
@@ -23081,17 +23091,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _components_DynamicValue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/components/DynamicValue */ "./resources/js/components/DynamicValue.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    DynamicValue: _components_DynamicValue__WEBPACK_IMPORTED_MODULE_0__.default
+  },
   props: {
     purchase: {
       type: Array,
       required: true
-    }
+    },
+    initial_latest_markets_values: Array
+  },
+  data: function data() {
+    return {
+      currentLatest: {}
+    };
   },
   methods: {
     totalPrice: function totalPrice(crypto) {
       return (crypto.quantity * crypto.price).toFixed(2);
     }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.currentLatest = _objectSpread({}, this.initial_latest_markets_values.find(function (market) {
+      return market.cryptocurrencie_id === _this.purchase[0].cryptocurrencie_id;
+    }));
   }
 });
 
@@ -23268,29 +23302,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     day_markets: {
       type: Array
+    },
+    users: {
+      type: Object
     }
   },
   computed: _objectSpread(_objectSpread({
-    currentMarkets: function currentMarkets() {
-      var _this$lasts_markets$,
-          _this = this;
+    currentValue: function currentValue() {
+      var _this = this;
 
-      if (new Date((_this$lasts_markets$ = this.lasts_markets[0]) === null || _this$lasts_markets$ === void 0 ? void 0 : _this$lasts_markets$.date) > new Date(this.initial_latest_markets[0].date)) {
-        return this.initial_latest_markets.map(function (el, index) {
-          return _objectSpread(_objectSpread({}, el), {}, {
-            price: Number(_this.lasts_markets[index].price).toFixed(2),
-            date: _this.lasts_markets[index].date,
-            id: _this.lasts_markets[index].id
-          });
-        });
-      }
+      return function (price, id) {
+        var _this$lasts_markets$;
 
-      return this.initial_latest_markets;
+        if (new Date((_this$lasts_markets$ = _this.lasts_markets[0]) === null || _this$lasts_markets$ === void 0 ? void 0 : _this$lasts_markets$.date) > new Date(_this.initial_latest_markets[0].date)) {
+          return _this.lasts_markets.find(function (market) {
+            return market.cryptocurrencie_id === id;
+          }).price.toFixed(2);
+        }
+
+        return price;
+      };
     },
     dayPriceVariation: function dayPriceVariation() {
       var _this2 = this;
 
-      return function (last_price, id) {
+      return function (price, id) {
+        var _this2$lasts_markets$;
+
+        var last_price = price;
+
+        if (new Date((_this2$lasts_markets$ = _this2.lasts_markets[0]) === null || _this2$lasts_markets$ === void 0 ? void 0 : _this2$lasts_markets$.date) > new Date(_this2.initial_latest_markets[0].date)) {
+          last_price = _this2.lasts_markets.find(function (market) {
+            return market.cryptocurrencie_id === id;
+          }).price.toFixed(2);
+        }
+
         var arr = _this2.day_markets.filter(function (market) {
           return market.cryptocurrencie_id === id;
         });
@@ -23305,14 +23351,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     lasts_markets: function lasts_markets(state) {
       return state.lasts_markets;
     }
-  })),
-  watch: {
-    currentMarkets: {
-      handler: function handler(newVal, oldVal) {// console.log(newVal)
-        // console.log(oldVal)
-      }
-    }
-  }
+  }))
 });
 
 /***/ }),
@@ -23330,21 +23369,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['data'],
+  data: function data() {
+    return {
+      className: null
+    };
+  },
   watch: {
     data: function data(newValue, oldValue) {
-      console.log('Prop changed: ', newVal, ' | was: ', oldVal);
-      if (newValue >= oldValue) return valueUpdate('bg-green-500 text-white');
-      return valueUpdate('bg-red-500 text-white');
+      // console.log('Prop changed: ', newValue, ' | was: ', oldValue)
+      if (newValue >= oldValue) return this.valueUpdate('up');
+      return this.valueUpdate('down');
     }
   },
   methods: {
-    valueUpdate: function valueUpdate(className) {
+    valueUpdate: function valueUpdate(way) {
+      var _this = this;
+
+      if (way === 'up') this.className = ['bg-green-500', 'text-white'];else this.className = ['bg-red-500', 'text-white'];
       setTimeout(function () {
-        document.querySelector('.truc').classList.toggle(className);
-      }, 200);
-      document.querySelector('.truc').classList.toggle(className);
+        return _this.className = null;
+      }, 800);
     }
-  }
+  },
+  computed: {}
 });
 
 /***/ }),
@@ -27462,14 +27509,32 @@ var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "p-3 text-left"
+}, "P/L(€)", -1
+/* HOISTED */
+);
+
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  "class": "p-3 text-left"
+}, "P/L(%)", -1
+/* HOISTED */
+);
+
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  "class": "p-3 text-left"
+}, "Value", -1
+/* HOISTED */
+);
+
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  "class": "p-3 text-left"
 }, "Sell", -1
 /* HOISTED */
 );
 
-var _hoisted_14 = ["src"];
-var _hoisted_15 = ["onClick"];
+var _hoisted_17 = ["src"];
+var _hoisted_18 = ["onClick"];
 
-var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" € ");
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" € ");
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
@@ -27482,7 +27547,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_10, "Market (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.purchases.length) + ")", 1
   /* TEXT */
-  ), _hoisted_11, _hoisted_12, _hoisted_13])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.purchases, function (purchase) {
+  ), _hoisted_11, _hoisted_12, _hoisted_13, _hoisted_14, _hoisted_15, _hoisted_16])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.purchases, function (purchase) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
       key: purchase.crypto_id,
       "class": "bg-white"
@@ -27497,7 +27562,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           alt: "logo"
         }, null, 8
         /* PROPS */
-        , _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(purchase.crypto_name), 1
+        , _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(purchase.crypto_name), 1
         /* TEXT */
         )];
       }),
@@ -27534,14 +27599,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
     }, 1032
     /* PROPS, DYNAMIC_SLOTS */
-    , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(($options.lastPrice(purchase.crypto_id) * purchase.quantity - purchase.prices).toFixed(2)) + " €", 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((($options.lastPrice(purchase.crypto_id) * purchase.quantity - purchase.prices) / ($options.lastPrice(purchase.crypto_id) * purchase.quantity) * 100).toFixed(2)) + " % ", 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.lastPrice(purchase.crypto_id) * purchase.quantity) + " €", 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "sellbutton p-1 border-gray-400 border rounded-sm relative",
       onClick: function onClick($event) {
         return $options.sell(purchase.crypto_id);
       }
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.lastPrice(purchase.crypto_id, purchase.quantity)), 9
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.lastPrice(purchase.crypto_id)), 9
     /* TEXT, PROPS */
-    , _hoisted_15), _hoisted_16])]);
+    , _hoisted_18), _hoisted_19])]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])])])]);
@@ -27579,9 +27650,13 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   "class": "p-3 text-left"
 }, "Open"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "p-3 text-left"
+}, "Current"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  "class": "p-3 text-left"
 }, "P/L(€)"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "p-3 text-left"
-}, "P/L(%)")])], -1
+}, "P/L(%)"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+  "class": "p-3 text-left"
+}, "Sell")])], -1
 /* HOISTED */
 );
 
@@ -27597,20 +27672,25 @@ var _hoisted_6 = {
 var _hoisted_7 = {
   "class": "p-3"
 };
-
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+var _hoisted_8 = {
   "class": "p-3"
-}, "***", -1
-/* HOISTED */
-);
+};
+var _hoisted_9 = {
+  "class": "p-3"
+};
+var _hoisted_10 = {
+  "class": "p-3"
+};
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
   "class": "p-3"
 }, "***", -1
 /* HOISTED */
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_dynamic_value = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("dynamic-value");
+
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.purchase[0].name), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -27630,7 +27710,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.price) + " €", 1
     /* TEXT */
-    ), _hoisted_8, _hoisted_9]);
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_dynamic_value, null, {
+      "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentLatest.price), 1
+        /* TEXT */
+        )];
+      }),
+      _: 1
+      /* STABLE */
+
+    })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(($data.currentLatest.price - crypto.price).toFixed(2)), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((($data.currentLatest.price - crypto.price) / $data.currentLatest.price * 100).toFixed(2)) + " %", 1
+    /* TEXT */
+    ), _hoisted_11]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])])]);
@@ -27815,14 +27908,12 @@ var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "p-3 text-left pl-8"
 }, "Crypto"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  "class": "p-3 text-left"
+  "class": "p-3 text-center"
 }, "Last Price"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  "class": "p-3 text-left"
+  "class": "p-3 text-center"
 }, "24 hour change"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  "class": "p-3 text-left"
-}, "Actions"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-  "class": "p-3 text-left"
-})])], -1
+  "class": "p-3 text-center"
+}, "Actions")])], -1
 /* HOISTED */
 );
 
@@ -27839,40 +27930,21 @@ var _hoisted_8 = {
 
 var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" €");
 
-var _hoisted_10 = {
-  "class": "p-3"
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" %");
+
+var _hoisted_11 = {
+  "class": "p-3 text-center"
 };
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "bg-green-400 text-gray-50 rounded-md px-2"
 }, "Show ", -1
 /* HOISTED */
 );
 
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "bg-red-400 text-gray-50 rounded-md px-2 ml-1.5"
 }, " Buy", -1
-/* HOISTED */
-);
-
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-  "class": "p-3 "
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-  href: "#",
-  "class": "text-gray-400 hover:text-gray-100 mr-2"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "material-icons-outlined text-base"
-})]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-  href: "#",
-  "class": "text-gray-400 hover:text-gray-100  mx-2"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "material-icons-outlined text-base"
-})]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-  href: "#",
-  "class": "text-gray-400 hover:text-gray-100  ml-2"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "material-icons-round text-base"
-})])], -1
 /* HOISTED */
 );
 
@@ -27885,12 +27957,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_Link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Link");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.currentMarkets, function (crypto) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.initial_latest_markets, function (crypto) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
       "class": "bg-white shadow-md",
       key: crypto.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_row_link, {
-      href: _ctx.route('markets.show', crypto.cryptocurrencie_id)
+      href: _ctx.route('markets.show', crypto.cryptocurrencie_id),
+      "class": "text-left"
     }, {
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -27910,11 +27983,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* PROPS, DYNAMIC_SLOTS */
     , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_row_link, {
       href: _ctx.route('markets.show', crypto.cryptocurrencie_id),
-      "class": "font-bold"
+      "class": "font-bold text-center"
     }, {
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_dynamic_value, {
-          data: crypto.price
+          data: $options.currentValue(crypto.price, crypto.cryptocurrencie_id)
         }, {
           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
             return [_hoisted_9];
@@ -27933,31 +28006,40 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* PROPS, DYNAMIC_SLOTS */
     , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_row_link, {
       href: _ctx.route('markets.show', crypto.cryptocurrencie_id),
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-3 font-bold", [$options.dayPriceVariation(crypto.price, crypto.cryptocurrencie_id) > 0 ? 'text-green-500' : 'text-red-500']])
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-3 font-bold text-center", [$options.dayPriceVariation(crypto.price, crypto.cryptocurrencie_id) > 0 ? 'text-green-500' : 'text-red-500']])
     }, {
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.dayPriceVariation(crypto.price, crypto.cryptocurrencie_id)) + " % ", 1
-        /* TEXT */
-        )];
+        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_dynamic_value, {
+          data: $options.dayPriceVariation(crypto.price, crypto.cryptocurrencie_id)
+        }, {
+          "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+            return [_hoisted_10];
+          }),
+          _: 2
+          /* DYNAMIC */
+
+        }, 1032
+        /* PROPS, DYNAMIC_SLOTS */
+        , ["data"])];
       }),
       _: 2
       /* DYNAMIC */
 
     }, 1032
     /* PROPS, DYNAMIC_SLOTS */
-    , ["href", "class"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+    , ["href", "class"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
       "class": "",
       href: _ctx.route('markets.show', crypto.cryptocurrencie_id)
     }, {
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-        return [_hoisted_11];
+        return [_hoisted_12];
       }),
       _: 2
       /* DYNAMIC */
 
     }, 1032
     /* PROPS, DYNAMIC_SLOTS */
-    , ["href"]), _hoisted_12]), _hoisted_13]);
+    , ["href"]), _hoisted_13]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <td class=\"p-3 text-right\">\n                    <a href=\"#\" class=\"text-gray-400 hover:text-gray-100 mr-2\">\n                    <i class=\"material-icons-outlined text-base\"></i>\n                    </a>\n                    <a href=\"#\" class=\"text-gray-400 hover:text-gray-100  mx-2\">\n                    <i class=\"material-icons-outlined text-base\"></i>\n                    </a>\n                    <a href=\"#\" class=\"text-gray-400 hover:text-gray-100  ml-2\">\n                    <i class=\"material-icons-round text-base\"></i>\n                    </a>\n                </td> ")]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])])])]);
@@ -27978,13 +28060,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = {
-  "class": "truc"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.data) + " ", 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.className, "p-1 rounded w-full"])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.data) + " ", 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")]);
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")], 2
+  /* CLASS */
+  );
 }
 
 /***/ }),
@@ -28916,6 +28999,15 @@ __webpack_require__.r(__webpack_exports__);
         return state.lasts_markets.find(function (market) {
           return market.cryptocurrencie_id === id;
         });
+      };
+    },
+    getLastsMarkets: function getLastsMarkets(state) {
+      return function (arr) {
+        var _state$lasts_markets$;
+
+        // if(state.lasts_markets.length <= 0) return arr
+        if (new Date((_state$lasts_markets$ = state.lasts_markets[0]) === null || _state$lasts_markets$ === void 0 ? void 0 : _state$lasts_markets$.date) > new Date(arr[0].date)) return state.lasts_markets;
+        return arr;
       };
     }
   },
