@@ -32,7 +32,7 @@
                     <Link class="" :href="route('markets.show', crypto.cryptocurrencie_id)" >
                     <span class="bg-green-400 text-gray-50 rounded-md px-2">Show </span>
                     </Link>
-                    <span class="bg-red-400 text-gray-50 rounded-md px-2 ml-1.5"> Buy</span>
+                    <button class="bg-red-400 text-gray-50 rounded-md px-2 ml-1.5" @click="selectUser"> Buy</button>
                 </td>
                 <!-- <td class="p-3 text-right">
                     <a href="#" class="text-gray-400 hover:text-gray-100 mr-2">
@@ -46,7 +46,7 @@
                     </a>
                 </td> -->
             </tr>
-
+            <PurchaseModal v-show="isModalVisible" @close="closeModal" :user="user" />
         </tbody>
       </table>
     </div>
@@ -55,10 +55,12 @@
 </template>
 
 <script>
-import { Link } from '@inertiajs/inertia-vue3';
+import { Link, usePage } from '@inertiajs/inertia-vue3';
 import RowLink from '@/components/RowLink.vue'
+import PurchaseModal from '@/components/PurchaseModal.vue'
 import { mapGetters, mapState } from 'vuex'
 import DynamicValue from '@/components/DynamicValue'
+import { computed } from 'vue'
 
 export default {
     name: 'CryptoList',
@@ -67,6 +69,7 @@ export default {
       Link,
       RowLink,
       DynamicValue,
+      PurchaseModal
     },
 
 	props: {
@@ -81,6 +84,23 @@ export default {
         }
     },
 
+    setup() {
+        const user = computed(()=> usePage().props.value.auth.user);
+        return { user };
+    },
+
+    watch: {
+        idUser(val) {
+            if(val) this.showModal()
+        }
+    },
+
+    data() {
+      return {
+        isModalVisible: false,
+        idUser: null,
+      };
+    },
 
     computed: {
 
@@ -113,6 +133,24 @@ export default {
         ...mapState('markets', {
             lasts_markets: state => state.lasts_markets
         }),
+    },
+
+    methods: {
+        selectUser(id) {
+            this.idUser = id;
+            
+        },
+        showModal() {
+            this.isModalVisible = true;
+        },
+        closeModal() {
+            this.isModalVisible = false;
+        },
+         purchaseConfirmation($id) {
+            this.idUser = null,
+            this.closeModal()
+            console.log($id);
+        }
     },
 
 }
