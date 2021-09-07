@@ -23388,7 +23388,7 @@ __webpack_require__.r(__webpack_exports__);
       if (way === 'up') this.className = ['bg-green-500', 'text-white'];else this.className = ['bg-red-500', 'text-white'];
       setTimeout(function () {
         return _this.className = null;
-      }, 800);
+      }, 1000);
     }
   },
   computed: {}

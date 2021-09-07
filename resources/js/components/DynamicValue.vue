@@ -26,7 +26,7 @@ export default {
             else this.className = ['bg-red-500', 'text-white']
             setTimeout(()=>{
                 return this.className = null
-            }, 800)
+            }, 1000)
 
         }
     },
