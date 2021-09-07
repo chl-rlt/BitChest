@@ -1,10 +1,11 @@
 <template>
 
-        <div>
-            <toast :message="$page.props.flash.message" />
-            <h1 class="text-gray-800 text-3xl font-semibold py-5 uppercase">Markets</h1>
-            <CryptoList :initial_latest_markets="initial_latest_markets_values" :day_markets="markets"/>
-        </div>
+    <div>
+        <toast :message="$page.props.flash.message" />
+        <h1 class="text-gray-800 text-3xl font-semibold py-5 uppercase">Markets</h1>
+        <CryptoList :initial_latest_markets="initial_latest_markets_values" :day_markets="markets"/>
+    </div>
+
 </template>
 
 <script>

@@ -1,6 +1,8 @@
 <template>
 
     <div>
+    <toast :message="$page.props.flash.message" />
+
     <h1 class="text-gray-800 text-3xl font-semibold py-5 uppercase">My wallet</h1>
 
     <div class="md:w-auto overflow-hidden mt-3 bg-white p-10 rounded-md shadow-md">
@@ -31,21 +33,24 @@
                     </row-link>
                     <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="p-3">{{ purchase.quantity }}</row-link>
                     <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="p-3">{{ purchase.prices }} €</row-link>
-                    <td>{{ ((lastPrice(purchase.crypto_id) * purchase.quantity) - purchase.prices).toFixed(2) }} €</td>
                     <td>
-                        {{ ((((lastPrice(purchase.crypto_id) * purchase.quantity)-purchase.prices)/(lastPrice(purchase.crypto_id) * purchase.quantity))*100).toFixed(2) }} %
+                        {{ differenceCurrency(initial_latest_markets_values, purchase.crypto_id, purchase.quantity, purchase.prices) }} €
                     </td>
-                    <td>{{ lastPrice(purchase.crypto_id) * purchase.quantity }} €</td>
+                    <td>
+                        {{ differencePercentage(initial_latest_markets_values, purchase.crypto_id, purchase.quantity, purchase.prices) }} %
+                    </td>
+                    <td>
+                        {{ currentPrice(purchase.crypto_id) * purchase.quantity }} €
+                    </td>
                     <td>
                         <span class="sellbutton p-1 border-gray-400 border rounded-sm relative" @click="sell(purchase.crypto_id)">
-                        {{ lastPrice(purchase.crypto_id)  }}
+                        {{ currentPrice(purchase.crypto_id)  }}
                         </span> €
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-
     </div>
 
 
@@ -53,7 +58,9 @@
 
 <script>
 import RowLink from '@/components/RowLink.vue'
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters } from 'vuex'
+import Toast from '@/components/Toast.vue'
+
 
 export default {
     props: {
@@ -64,6 +71,7 @@ export default {
         },
     },
     components: {
+        Toast,
         RowLink
     },
 
@@ -76,33 +84,42 @@ export default {
             return this.purchases.reduce( (acc, item) =>  acc + (item.prices), 0).toFixed(2)
         },
 
-        lastPrice() {
+        // lastPrice() {
+        //     return (id) => {
+        //         return this.current_lasts_markets(this.initial_latest_markets_values).find(market => market.cryptocurrencie_id === id).price
+        //     }
+        // },
+
+        currentPrice() {
             return (id) => {
-                return this.current_lasts_markets(this.initial_latest_markets_values).find(market => market.cryptocurrencie_id === id).price
+                return this.lastPrice(this.initial_latest_markets_values, id)
             }
         },
 
-        ...mapGetters('markets', {
-            current_lasts_markets : 'getLastsMarkets'
+        // differenceCurrency() {
+        //     return (id, quantity, prices)=> {
+        //         ((this.currentPrice(id) * quantity) - prices).toFixed(2)
+        //     }
+        // },
+        // differencePercentage() {
+        //     return (id, quantity, prices) => {
+        //         ((((this.currentPrice(id) * quantity) - prices) / (this.currentPrice(id) * quantity)) * 100).toFixed(2)
+        //     }
+        // },
+
+        ...mapGetters({
+            current_lasts_markets : 'markets/getLastsMarkets',
+            lastPrice : 'prices/lastPrice',
+            differenceCurrency : 'prices/differenceCurrency',
+            differencePercentage : 'prices/differencePercentage',
         }),
     },
 
     methods: {
         sell(id) {
-            this.$inertia.patch(route('wallet.sell'), {id});
+            this.$inertia.patch(route('wallet.sell.all'), {id});
         }
     }
 
 }
 </script>
-
-<style scoped>
-
-/* .sellbutton::before {
-    content: 'V';
-    color: rgba(107, 114, 128, 1);
-    background-color: rgba(209, 213, 219, 1);
-    position: absolute;
-} */
-
-</style>

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Database\Eloquent\Builder;
 
 
 class WalletController extends Controller
@@ -54,7 +55,8 @@ class WalletController extends Controller
         return Redirect::route('markets.index')->with('message', 'Successful purchase !');
     }
 
-    public function sell(Request $request){
+    // SELL ALL PURCHASES OF ONE CRYPTO
+    public function sellAll(Request $request){
 
         $user = Auth::user()->id;
 
@@ -64,10 +66,27 @@ class WalletController extends Controller
         ->select('purchases.id', 'quantity', 'bought_at', 'user_id', 'market_id', 'status')->get();
 
         foreach($purchases as $purchase) {
-            $purchase->update(['status' => 'sold']);
+            $purchases->update(['status' => 'sold']);
         }
 
-        return Redirect::route('wallet.index', $user)->with('message', 'Crypto successfuly sold !');
+        return Redirect::route('wallet.index', $user)->with('message', 'Crypto successfully sold !');
+
+    }
+
+    /**
+    * @param int $id purchase.id
+    *
+    */
+    // SELL ONE PURCHASE
+    public function sell(int $id){
+
+        $user = Auth::user()->id;
+
+        // verify connected user is the rightfull holder
+        $purchase = Purchase::where(['id' => $id, 'user_id' => $user])->with('market')->firstOrFail();
+        $purchase->update(['status' => 'sold']);
+
+        return Redirect::route('wallet.index', $user)->with('message', 'Crypto successfully sold !');
 
     }
 
@@ -75,17 +94,21 @@ class WalletController extends Controller
     * Show the form for editing the specified resource.
     *
     * @param  int  $id
+    * @param  int  $crypto_id
     * @return \Illuminate\Http\Response
     */
     public function show(int $user_id, int $crypto_id) {
 
-        $purchase = Purchase::holding()
+        $purchases = Purchase::holding()
         ->join('markets', 'market_id','=','markets.id')
         ->join('cryptocurrencies','markets.cryptocurrencie_id','=','cryptocurrencies.id')
         ->where(['user_id'=> $user_id, 'cryptocurrencie_id' => $crypto_id])
         ->orderBy('bought_at', 'DESC')
+        ->select('purchases.*',
+        'cryptocurrencies.name', 'cryptocurrencies.logo', 'cryptocurrencies.tag',
+        'markets.cryptocurrencie_id', 'markets.id as market_id', 'markets.date', 'markets.price')
         ->get();
 
-        return Inertia::render('Wallet/Show', ['purchase' => $purchase]);
+        return Inertia::render('Wallet/Show', ['purchases' => $purchases]);
     }
 }

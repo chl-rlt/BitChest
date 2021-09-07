@@ -23,7 +23,7 @@
                     </div>
                 </row-link>
                 <row-link :href="route('markets.show', crypto.cryptocurrencie_id)" class="font-bold text-center">
-                    <dynamic-value :data="currentValue(crypto.price, crypto.cryptocurrencie_id)"> €</dynamic-value>
+                    <dynamic-value :data="currentPrice(crypto.cryptocurrencie_id)"> €</dynamic-value>
                 </row-link>
                 <row-link :href="route('markets.show', crypto.cryptocurrencie_id)" class="p-3 font-bold text-center" :class="[dayPriceVariation(crypto.price, crypto.cryptocurrencie_id) > 0 ? 'text-green-500' : 'text-red-500']">
                     <dynamic-value :data="dayPriceVariation(crypto.price, crypto.cryptocurrencie_id)"> %</dynamic-value>
@@ -90,12 +90,6 @@ export default {
         return { user };
     },
 
-    // watch: {
-       // cryptoId(val) {
-       //   if(val) this.showModal()
- //      }
-//   },
-
     data() {
       return {
         isModalVisible: false,
@@ -106,12 +100,9 @@ export default {
 
     computed: {
 
-        currentValue() {
-            return (price, id) => {
-                if(new Date(this.lasts_markets[0]?.date) > new Date(this.initial_latest_markets[0].date)) {
-                    return (this.lasts_markets.find(market => market.cryptocurrencie_id === id).price).toFixed(2)
-                }
-                return price
+        currentPrice() {
+            return (id) => {
+                return this.lastPrice(this.initial_latest_markets, id)
             }
         },
 
@@ -128,8 +119,10 @@ export default {
             }
         },
 
-        ...mapGetters('markets', {
-            lastCryptoMarket : 'lastCryptoMarket'
+        ...mapGetters({
+            lastCryptoMarket : 'markets/lastCryptoMarket',
+            lastPrice : 'prices/lastPrice',
+            differencePercentage : 'prices/differencePercentage'
         }),
 
         ...mapState('markets', {
