@@ -47,30 +47,18 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">
-                    <!-- <label class="block text-sm font-medium text-gray-700">
-                    Photo
-                    </label>
-                    <div class="mt-1 flex items-center">
-                        <span class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                            <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                        </span>
-                        <button type="button" class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Change
-                        </button>
-                    </div> -->
-
                     <label class="cursor-pointer mt-1 flex items-center ">
-                        <span class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+                        <!-- <img :src="imagePreview" width="100" height="100" v-show="showPreview"/>  -->
+                        <img v-if="url" :src="url" class="h-12 w-12 rounded-full overflow-hidden object-cover"/>
+                        <span v-else class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
                             <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
-                            <!-- <img :src="userShowww.profile_photo_url" alt=""> -->
                         </span>
+
                         <span class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Browse</span>
-                        <input type="file" class="hidden" ref="file" @change="imageSelected">                        
-            
+                        <input type="file" class="hidden" ref="file" @change="onFileChange">                        
+                        
                     </label>
                 </div>
             </div>
@@ -115,10 +103,6 @@ export default {
             type: Object,
             default: null,
         },
-        userShowww: {
-            type: Object,
-            required: true,
-        }
     },
     data() {
         return {
@@ -129,8 +113,11 @@ export default {
                 email: '',
                 password: '',
                 password_confirm: '',
-                profile_photo_path: null
-            }
+                profile_photo_path: null,
+            },
+            imagePreview: null,
+            showPreview: false,
+            url: null,
         }
     },
     mounted() {
@@ -138,7 +125,7 @@ export default {
             this.user.id = this.userToUpdate.id,
             this.user.name = this.userToUpdate.name,
             this.user.role_id = this.userToUpdate.role_id,
-            this.user.email = this.userToUpdate.email,
+            this.user.email = this.userToUpdate.email
             this.user.profile_photo_path = this.userToUpdate.profile_photo_path
         
         }
@@ -152,6 +139,7 @@ export default {
                 majAndDigit : helpers.withMessage('Must contain at least one uppercase, lowercase charactere and one digit', containsMajAndNumber) },
                 password_confirm: { requiredIfCreate : requiredIf(!this.userToUpdate), alphaNum, minLength: minLength(6), sameAsPassword: sameAs(this.user.password),
                 majAndDigit : helpers.withMessage('Must contain at least one uppercase, lowercase charactere and one digit', containsMajAndNumber) },
+                profile_photo_path: {required},  
                 role_id : { required },
             }
         }
@@ -162,10 +150,13 @@ export default {
             if(this.v$.$error) return
             this.$emit('on-submit',this.user);
         }, 
-        imageSelected(e){
-            this.profile_photo_path = e.target.files[0];
-            let reader = new FileReader();
-            reader.readAsDataURL(this.profile_photo_path);
+        onFileChange(event){
+
+            /*
+            Set the local file variable to what the user has selected.
+            */
+            const file = this.user.profile_photo_path = event.target.files[0];
+            this.url = URL.createObjectURL(file);
         },
     }
 }

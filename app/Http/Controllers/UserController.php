@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -56,13 +57,19 @@ class UserController extends Controller
 
         ]);
 
-        $im = $request->file('profile_photo_path');
+        if ($image = $request->file('profile_photo_path')) {
+            $destinationPath = 'images/user_picture/';
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $input['profile_photo_path'] = "$profileImage";
+
+        }
         
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'profile_photo_path' =>$validated['profile_photo_path'],
+            'profile_photo_path' => $validated['profile_photo_path'], 
             'role_id' => $validated['role_id'],
         ]);
 
@@ -106,6 +113,14 @@ class UserController extends Controller
         if($request->input('password')) {
             $req['password'] = Hash::make($request->input('password'));
         }
+        // $image = $request->file('profile_photo_path');
+
+        // if (!empty($image)){
+        //     $destinationPath = 'images/user_picture/';
+        //     $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+        //     $image->move($destinationPath, $profileImage);
+        //     $input['profile_photo_path'] = "$profileImage";
+        // }
 
         $user->update($req);
         return Redirect::route('users.index')->with('message', 'User has been updated successfully !');
