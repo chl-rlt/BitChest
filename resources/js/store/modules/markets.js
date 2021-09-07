@@ -8,7 +8,10 @@ export default {
 
     getters: {
         lastCryptoMarket(state) {
-            return (id) => state.lasts_markets.find(market => market.cryptocurrencie_id === id)
+            return (id, arr) => {
+                 if(new Date(state.lasts_markets[0]?.date) > new Date(arr[0].date)) return state.lasts_markets.find(market => market.cryptocurrencie_id === id)
+                 return arr.find(market => market.cryptocurrencie_id === id)
+            }
         },
 
         getLastsMarkets(state) {

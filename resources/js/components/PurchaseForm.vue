@@ -1,5 +1,7 @@
 <template>
-<p class="text-3xl font-semibold">{{ crypto.name }}<span class="text-gray-500 mt-1.5 ml-1 text-xl font-light"> {{ crypto.tag }}</span></p>
+<p class="text-3xl font-semibold">{{ crypto?.name ?? market.name }}
+    <span class="text-gray-500 mt-1.5 ml-1 text-xl font-light"> {{ crypto?.tag ?? market.tag }}</span>
+</p>
 <p class="text-gray-500 text-sm mt-3"> Price : </p>
 {{ market.price }} €
 <div>
@@ -59,7 +61,7 @@ export default {
         },
         crypto: {
             type:Object,
-            required: true,
+            // required: true,
         }
     },
 

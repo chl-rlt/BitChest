@@ -42,7 +42,7 @@ class MarketSeeder extends Seeder
                         [
                         'cryptocurrencie_id' => $key,
                         'price' => $price,
-                        'date' => date('Y-m-d H:i:s', strtotime(" - 1 month + $i day"))
+                        'date' => date('Y-m-d H:i:00', strtotime(" - 1 month + $i day"))
                         ]
                     );
                     $nextPrice = $price;

@@ -78,12 +78,12 @@ export default {
 
         lastPrice() {
             return (id) => {
-                return this.lasts_markets(this.initial_latest_markets_values).find(market => market.cryptocurrencie_id === id).price
+                return this.current_lasts_markets(this.initial_latest_markets_values).find(market => market.cryptocurrencie_id === id).price
             }
         },
 
         ...mapGetters('markets', {
-            lasts_markets : 'getLastsMarkets'
+            current_lasts_markets : 'getLastsMarkets'
         }),
     },
 

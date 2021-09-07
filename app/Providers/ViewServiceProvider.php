@@ -31,6 +31,7 @@ class ViewServiceProvider extends ServiceProvider
                 ->orderBy('cryptocurrencie_id', 'asc')
                 ->join('cryptocurrencies', 'markets.cryptocurrencie_id', '=', 'cryptocurrencies.id')
                 ->select('markets.*','cryptocurrencies.logo','cryptocurrencies.name','cryptocurrencies.tag')
+                ->orderBy('cryptocurrencie_id', 'asc')
                 ->get();
         });
     }

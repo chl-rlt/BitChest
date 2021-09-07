@@ -32,7 +32,7 @@
                     <Link class="" :href="route('markets.show', crypto.cryptocurrencie_id)" >
                     <span class="bg-green-400 text-gray-50 rounded-md px-2">Show </span>
                     </Link>
-                    <button class="bg-red-400 text-gray-50 rounded-md px-2 ml-1.5" @click="selectUser"> Buy</button>
+                    <button class="bg-red-400 text-gray-50 rounded-md px-2 ml-1.5" @click="selectUser(crypto.cryptocurrencie_id)"> Buy</button>
                 </td>
                 <!-- <td class="p-3 text-right">
                     <a href="#" class="text-gray-400 hover:text-gray-100 mr-2">
@@ -46,9 +46,10 @@
                     </a>
                 </td> -->
             </tr>
-            <PurchaseModal v-show="isModalVisible" @close="closeModal" :user="user" />
+            <PurchaseModal v-if="isModalVisible" @close="closeModal" :user="user" :crypto_id="idCrypto" :initial_latest_markets="initial_latest_markets"/>
         </tbody>
       </table>
+      {{idCrypto}}
     </div>
 </div>
 
@@ -89,16 +90,17 @@ export default {
         return { user };
     },
 
-    watch: {
-        idUser(val) {
-            if(val) this.showModal()
-        }
-    },
+    // watch: {
+       // cryptoId(val) {
+       //   if(val) this.showModal()
+ //      }
+//   },
 
     data() {
       return {
         isModalVisible: false,
         idUser: null,
+        idCrypto: null,
       };
     },
 
@@ -133,12 +135,16 @@ export default {
         ...mapState('markets', {
             lasts_markets: state => state.lasts_markets
         }),
+
     },
 
     methods: {
-        selectUser(id) {
-            this.idUser = id;
-            
+        selectUser(cryptoId) {
+            // this.idUser = id;
+            console.log(cryptoId)
+            this.idCrypto = cryptoId
+            // this.isModalVisible = true;
+            this.showModal()
         },
         showModal() {
             this.isModalVisible = true;
