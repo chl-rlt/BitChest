@@ -52,15 +52,16 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => ['required', Password::min(6)->letters()->mixedCase()->numbers()],
             'password_confirm' => 'required|same:password',
-            'profile_photo_path' => 'required|mimes:jpg,jpeg,png,csv,txt,xlx,xls,pdf|max:2048',
+            'profile_photo_path' => 'mimes:jpg,jpeg,png,csv,txt,xlx,xls,pdf|max:2048',
             'role_id' => 'required',
 
         ]);
 
-        if ($image = $request->file('profile_photo_path')) {
-            $destinationPath = 'images/user_picture/';
-            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($destinationPath, $profileImage);
+        $user_picture = $request->file('profile_photo_path'); 
+        if (!empty($user_picture)) {
+            $destinationPath = '/user_picture/';
+            $profileImage = date('YmdHis') . "." . $user_picture->getClientOriginalExtension();
+            $user_picture->storeAs($destinationPath, $profileImage);
             $input['profile_photo_path'] = "$profileImage";
 
         }
@@ -69,9 +70,15 @@ class UserController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+<<<<<<< HEAD
             'profile_photo_path' => $validated['profile_photo_path'],
+=======
+            'profile_photo_path' => '/images'.$destinationPath.$profileImage, 
+>>>>>>> 7ff15283536f7ca95199a857090674bc4a45c2d1
             'role_id' => $validated['role_id'],
         ]);
+
+
 
         return Redirect::route('users.index')->with('message', 'User has been added successfully !');
     }
@@ -109,20 +116,39 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
 
-        $req = $request->all();
-        if($request->input('password')) {
-            $req['password'] = Hash::make($request->input('password'));
-        }
-        // $image = $request->file('profile_photo_path');
+    //     // dd($request);
+        $validated = $request->validate([
+            'name' => 'required|min:3',
+            'email' => 'required|email',
+            // 'password' => Password::min(6)->letters()->mixedCase()->numbers(),
+            // 'password_confirm' => 'same:password',
+            // 'profile_photo_path' => 'mimes:jpg,jpeg,png,csv,txt,xlx,xls,pdf|max:2048',
+            'role_id' => 'required',
+        ]);
 
-        // if (!empty($image)){
-        //     $destinationPath = 'images/user_picture/';
-        //     $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-        //     $image->move($destinationPath, $profileImage);
+
+        // if($request->input('password')) {
+        //     $validated['password'] = Hash::make($request->input('password'));
+            
+        // };
+        
+        // $user_picture = $request->file('profile_photo_path'); 
+        // if (!empty($user_picture)) {
+        //     $destinationPath = '/user_picture/';
+        //     $profileImage = date('YmdHis') . "." . $user_picture->getClientOriginalExtension();
+        //     $user_picture->storeAs($destinationPath, $profileImage);
         //     $input['profile_photo_path'] = "$profileImage";
-        // }
 
-        $user->update($req);
+        // };
+
+        $user->update([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            // 'password' => Hash::make(['password']),
+            //'profile_photo_path' => '/images'.$destinationPath.$profileImage, 
+            'role_id' => $validated['role_id'],
+        ]);
+
         return Redirect::route('users.index')->with('message', 'User has been updated successfully !');
     }
 

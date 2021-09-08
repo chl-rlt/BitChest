@@ -48,7 +48,6 @@
 
                 <div class="col-span-6 sm:col-span-3">
                     <label class="cursor-pointer mt-1 flex items-center ">
-                        <!-- <img :src="imagePreview" width="100" height="100" v-show="showPreview"/>  -->
                         <img v-if="url" :src="url" class="h-12 w-12 rounded-full overflow-hidden object-cover"/>
                         <span v-else class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
                             <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
@@ -115,8 +114,6 @@ export default {
                 password_confirm: '',
                 profile_photo_path: null,
             },
-            imagePreview: null,
-            showPreview: false,
             url: null,
         }
     },
@@ -125,20 +122,22 @@ export default {
             this.user.id = this.userToUpdate.id,
             this.user.name = this.userToUpdate.name,
             this.user.role_id = this.userToUpdate.role_id,
-            this.user.email = this.userToUpdate.email
-            this.user.profile_photo_path = this.userToUpdate.profile_photo_path
+            this.user.email = this.userToUpdate.email,
+            this.user.profile_photo_path = this.userToUpdate.profile_photo_path,
+            this.url = this.userToUpdate.profile_photo_path ?? this.userToUpdate.profile_photo_url
         }
+
     },
     validations(){
         return {
             user:{
                 name: {required, minLength: minLength(3) },
                 email: { required, email },
-                password: { /*requiredIfCreate : requiredIf(!this.userToUpdate),*/ alphaNum, minLength: minLength(6),
+                password: { alphaNum, minLength: minLength(6),
                 majAndDigit : helpers.withMessage('Must contain at least one uppercase, lowercase charactere and one digit', containsMajAndNumber) },
-                password_confirm: { /*requiredIfCreate : requiredIf(!this.userToUpdate),*/ alphaNum, minLength: minLength(6), sameAsPassword: sameAs(this.user.password),
+                password_confirm: { alphaNum, minLength: minLength(6), sameAsPassword: sameAs(this.user.password),
                 majAndDigit : helpers.withMessage('Must contain at least one uppercase, lowercase charactere and one digit', containsMajAndNumber) },
-                profile_photo_path: {required},
+                profile_photo_path: {  },
                 role_id : { required },
             }
         }
@@ -146,15 +145,17 @@ export default {
     methods: {
         onSubmit() {
             this.v$.$validate();
+            if(!this.user.password) delete this.user.password
+            if(!this.user.password_confirm) delete this.user.password_confirm
+            if(!this.user.profile_photo_path) delete this.user.profile_photo_path
             if(this.v$.$error) return
             this.$emit('on-submit',this.user);
+
         },
         onFileChange(event){
-
-            /*
-            Set the local file variable to what the user has selected.
-            */
+            // Set the local file variable to what the user has selected.
             const file = this.user.profile_photo_path = event.target.files[0];
+
             this.url = URL.createObjectURL(file);
         },
     }

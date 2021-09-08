@@ -32,7 +32,7 @@
                     <Link class="" :href="route('markets.show', crypto.cryptocurrencie_id)" >
                     <span class="bg-green-400 text-gray-50 rounded-md px-2">Show </span>
                     </Link>
-                    <button class="bg-red-400 text-gray-50 rounded-md px-2 ml-1.5" @click="selectUser(crypto.cryptocurrencie_id)"> Buy</button>
+                    <button class="bg-red-400 text-gray-50 rounded-md px-2 ml-1.5" @click="selectUser(crypto.cryptocurrencie_id)" v-if="user.role != 'admin'"> Buy</button>
                 </td>
             </tr>
             <PurchaseModal v-if="isModalVisible" @close="closeModal" :user="user" :crypto_id="idCrypto" :initial_latest_markets="initial_latest_markets"/>
