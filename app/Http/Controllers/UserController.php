@@ -57,7 +57,7 @@ class UserController extends Controller
 
         ]);
 
-        $user_picture = $request->file('profile_photo_path'); 
+        $user_picture = $request->file('profile_photo_path');
         if (!empty($user_picture)) {
             $destinationPath = '/user_picture/';
             $profileImage = date('YmdHis') . "." . $user_picture->getClientOriginalExtension();
@@ -70,11 +70,7 @@ class UserController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-<<<<<<< HEAD
-            'profile_photo_path' => $validated['profile_photo_path'],
-=======
-            'profile_photo_path' => '/images'.$destinationPath.$profileImage, 
->>>>>>> 7ff15283536f7ca95199a857090674bc4a45c2d1
+            'profile_photo_path' => '/images'.$destinationPath.$profileImage,
             'role_id' => $validated['role_id'],
         ]);
 
@@ -129,10 +125,10 @@ class UserController extends Controller
 
         // if($request->input('password')) {
         //     $validated['password'] = Hash::make($request->input('password'));
-            
+
         // };
-        
-        // $user_picture = $request->file('profile_photo_path'); 
+
+        // $user_picture = $request->file('profile_photo_path');
         // if (!empty($user_picture)) {
         //     $destinationPath = '/user_picture/';
         //     $profileImage = date('YmdHis') . "." . $user_picture->getClientOriginalExtension();
@@ -145,7 +141,7 @@ class UserController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             // 'password' => Hash::make(['password']),
-            //'profile_photo_path' => '/images'.$destinationPath.$profileImage, 
+            //'profile_photo_path' => '/images'.$destinationPath.$profileImage,
             'role_id' => $validated['role_id'],
         ]);
 
