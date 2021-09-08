@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+<div>
     <toast :message="$page.props.flash.message" />
 
     <h1 class="text-gray-800 text-3xl font-semibold py-5 uppercase">My wallet</h1>
@@ -43,7 +43,7 @@
                         {{ currentPrice(purchase.crypto_id) * purchase.quantity }} €
                     </td>
                     <td>
-                        <span class="sellbutton p-1 border-gray-400 border rounded-sm relative" @click="sell(purchase.crypto_id)">
+                        <span class="sellbutton p-1 border-gray-400 border rounded-sm cursor-pointer" @click="showModal(purchase)">
                         {{ currentPrice(purchase.crypto_id)  }}
                         </span> €
                     </td>
@@ -51,7 +51,11 @@
             </tbody>
         </table>
     </div>
-    </div>
+    <ConfirmationModal v-if="isModalVisible" @close="closeModal" @delete-confirmation="sell" :title="'Sell ' + purchaseToSell.name " :id="purchaseToSell.id" button="SELL">
+        <img :src="'/images/logo/'+ purchaseToSell.logo" class="my-1.5">
+        Are you sure you want to sell <strong class="font-bold">{{purchaseToSell.quantity}} {{purchaseToSell.tag}}</strong> for <strong class="font-bold">{{purchaseToSell.price}} €</strong>
+    </ConfirmationModal>
+</div>
 
 
 </template>
@@ -60,6 +64,7 @@
 import RowLink from '@/components/RowLink.vue'
 import { mapGetters } from 'vuex'
 import Toast from '@/components/Toast.vue'
+import ConfirmationModal from '@/components/ConfirmationModal'
 
 
 export default {
@@ -72,7 +77,22 @@ export default {
     },
     components: {
         Toast,
-        RowLink
+        RowLink,
+        ConfirmationModal
+    },
+
+    data() {
+        return {
+            isModalVisible: false,
+            purchaseToSell: {
+                id: '',
+                name: '',
+                logo: '',
+                tag:'',
+                price: '',
+                quantity: ''
+            }
+        }
     },
 
     computed: {
@@ -84,28 +104,11 @@ export default {
             return this.purchases.reduce( (acc, item) =>  acc + (item.prices), 0).toFixed(2)
         },
 
-        // lastPrice() {
-        //     return (id) => {
-        //         return this.current_lasts_markets(this.initial_latest_markets_values).find(market => market.cryptocurrencie_id === id).price
-        //     }
-        // },
-
         currentPrice() {
             return (id) => {
                 return this.lastPrice(this.initial_latest_markets_values, id)
             }
         },
-
-        // differenceCurrency() {
-        //     return (id, quantity, prices)=> {
-        //         ((this.currentPrice(id) * quantity) - prices).toFixed(2)
-        //     }
-        // },
-        // differencePercentage() {
-        //     return (id, quantity, prices) => {
-        //         ((((this.currentPrice(id) * quantity) - prices) / (this.currentPrice(id) * quantity)) * 100).toFixed(2)
-        //     }
-        // },
 
         ...mapGetters({
             current_lasts_markets : 'markets/getLastsMarkets',
@@ -118,7 +121,22 @@ export default {
     methods: {
         sell(id) {
             this.$inertia.patch(route('wallet.sell.all'), {id});
-        }
+            closeModal();
+        },
+        showModal(purchase) {
+            this.purchaseToSell = {
+                id: purchase.crypto_id,
+                name: purchase.crypto_name,
+                tag: purchase.crypto_tag,
+                logo: purchase.crypto_logo,
+                price:  this.currentPrice(purchase.crypto_id) * purchase.quantity,
+                quantity: purchase.quantity,
+            }
+            this.isModalVisible = true;
+        },
+        closeModal() {
+            this.isModalVisible = false;
+        },
     }
 
 }

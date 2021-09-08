@@ -41,14 +41,15 @@ class CreateCotation extends Command
      */
     public function handle()
     {
-        $markets = Market::where('date', Market::max('date'))->orderBy('cryptocurrencie_id', 'asc')
+        $markets = Market::orderBy('date','desc')->orderBy('cryptocurrencie_id','asc')->take(10)
         ->join('cryptocurrencies','markets.cryptocurrencie_id','=','cryptocurrencies.id')
         ->get();
+
         $newMarket;
         foreach($markets as $market) {
             $newMarket[] = Market::create([
                 "price" => getCotationFor($market['name'], $market['price']),
-                "date" => date('Y-m-d H:i:s'),
+                "date" => date('Y-m-d H:i:00'),
                 "cryptocurrencie_id" => $market['cryptocurrencie_id']
             ]);
         }

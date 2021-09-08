@@ -23,5 +23,7 @@
         @env ('local')
             <script src="http://localhost:3000/browser-sync/browser-sync-client.js"></script>
         @endenv
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+        <script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
     </body>
 </html>

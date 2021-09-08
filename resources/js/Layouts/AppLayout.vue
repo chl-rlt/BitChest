@@ -165,13 +165,6 @@
                 </main>
             </template>
 
-
-            <ul>
-                <li v-for="market in lastest_markets" :key="market.price">
-                    {{ market.date }}
-                </li>
-            </ul>
-
         </div>
     </div>
 </template>
@@ -186,7 +179,7 @@
     import { Head, Link, usePage } from '@inertiajs/inertia-vue3';
     import Sidebar from '@/components/Sidebar.vue'
     import { computed } from 'vue'
-    import { mapState, mapActions, mapGetters } from 'vuex'
+    import { mapActions } from 'vuex'
 
     export default {
         props: {
@@ -214,11 +207,6 @@
                 showingNavigationDropdown: false,
                 mobileView: null,
             }
-        },
-        computed: {
-            ...mapState('markets', {
-                lastest_markets: state => state.lasts_markets
-            }),
         },
 
         methods: {

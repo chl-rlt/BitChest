@@ -25,10 +25,11 @@ class WalletController extends Controller
             cryptocurrencies.id as crypto_id,
             cryptocurrencies.name as crypto_name,
             cryptocurrencies.logo as crypto_logo,
+            cryptocurrencies.tag as crypto_tag,
             ROUND(SUM(purchases.quantity), 2) as quantity,
             ROUND(SUM(markets.price * purchases.quantity), 2) as prices"
             )
-        ->groupBy('cryptocurrencies.id', 'cryptocurrencies.name', 'cryptocurrencies.logo' )
+        ->groupBy('cryptocurrencies.id', 'cryptocurrencies.name', 'cryptocurrencies.logo', 'cryptocurrencies.tag' )
         ->get();
 
         return Inertia::render('Wallet/Index', ['purchases'=>$purchases]);
@@ -65,8 +66,10 @@ class WalletController extends Controller
         ->where(['markets.cryptocurrencie_id' => $request->input('id'), 'user_id' => $user])
         ->select('purchases.id', 'quantity', 'bought_at', 'user_id', 'market_id', 'status')->get();
 
+        // dd($purchases);
+
         foreach($purchases as $purchase) {
-            $purchases->update(['status' => 'sold']);
+            $purchase->update(['status' => 'sold']);
         }
 
         return Redirect::route('wallet.index', $user)->with('message', 'Crypto successfully sold !');

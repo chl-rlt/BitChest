@@ -34,17 +34,6 @@
                     </Link>
                     <button class="bg-red-400 text-gray-50 rounded-md px-2 ml-1.5" @click="selectUser(crypto.cryptocurrencie_id)"> Buy</button>
                 </td>
-                <!-- <td class="p-3 text-right">
-                    <a href="#" class="text-gray-400 hover:text-gray-100 mr-2">
-                    <i class="material-icons-outlined text-base"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-gray-100  mx-2">
-                    <i class="material-icons-outlined text-base"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-gray-100  ml-2">
-                    <i class="material-icons-round text-base"></i>
-                    </a>
-                </td> -->
             </tr>
             <PurchaseModal v-if="isModalVisible" @close="closeModal" :user="user" :crypto_id="idCrypto" :initial_latest_markets="initial_latest_markets"/>
         </tbody>

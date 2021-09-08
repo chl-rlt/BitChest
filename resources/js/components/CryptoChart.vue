@@ -1,47 +1,81 @@
+<template>
+<canvas id="cryptoChart" width="400" height="400"></canvas>
+</template>
+
 <script>
-import { defineComponent } from 'vue'
-import { Line } from 'vue3-chart-v2'
+import Chart from 'chart.js/auto';
+import { shallowRef } from 'vue';
 
-export default defineComponent({
-  name: 'CryptoChart',
-  extends: Line,
-  props: {
-    chartData: {
-      type: Array,
-    },
-    chartOptions: {
-      type: Object,
-    },
-  },
-  mounted () {
-      const date = this.chartData.map(data => data.date).reverse();
-      const prices = this.chartData.map(data => data.price).reverse();
+export default {
+    name: 'cryptoChart',
 
-      this.gradient = this.$refs.canvas.getContext('2d').createLinearGradient(0, 0, 0, 450);
-      this.gradient.addColorStop(0, 'rgba(247,108,6, 0.9)')
-      this.gradient.addColorStop(0.5, 'rgba(247,108,6, 0.25)');
-      this.gradient.addColorStop(1, 'rgba(247,108,6, 0)');
-
-    this.renderChart(
-        {
-            labels: date,
-            datasets:[
-                {
-                    label: 'Price',
-                    borderColor: '#FC2525',
-                    pointBackgroundColor: '#FC2525',
-                    borderWidth: 1,
-                    pointBorderColor: 'white',
-                    backgroundColor: this.gradient,
-                    data: prices
-                }
-            ],
+    props: {
+        chartData: {
+            date: Array,
+            prices: Array
         },
-        this.chartOptions
-    );
-    // this.renderChart(this.chartData, this.chartOptions);
-  },
-})
+        lastValues: Object
+    },
+
+    data() {
+        return {
+            chartOptions: '',
+            config: null,
+            chart: null
+        }
+    },
+
+    mounted() {
+        let ctx = document.getElementById('cryptoChart');
+
+        this.config = {
+            type: 'line',
+            data: {
+                labels: this.chartData.date,
+                datasets: [{
+                    label: 'Prices',
+                    data: this.chartData.prices,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            // ...this.chartOptions
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        }
+
+        this.chart = shallowRef( new Chart(ctx, this.config))
+
+    },
+
+    watch: {
+        'lastValues.date'() {
+            this.config.data.labels[this.config.data.labels.length] = this.lastValues.date
+            this.config.data.datasets[0].data[this.config.data.datasets[0].data.length] = this.lastValues.price
+            this.chart.update()
+        }
+    },
+}
 </script>
 
 <style>

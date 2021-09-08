@@ -26,7 +26,9 @@
                     </div>
                 </td>
             </tr>
-            <ConfirmationModal v-show="isModalVisible" @close="closeModal" @delete-confirmation="deleteUser" :id="idUser"/>
+            <ConfirmationModal v-show="isModalVisible" @close="closeModal" @delete-confirmation="deleteUser" :id="idUser" title="Delete Client" button="Delete">
+                Are you sure you want to delete this client ?
+            </ConfirmationModal>
         </tbody>
     </table>
     <div class="inline-block mr-2">

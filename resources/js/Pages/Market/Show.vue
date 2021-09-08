@@ -9,12 +9,14 @@
 <div class="flex flex-wrap overflow-hidden mt-3">
 
   <div class="w-full overflow-hidden md:w-8/12 lg:w-8/12 bg-white mb-4 rounded-md p-5 mr-4 bloc-chart">
-    <CryptoChart v-bind:chartData="state.chartData" v-bind:chartOptions="state.chartOptions" />
+
+    <CryptoChart  :chartData="chartData" :lastValues="lastValues"/>
+
   </div>
 
   <div class="w-full overflow-hidden  h-full bloc-buy">
     <div class="bg-white rounded-md p-5 mb-3 ml-0.3">
-      <purchase-form @on-submit="submit" :purchases="purchases" :errors="$page.props.errors" :user_id="user.id" :market="markets[0]" :crypto="{name:cryptoShow.name, tag:cryptoShow.tag}"/>
+      <purchase-form @on-submit="submit" :purchases="purchases" :errors="$page.props.errors" :user_id="user.id" :market="getLatestMarket" :crypto="{name:cryptoShow.name, tag:cryptoShow.tag}"/>
     </div>
     <div class="w-full overflow-hidden p-5 bg-white mb-3 rounded-md ml-0.3 h-full mt-4">
       <h1 class="font-bold">About {{cryptoShow.name}}</h1>
@@ -32,7 +34,7 @@
 import { defineComponent } from 'vue';
 import CryptoChart from '@/components/CryptoChart.vue';
 import PurchaseForm from '@/components/PurchaseForm.vue';
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 
 export default defineComponent ({
@@ -40,7 +42,7 @@ export default defineComponent ({
 
     components: {
         PurchaseForm,
-        CryptoChart
+        CryptoChart,
     },
 
     props: {
@@ -60,12 +62,18 @@ export default defineComponent ({
 
     data () {
         return {
-        state: {
-            chartData: this.markets,
+            chartData: {
+                date: null,
+                prices: null,
+            },
             chartOptions: {
-            responsive: true
+                responsive: true,
+                // type: 'line'
+            },
+            lastValues: {
+                date: null,
+                price: null
             }
-        }
         }
     },
 
@@ -78,8 +86,29 @@ export default defineComponent ({
     computed: {
         ...mapGetters('markets', {
             lastCryptoMarket : 'lastCryptoMarket'
-        })
-    }
+        }),
+
+        ...mapState('markets', {
+            last_markets: state => state.lasts_markets
+        }),
+
+        getLatestMarket() {
+            return this.lastCryptoMarket(this.cryptoShow.id, this.markets)
+        }
+    },
+
+    created() {
+        this.chartData.date = this.markets.map(data => data.date).reverse()
+        this.chartData.prices = this.markets.map(data => data.price).reverse()
+    },
+
+    watch: {
+        last_markets() {
+            const lastMarket = this.lastCryptoMarket(this.cryptoShow.id)
+            this.lastValues.date = lastMarket.date
+            this.lastValues.price = lastMarket.price
+        }
+    },
 
 })
 </script>

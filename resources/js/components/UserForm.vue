@@ -57,8 +57,8 @@
                         </span>
 
                         <span class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Browse</span>
-                        <input type="file" class="hidden" ref="file" @change="onFileChange">                        
-                        
+                        <input type="file" class="hidden" ref="file" @change="onFileChange">
+
                     </label>
                 </div>
             </div>
@@ -127,7 +127,6 @@ export default {
             this.user.role_id = this.userToUpdate.role_id,
             this.user.email = this.userToUpdate.email
             this.user.profile_photo_path = this.userToUpdate.profile_photo_path
-        
         }
     },
     validations(){
@@ -135,11 +134,11 @@ export default {
             user:{
                 name: {required, minLength: minLength(3) },
                 email: { required, email },
-                password: { requiredIfCreate : requiredIf(!this.userToUpdate), alphaNum, minLength: minLength(6),
+                password: { /*requiredIfCreate : requiredIf(!this.userToUpdate),*/ alphaNum, minLength: minLength(6),
                 majAndDigit : helpers.withMessage('Must contain at least one uppercase, lowercase charactere and one digit', containsMajAndNumber) },
-                password_confirm: { requiredIfCreate : requiredIf(!this.userToUpdate), alphaNum, minLength: minLength(6), sameAsPassword: sameAs(this.user.password),
+                password_confirm: { /*requiredIfCreate : requiredIf(!this.userToUpdate),*/ alphaNum, minLength: minLength(6), sameAsPassword: sameAs(this.user.password),
                 majAndDigit : helpers.withMessage('Must contain at least one uppercase, lowercase charactere and one digit', containsMajAndNumber) },
-                profile_photo_path: {required},  
+                profile_photo_path: {required},
                 role_id : { required },
             }
         }
@@ -149,7 +148,7 @@ export default {
             this.v$.$validate();
             if(this.v$.$error) return
             this.$emit('on-submit',this.user);
-        }, 
+        },
         onFileChange(event){
 
             /*

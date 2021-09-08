@@ -13,22 +13,6 @@ class MarketController extends Controller
 {
     public function index()
     {
-        // $markets = Market::select('id', 'price', 'cryptocurrencie_id', 'date')->get();
-        // $cryptos = Cryptocurrencie::select('name', 'logo')->get();
-        // return Inertia::render('Market/Index', [
-        //     'markets' => $markets, 'cryptos' => $cryptos
-        // ]);
-
-        // $cryptos = Market::whereBetween('date', [date('Y-m-d H:i:s', strtotime('- 24 hours')), date('Y-m-d H:i:s')])
-        // // where('date', Market::max('date'))
-        //         ->offset(10)
-        //         ->orderByDesc('date')
-        //         ->get();
-        //     // dd($cryptos);
-        // return Inertia::render('Market/Index', [
-        //         'cryptos' => $cryptos
-        // ]);
-
         $markets = DB::table('markets')
             ->whereBetween('date', [date('Y-m-d H:i:s', strtotime('- 24 hours')), date('Y-m-d H:i:s')])
             ->orderBy('date', 'desc')
@@ -42,16 +26,6 @@ class MarketController extends Controller
             'markets' => $markets
         ]);
 
-
-        // $cryptos = DB::table('markets')
-        //     ->join('cryptocurrencies', 'markets.cryptocurrencie_id', '=', 'cryptocurrencies.id')
-        //     ->orderBy('date', 'desc')
-        //     ->limit(20)
-        //     ->get();
-        //     // dd($cryptos);
-        // return Inertia::render('Market/Index', [
-        //     'cryptos' => $cryptos
-        // ]);
     }
 
     public function show($id)

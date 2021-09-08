@@ -64,12 +64,12 @@ class UserController extends Controller
             $input['profile_photo_path'] = "$profileImage";
 
         }
-        
+
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'profile_photo_path' => $validated['profile_photo_path'], 
+            'profile_photo_path' => $validated['profile_photo_path'],
             'role_id' => $validated['role_id'],
         ]);
 

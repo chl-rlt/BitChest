@@ -34,6 +34,7 @@ export default {
 
     methods: {
         submit(user) {
+            console.log(user)
             this.$inertia.patch(route('users.update', user), user)
         }
     },
