@@ -13,8 +13,8 @@
   </div>
 
   <div class="w-full overflow-hidden  h-full bloc-buy">
-    <div class="bg-white rounded-md p-5 mb-3 ml-0.3">
-      <purchase-form @on-submit="submit" :purchases="purchases" :errors="$page.props.errors" :user_id="user.id" :market="markets[0]" :crypto="{name:cryptoShow.name, tag:cryptoShow.tag}"/>
+    <div class="bg-white rounded-md p-5 mb-3 ml-0.3" v-if="user.role != 'admin'">
+      <purchase-form  @on-submit="submit" :purchases="purchases" :errors="$page.props.errors" :user_id="user.id" :market="markets[0]" :crypto="{name:cryptoShow.name, tag:cryptoShow.tag}"/>
     </div>
     <div class="w-full overflow-hidden p-5 bg-white mb-3 rounded-md ml-0.3 h-full mt-4">
       <h1 class="font-bold">About {{cryptoShow.name}}</h1>
@@ -29,10 +29,12 @@
 </template>
 
 <script>
+import { usePage } from '@inertiajs/inertia-vue3';
 import { defineComponent } from 'vue';
 import CryptoChart from '@/components/CryptoChart.vue';
 import PurchaseForm from '@/components/PurchaseForm.vue';
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
+import { computed } from 'vue'
 
 
 export default defineComponent ({
@@ -79,7 +81,12 @@ export default defineComponent ({
         ...mapGetters('markets', {
             lastCryptoMarket : 'lastCryptoMarket'
         })
-    }
+    }, 
+
+     setup() {
+        const user = computed(()=> usePage().props.value.auth.user);
+        return { user };
+    },
 
 })
 </script>

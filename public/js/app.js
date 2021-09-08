@@ -22547,10 +22547,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var _components_CryptoChart_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/components/CryptoChart.vue */ "./resources/js/components/CryptoChart.vue");
-/* harmony import */ var _components_PurchaseForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/PurchaseForm.vue */ "./resources/js/components/PurchaseForm.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _components_CryptoChart_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/components/CryptoChart.vue */ "./resources/js/components/CryptoChart.vue");
+/* harmony import */ var _components_PurchaseForm_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/components/PurchaseForm.vue */ "./resources/js/components/PurchaseForm.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -22561,11 +22562,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_1__.defineComponent)({
   name: 'CryptoShow',
   components: {
-    PurchaseForm: _components_PurchaseForm_vue__WEBPACK_IMPORTED_MODULE_2__.default,
-    CryptoChart: _components_CryptoChart_vue__WEBPACK_IMPORTED_MODULE_1__.default
+    PurchaseForm: _components_PurchaseForm_vue__WEBPACK_IMPORTED_MODULE_3__.default,
+    CryptoChart: _components_CryptoChart_vue__WEBPACK_IMPORTED_MODULE_2__.default
   },
   props: {
     cryptoShow: {
@@ -22594,9 +22597,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$inertia.post(route('wallet.buy'), purchase);
     }
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)('markets', {
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)('markets', {
     lastCryptoMarket: 'lastCryptoMarket'
-  }))
+  })),
+  setup: function setup() {
+    var user = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      return (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.usePage)().props.value.auth.user;
+    });
+    return {
+      user: user
+    };
+  }
 }));
 
 /***/ }),
@@ -23775,15 +23786,14 @@ var containsMajAndNumber = _vuelidate_validators__WEBPACK_IMPORTED_MODULE_4__.he
         password_confirm: '',
         profile_photo_path: null
       },
-      imagePreview: null,
-      showPreview: false,
       url: null
     };
   },
   mounted: function mounted() {
     if (this.userToUpdate) {
-      this.user.id = this.userToUpdate.id, this.user.name = this.userToUpdate.name, this.user.role_id = this.userToUpdate.role_id, this.user.email = this.userToUpdate.email;
-      this.user.profile_photo_path = this.userToUpdate.profile_photo_path;
+      var _this$userToUpdate$pr;
+
+      this.user.id = this.userToUpdate.id, this.user.name = this.userToUpdate.name, this.user.role_id = this.userToUpdate.role_id, this.user.email = this.userToUpdate.email, this.user.profile_photo_path = this.userToUpdate.profile_photo_path, this.url = (_this$userToUpdate$pr = this.userToUpdate.profile_photo_path) !== null && _this$userToUpdate$pr !== void 0 ? _this$userToUpdate$pr : this.userToUpdate.profile_photo_url;
     }
   },
   validations: function validations() {
@@ -23798,21 +23808,17 @@ var containsMajAndNumber = _vuelidate_validators__WEBPACK_IMPORTED_MODULE_4__.he
           email: _vuelidate_validators__WEBPACK_IMPORTED_MODULE_4__.email
         },
         password: {
-          requiredIfCreate: (0,_vuelidate_validators__WEBPACK_IMPORTED_MODULE_4__.requiredIf)(!this.userToUpdate),
           alphaNum: _vuelidate_validators__WEBPACK_IMPORTED_MODULE_4__.alphaNum,
           minLength: (0,_vuelidate_validators__WEBPACK_IMPORTED_MODULE_4__.minLength)(6),
           majAndDigit: _vuelidate_validators__WEBPACK_IMPORTED_MODULE_4__.helpers.withMessage('Must contain at least one uppercase, lowercase charactere and one digit', containsMajAndNumber)
         },
         password_confirm: {
-          requiredIfCreate: (0,_vuelidate_validators__WEBPACK_IMPORTED_MODULE_4__.requiredIf)(!this.userToUpdate),
           alphaNum: _vuelidate_validators__WEBPACK_IMPORTED_MODULE_4__.alphaNum,
           minLength: (0,_vuelidate_validators__WEBPACK_IMPORTED_MODULE_4__.minLength)(6),
           sameAsPassword: (0,_vuelidate_validators__WEBPACK_IMPORTED_MODULE_4__.sameAs)(this.user.password),
           majAndDigit: _vuelidate_validators__WEBPACK_IMPORTED_MODULE_4__.helpers.withMessage('Must contain at least one uppercase, lowercase charactere and one digit', containsMajAndNumber)
         },
-        profile_photo_path: {
-          required: _vuelidate_validators__WEBPACK_IMPORTED_MODULE_4__.required
-        },
+        profile_photo_path: {},
         role_id: {
           required: _vuelidate_validators__WEBPACK_IMPORTED_MODULE_4__.required
         }
@@ -23822,13 +23828,14 @@ var containsMajAndNumber = _vuelidate_validators__WEBPACK_IMPORTED_MODULE_4__.he
   methods: {
     onSubmit: function onSubmit() {
       this.v$.$validate();
+      if (!this.user.password) delete this.user.password;
+      if (!this.user.password_confirm) delete this.user.password_confirm;
+      if (!this.user.profile_photo_path) delete this.user.profile_photo_path;
       if (this.v$.$error) return;
       this.$emit('on-submit', this.user);
     },
     onFileChange: function onFileChange(event) {
-      /*
-      Set the local file variable to what the user has selected.
-      */
+      // Set the local file variable to what the user has selected.    
       var file = this.user.profile_photo_path = event.target.files[0];
       this.url = URL.createObjectURL(file);
     }
@@ -26597,6 +26604,7 @@ var _hoisted_8 = {
   "class": "w-full overflow-hidden  h-full bloc-buy"
 };
 var _hoisted_9 = {
+  key: 0,
   "class": "bg-white rounded-md p-5 mb-3 ml-0.3"
 };
 var _hoisted_10 = {
@@ -26631,7 +26639,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     chartOptions: _ctx.state.chartOptions
   }, null, 8
   /* PROPS */
-  , ["chartData", "chartOptions"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_purchase_form, {
+  , ["chartData", "chartOptions"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_ctx.user.role != 'admin' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_purchase_form, {
     onOnSubmit: _ctx.submit,
     purchases: _ctx.purchases,
     errors: _ctx.$page.props.errors,
@@ -26643,7 +26651,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, null, 8
   /* PROPS */
-  , ["onOnSubmit", "purchases", "errors", "user_id", "market", "crypto"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_11, "About " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.cryptoShow.name), 1
+  , ["onOnSubmit", "purchases", "errors", "user_id", "market", "crypto"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_11, "About " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.cryptoShow.name), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.cryptoShow.description), 1
   /* TEXT */
@@ -28192,14 +28200,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
     }, 1032
     /* PROPS, DYNAMIC_SLOTS */
-    , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    , ["href"]), $setup.user.role != 'admin' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 0,
       "class": "bg-red-400 text-gray-50 rounded-md px-2 ml-1.5",
       onClick: function onClick($event) {
         return $options.selectUser(crypto.cryptocurrencie_id);
       }
     }, " Buy", 8
     /* PROPS */
-    , _hoisted_13)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <td class=\"p-3 text-right\">\n                    <a href=\"#\" class=\"text-gray-400 hover:text-gray-100 mr-2\">\n                    <i class=\"material-icons-outlined text-base\"></i>\n                    </a>\n                    <a href=\"#\" class=\"text-gray-400 hover:text-gray-100  mx-2\">\n                    <i class=\"material-icons-outlined text-base\"></i>\n                    </a>\n                    <a href=\"#\" class=\"text-gray-400 hover:text-gray-100  ml-2\">\n                    <i class=\"material-icons-round text-base\"></i>\n                    </a>\n                </td> ")]);
+    , _hoisted_13)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <td class=\"p-3 text-right\">\n                    <a href=\"#\" class=\"text-gray-400 hover:text-gray-100 mr-2\">\n                    <i class=\"material-icons-outlined text-base\"></i>\n                    </a>\n                    <a href=\"#\" class=\"text-gray-400 hover:text-gray-100  mx-2\">\n                    <i class=\"material-icons-outlined text-base\"></i>\n                    </a>\n                    <a href=\"#\" class=\"text-gray-400 hover:text-gray-100  ml-2\">\n                    <i class=\"material-icons-round text-base\"></i>\n                    </a>\n                </td> ")]);
   }), 128
   /* KEYED_FRAGMENT */
   )), $data.isModalVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_PurchaseModal, {
@@ -28520,34 +28529,30 @@ var _hoisted_6 = [_hoisted_5];
 var _hoisted_7 = {
   "class": "sidebar-header"
 };
-
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_8 = {
   "class": "user-pic"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  "class": "img-responsive img-rounded",
-  src: "https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg",
-  alt: "User picture"
-})], -1
-/* HOISTED */
-);
-
+};
 var _hoisted_9 = {
+  "class": "object-cover"
+};
+var _hoisted_10 = ["src"];
+var _hoisted_11 = {
   "class": "block"
 };
-var _hoisted_10 = {
+var _hoisted_12 = {
   "class": "block text-center capitalize"
 };
-var _hoisted_11 = {
+var _hoisted_13 = {
   "class": "block text-center capitalize text-xs\t"
 };
-var _hoisted_12 = {
+var _hoisted_14 = {
   "class": "sidebar-menu"
 };
-var _hoisted_13 = {
+var _hoisted_15 = {
   "class": "sidebar-dropdown"
 };
 
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   "class": "h-6 w-1/5 mt-0.5",
   viewBox: "0 0 20 20",
@@ -28560,17 +28565,17 @@ var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "flex items-center"
 }, "Markets", -1
 /* HOISTED */
 );
 
-var _hoisted_16 = {
+var _hoisted_18 = {
   "class": "sidebar-dropdown "
 };
 
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   "class": "h-6 w-1/5 mt-0.5",
   fill: "none",
@@ -28585,17 +28590,17 @@ var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "flex items-center"
 }, "Wallet", -1
 /* HOISTED */
 );
 
-var _hoisted_19 = {
+var _hoisted_21 = {
   "class": "sidebar-dropdown active:text-yellow-300"
 };
 
-var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   "class": "h-6 w-1/5 mt-0.5",
   viewBox: "0 0 20 20",
@@ -28606,7 +28611,7 @@ var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "flex items-center"
 }, "Users", -1
 /* HOISTED */
@@ -28620,42 +28625,61 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.closeSidebar && $options.closeSidebar.apply($options, arguments);
     })
-  }, _hoisted_6)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.user.name), 1
+  }, _hoisted_6)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 'https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg' "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+    href: _ctx.route('profile.show')
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      var _$props$user$profile_;
+
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("figure", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+        "class": "max-h-20 max-w-20 rounded-full overflow-hidden object-cover border-indigo-900",
+        src: (_$props$user$profile_ = $props.user.profile_photo_path) !== null && _$props$user$profile_ !== void 0 ? _$props$user$profile_ : $props.user.profile_photo_url,
+        alt: "User picture"
+      }, null, 8
+      /* PROPS */
+      , _hoisted_10)])];
+    }),
+    _: 1
+    /* STABLE */
+
+  }, 8
+  /* PROPS */
+  , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.user.name), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.user.role), 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.user.role), 1
   /* TEXT */
-  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" sidebar-header  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"sidebar-search\">\n        <div>\n          <div class=\"input-group\">\n            <input type=\"text\" class=\"form-control search-menu\" placeholder=\"Search...\">\n            <div class=\"input-group-append\">\n              <span class=\"input-group-text\">\n                <i class=\"fa fa-search\" aria-hidden=\"true\"></i>\n              </span>\n            </div>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" sidebar-search  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <li class=\"sidebar-dropdown \">\n                <Link class=\"flex flex-row\" :href=\"route('dashboard')\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-6 w-1/5 mt-0.5\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">\n                        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6\" />\n                    </svg>\n                    <span class=\"flex items-center\">Dashboard</span>\n                </Link>\n            </li> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" sidebar-header  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"sidebar-search\">\n        <div>\n          <div class=\"input-group\">\n            <input type=\"text\" class=\"form-control search-menu\" placeholder=\"Search...\">\n            <div class=\"input-group-append\">\n              <span class=\"input-group-text\">\n                <i class=\"fa fa-search\" aria-hidden=\"true\"></i>\n              </span>\n            </div>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" sidebar-search  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <li class=\"sidebar-dropdown \">\n                <Link class=\"flex flex-row\" :href=\"route('dashboard')\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-6 w-1/5 mt-0.5\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">\n                        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6\" />\n                    </svg>\n                    <span class=\"flex items-center\">Dashboard</span>\n                </Link>\n            </li> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
     "class": "flex flex-row",
     href: _ctx.route('markets.index'),
     active: _ctx.route().current('markets.index')
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_14, _hoisted_15];
+      return [_hoisted_16, _hoisted_17];
     }),
     _: 1
     /* STABLE */
 
   }, 8
   /* PROPS */
-  , ["href", "active"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" v-if=\"user.role\" == 'client' "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+  , ["href", "active"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" v-if=\"user.role\" == 'client' "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
     "class": "flex flex-row",
     href: _ctx.route('wallet.index', $props.user.id)
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_17, _hoisted_18];
+      return [_hoisted_19, _hoisted_20];
     }),
     _: 1
     /* STABLE */
 
   }, 8
   /* PROPS */
-  , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_19, [$props.user.role == 'admin' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Link, {
+  , ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_21, [$props.user.role == 'admin' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Link, {
     key: 0,
     "class": "flex flex-row",
     href: _ctx.route('users.index')
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_20, _hoisted_21];
+      return [_hoisted_22, _hoisted_23];
     }),
     _: 1
     /* STABLE */
@@ -29102,7 +29126,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.user.role_id]]), $setup.v$.user.role_id.$error || $props.errors.role_id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.v$.user.role_id.$error ? $setup.v$.user.role_id.$errors[0].$message : $props.errors.role_id), 1
   /* TEXT */
-  )])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img :src=\"imagePreview\" width=\"100\" height=\"100\" v-show=\"showPreview\"/>  "), $data.url ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+  )])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_26, [$data.url ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
     key: 0,
     src: $data.url,
     "class": "h-12 w-12 rounded-full overflow-hidden object-cover"
@@ -29534,7 +29558,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@-webkit-keyframes swing {\n0% {\n    transform: rotate(0deg);\n}\n10% {\n    transform: rotate(10deg);\n}\n30% {\n    transform: rotate(0deg);\n}\n40% {\n    transform: rotate(-10deg);\n}\n50% {\n    transform: rotate(0deg);\n}\n60% {\n    transform: rotate(5deg);\n}\n70% {\n    transform: rotate(0deg);\n}\n80% {\n    transform: rotate(-5deg);\n}\n100% {\n    transform: rotate(0deg);\n}\n}\n@keyframes swing {\n0% {\n    transform: rotate(0deg);\n}\n10% {\n    transform: rotate(10deg);\n}\n30% {\n    transform: rotate(0deg);\n}\n40% {\n    transform: rotate(-10deg);\n}\n50% {\n    transform: rotate(0deg);\n}\n60% {\n    transform: rotate(5deg);\n}\n70% {\n    transform: rotate(0deg);\n}\n80% {\n    transform: rotate(-5deg);\n}\n100% {\n    transform: rotate(0deg);\n}\n}\n@-webkit-keyframes sonar {\n0% {\n    transform: scale(0.9);\n    opacity: 1;\n}\n100% {\n    transform: scale(2);\n    opacity: 0;\n}\n}\n@keyframes sonar {\n0% {\n    transform: scale(0.9);\n    opacity: 1;\n}\n100% {\n    transform: scale(2);\n    opacity: 0;\n}\n}\nbody {\n  font-size: 0.9rem;\n}\n.page-wrapper .sidebar-wrapper,\n.sidebar-wrapper .sidebar-brand > a,\n.sidebar-wrapper .sidebar-dropdown > a:after,\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before,\n.sidebar-wrapper ul li a i,\n.page-wrapper .page-content,\n.sidebar-wrapper .sidebar-search input.search-menu,\n.sidebar-wrapper .sidebar-search .input-group-text,\n.sidebar-wrapper .sidebar-menu ul li a,\n#show-sidebar,\n#close-sidebar {\n  transition: all 0.3s ease;\n}\n\n/*----------------page-wrapper----------------*/\n.page-wrapper {\n  min-height: calc(100vh - 4rem);\n}\n.page-wrapper .theme {\n  width: 40px;\n  height: 40px;\n  display: inline-block;\n  border-radius: 4px;\n  margin: 2px;\n}\n.page-wrapper .theme.chiller-theme {\n  background: #ffffff;\n}\n\n/*----------------toggeled sidebar----------------*/\n.page-wrapper.toggled .sidebar-wrapper {\n  left: 0px;\n}\n@media screen and (min-width: 768px) {\n.page-wrapper.toggled .page-content {\n    padding-left: 330px;\n}\n}\n/*----------------show sidebar button----------------*/\n#show-sidebar {\n  position: fixed;\n  left: 0;\n  border-radius: 0 4px 4px 0px;\n  width: 35px;\n  transition-delay: 0.3s;\n}\n.page-wrapper.toggled #show-sidebar {\n  left: -40px;\n}\n/*----------------sidebar-wrapper----------------*/\n.sidebar-wrapper {\n  /* width: 300px; */\n  height: 100%;\n  max-height: 100%;\n  position: fixed;\n  top: 64px;\n  left: -100%;\n  z-index: 1;\n}\n.sidebar-wrapper ul {\n  list-style-type: none;\n  padding: 0;\n  margin: 0;\n}\n.sidebar-wrapper a {\n  text-decoration: none;\n}\n\n/*----------------sidebar-content----------------*/\n.sidebar-content {\n  /* max-height: calc(100% - 30px);\n  height: calc(100% - 30px); */\n  overflow-y: auto;\n  position: relative;\n}\n.sidebar-content.desktop {\n  overflow-y: hidden;\n}\n\n/*--------------------sidebar-brand----------------------*/\n.sidebar-wrapper .sidebar-brand {\n  padding: 10px 20px;\n  display: flex;\n  align-items: center;\n}\n.sidebar-wrapper .sidebar-brand > a {\n  text-transform: uppercase;\n  font-weight: bold;\n  flex-grow: 1;\n}\n.sidebar-wrapper .sidebar-brand #close-sidebar {\n  cursor: pointer;\n  font-size: 20px;\n}\n/*--------------------sidebar-header----------------------*/\n.sidebar-header {\n    display: flex;\n    flex-direction: column;\n    align-content: stretch;\n    justify-content: space-evenly;\n    align-items: center;\n}\n.sidebar-wrapper .sidebar-header {\n  padding: 20px;\n  overflow: hidden;\n}\n.sidebar-wrapper .sidebar-header .user-pic {\n  width: 70px;\n  padding: 2px;\n  border-radius: 12px;\n  overflow: hidden;\n}\n.sidebar-wrapper .sidebar-header .user-pic img {\n  -o-object-fit: cover;\n     object-fit: cover;\n  height: 100%;\n  width: 100%;\n}\n\n/* .sidebar-wrapper .sidebar-header .user-info {\n  float: left;\n} */\n.sidebar-wrapper .sidebar-header .user-info > span {\n  display: block;\n}\n.sidebar-wrapper .sidebar-header .user-info .user-role {\n  font-size: 12px;\n}\n.sidebar-wrapper .sidebar-header .user-info .user-status {\n  font-size: 11px;\n  margin-top: 4px;\n}\n.sidebar-wrapper .sidebar-header .user-info .user-status i {\n  font-size: 8px;\n  margin-right: 4px;\n  color: #5cb85c;\n}\n\n/*-----------------------sidebar-search------------------------*/\n.sidebar-wrapper .sidebar-search > div {\n  padding: 10px 20px;\n}\n\n/*----------------------sidebar-menu-------------------------*/\n.sidebar-wrapper .sidebar-menu {\n  padding-bottom: 10px;\n}\n.sidebar-wrapper .sidebar-menu .header-menu span {\n  font-weight: bold;\n  font-size: 14px;\n  padding: 15px 20px 5px 20px;\n  /* display: inline-block; */\n}\n.sidebar-wrapper .sidebar-menu ul li a {\n  /* display: inline-block; */\n  width: 100%;\n  text-decoration: none;\n  position: relative;\n  padding: 25px 30px 25px 20px;\n}\n.sidebar-wrapper .sidebar-menu ul li a i {\n  margin-right: 10px;\n  font-size: 12px;\n  width: 30px;\n  height: 30px;\n  line-height: 30px;\n  text-align: center;\n  border-radius: 4px;\n}\n.sidebar-wrapper .sidebar-menu ul li a:hover > i::before {\n  /* display: inline-block; */\n  -webkit-animation: swing ease-in-out 0.5s 1 alternate;\n          animation: swing ease-in-out 0.5s 1 alternate;\n}\n\n/* .sidebar-wrapper .sidebar-menu .sidebar-dropdown > a:after {\n  font-family: \"Font Awesome 5 Free\";\n  font-weight: 900;\n  content: \"\\f105\";\n  font-style: normal;\n  display: inline-block;\n  font-style: normal;\n  font-variant: normal;\n  text-rendering: auto;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  text-align: center;\n  background: 0 0;\n  position: absolute;\n  right: 15px;\n  top: 26px;\n} */\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu ul {\n  padding: 5px 0;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li {\n  padding-left: 25px;\n  font-size: 13px;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before {\n  content: \"\\f111\";\n  font-family: \"Font Awesome 5 Free\";\n  font-weight: 400;\n  font-style: normal;\n  display: inline-block;\n  text-align: center;\n  text-decoration: none;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  margin-right: 10px;\n  font-size: 8px;\n}\n.sidebar-wrapper .sidebar-menu ul li a span.label,\n.sidebar-wrapper .sidebar-menu ul li a span.badge {\n  float: right;\n  margin-top: 8px;\n  margin-left: 5px;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a .badge,\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a .label {\n  float: right;\n  margin-top: 0px;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-submenu {\n  display: none;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown.active > a:after {\n  transform: rotate(90deg);\n  right: 17px;\n}\n\n/*--------------------------side-footer------------------------------*/\n.sidebar-footer {\n  position: absolute;\n  width: 100%;\n  bottom: 0;\n  display: flex;\n}\n.sidebar-footer > a {\n  flex-grow: 1;\n  text-align: center;\n  height: 30px;\n  line-height: 30px;\n  position: relative;\n}\n.sidebar-footer > a .notification {\n  position: absolute;\n  top: 0;\n}\n.badge-sonar {\n  display: inline-block;\n  background: #980303;\n  border-radius: 50%;\n  height: 8px;\n  width: 8px;\n  position: absolute;\n  top: 0;\n}\n.badge-sonar:after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  border: 2px solid #980303;\n  opacity: 0;\n  border-radius: 50%;\n  width: 100%;\n  height: 100%;\n  -webkit-animation: sonar 1.5s infinite;\n          animation: sonar 1.5s infinite;\n}\n\n/*--------------------------page-content-----------------------------*/\n.page-wrapper .page-content {\n  display: inline-block;\n  width: 100%;\n  padding-left: 0px;\n  padding-top: 20px;\n}\n.page-wrapper .page-content > div {\n  padding: 20px 40px;\n}\n.page-wrapper .page-content {\n  overflow-x: hidden;\n}\n\n/*------scroll bar---------------------*/\n::-webkit-scrollbar {\n  width: 5px;\n  height: 7px;\n}\n::-webkit-scrollbar-button {\n  width: 0px;\n  height: 0px;\n}\n::-webkit-scrollbar-thumb {\n  background: #525965;\n  border: 0px none #ffffff;\n  border-radius: 0px;\n}\n::-webkit-scrollbar-thumb:hover {\n  background: #525965;\n}\n/* ::-webkit-scrollbar-thumb:active {\n  background: #525965;\n} */\n::-webkit-scrollbar-track {\n  background: transparent;\n  border: 0px none #ffffff;\n  border-radius: 50px;\n}\n::-webkit-scrollbar-track:hover {\n  background: transparent;\n}\n/* ::-webkit-scrollbar-track:active {\n  background: transparent;\n} */\n::-webkit-scrollbar-corner {\n  background: transparent;\n}\n\n\n/*-----------------------------chiller-theme-------------------------------------------------*/\n.chiller-theme .sidebar-wrapper {\n    background: #ffffff;\n}\n.chiller-theme .sidebar-wrapper .sidebar-header,\n.chiller-theme .sidebar-wrapper .sidebar-search,\n.chiller-theme .sidebar-wrapper .sidebar-menu {\n    --tw-border-opacity: 1;\n    border-top: 1px solid rgba(243, 244, 246, var(--tw-border-opacity));\n}\n.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,\n.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {\n    border-color: transparent;\n    box-shadow: none;\n}\n\n/* .chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-role,\n.chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-status,\n.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,\n.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text,\n.chiller-theme .sidebar-wrapper .sidebar-brand>a,\n.chiller-theme .sidebar-wrapper .sidebar-menu ul li a,\n.chiller-theme .sidebar-footer>a {\n    color: rgba(31, 41, 55, var(--tw-text-opacity));;\n} */\n.chiller-theme .sidebar-wrapper .sidebar-menu ul li:hover>a,\n.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active>a,\n.chiller-theme .sidebar-wrapper .sidebar-header .user-info,\n.chiller-theme .sidebar-wrapper .sidebar-brand>a:hover,\n.chiller-theme .sidebar-footer>a:hover i {\n    color: #b8bfce;\n}\n.page-wrapper.chiller-theme.toggled #close-sidebar {\n    color: #bdbdbd;\n}\n.page-wrapper.chiller-theme.toggled #close-sidebar:hover {\n    color: #6c7b88;\n}\n\n/* .chiller-theme .sidebar-wrapper ul li:active a i,\n.chiller-theme .sidebar-wrapper .sidebar-dropdown .sidebar-submenu li a:active:before,\n.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu:focus+span,\n.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active a i {\n    color: #16c7ff!important;\n    text-shadow:0px 0px 10px rgba(22, 199, 255, 0.5);\n} */\n\n/* .sidebar-dropdown:active{\n  color: #16c7ff!important;\n} */\n\n/* .sidebar-dropdown:focus{\n  color: #16c7ff!important;\n} */\n.chiller-theme .sidebar-wrapper .sidebar-menu ul li a i,\n.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown div,\n.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,\n.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {\n    background: #3a3f48;\n}\n.chiller-theme .sidebar-wrapper .sidebar-menu .header-menu span {\n    color: #6c7b88;\n}\n@media (max-width: 500px){\n}\n@media (max-width:375px){\n.page-wrapper .page-content > div {\n    padding: 0px 23px!important;\n}\n}\n@media (max-width:320px){\n.page-wrapper .page-content > div {\n    padding: 0px 5px!important;\n}\n}\n\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@-webkit-keyframes swing {\n0% {\n    transform: rotate(0deg);\n}\n10% {\n    transform: rotate(10deg);\n}\n30% {\n    transform: rotate(0deg);\n}\n40% {\n    transform: rotate(-10deg);\n}\n50% {\n    transform: rotate(0deg);\n}\n60% {\n    transform: rotate(5deg);\n}\n70% {\n    transform: rotate(0deg);\n}\n80% {\n    transform: rotate(-5deg);\n}\n100% {\n    transform: rotate(0deg);\n}\n}\n@keyframes swing {\n0% {\n    transform: rotate(0deg);\n}\n10% {\n    transform: rotate(10deg);\n}\n30% {\n    transform: rotate(0deg);\n}\n40% {\n    transform: rotate(-10deg);\n}\n50% {\n    transform: rotate(0deg);\n}\n60% {\n    transform: rotate(5deg);\n}\n70% {\n    transform: rotate(0deg);\n}\n80% {\n    transform: rotate(-5deg);\n}\n100% {\n    transform: rotate(0deg);\n}\n}\n@-webkit-keyframes sonar {\n0% {\n    transform: scale(0.9);\n    opacity: 1;\n}\n100% {\n    transform: scale(2);\n    opacity: 0;\n}\n}\n@keyframes sonar {\n0% {\n    transform: scale(0.9);\n    opacity: 1;\n}\n100% {\n    transform: scale(2);\n    opacity: 0;\n}\n}\nbody {\n  font-size: 0.9rem;\n}\n.page-wrapper .sidebar-wrapper,\n.sidebar-wrapper .sidebar-brand > a,\n.sidebar-wrapper .sidebar-dropdown > a:after,\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before,\n.sidebar-wrapper ul li a i,\n.page-wrapper .page-content,\n.sidebar-wrapper .sidebar-search input.search-menu,\n.sidebar-wrapper .sidebar-search .input-group-text,\n.sidebar-wrapper .sidebar-menu ul li a,\n#show-sidebar,\n#close-sidebar {\n  transition: all 0.3s ease;\n}\n\n/*----------------page-wrapper----------------*/\n.user-pic figure img {\n  transform: scale(1);\n    transition: .5s ease-in-out;\n}\n.user-pic figure img:hover {\n\ttransform: scale(1.1);\n}\n.page-wrapper {\n  min-height: calc(100vh - 4rem);\n}\n.page-wrapper .theme {\n  width: 40px;\n  height: 40px;\n  display: inline-block;\n  border-radius: 4px;\n  margin: 2px;\n}\n.page-wrapper .theme.chiller-theme {\n  background: #ffffff;\n}\n\n/*----------------toggeled sidebar----------------*/\n.page-wrapper.toggled .sidebar-wrapper {\n  left: 0px;\n}\n@media screen and (min-width: 768px) {\n.page-wrapper.toggled .page-content {\n    padding-left: 330px;\n}\n}\n/*----------------show sidebar button----------------*/\n#show-sidebar {\n  position: fixed;\n  left: 0;\n  border-radius: 0 4px 4px 0px;\n  width: 35px;\n  transition-delay: 0.3s;\n}\n.page-wrapper.toggled #show-sidebar {\n  left: -40px;\n}\n/*----------------sidebar-wrapper----------------*/\n.sidebar-wrapper {\n  /* width: 300px; */\n  height: 100%;\n  max-height: 100%;\n  position: fixed;\n  top: 64px;\n  left: -100%;\n  z-index: 1;\n}\n.sidebar-wrapper ul {\n  list-style-type: none;\n  padding: 0;\n  margin: 0;\n}\n.sidebar-wrapper a {\n  text-decoration: none;\n}\n\n/*----------------sidebar-content----------------*/\n.sidebar-content {\n  /* max-height: calc(100% - 30px);\n  height: calc(100% - 30px); */\n  overflow-y: auto;\n  position: relative;\n}\n.sidebar-content.desktop {\n  overflow-y: hidden;\n}\n\n/*--------------------sidebar-brand----------------------*/\n.sidebar-wrapper .sidebar-brand {\n  padding: 10px 20px;\n  display: flex;\n  align-items: center;\n}\n.sidebar-wrapper .sidebar-brand > a {\n  text-transform: uppercase;\n  font-weight: bold;\n  flex-grow: 1;\n}\n.sidebar-wrapper .sidebar-brand #close-sidebar {\n  cursor: pointer;\n  font-size: 20px;\n}\n/*--------------------sidebar-header----------------------*/\n.sidebar-header {\n    display: flex;\n    flex-direction: column;\n    align-content: stretch;\n    justify-content: space-evenly;\n    align-items: center;\n}\n.sidebar-wrapper .sidebar-header {\n  padding: 20px;\n  overflow: hidden;\n}\n.sidebar-wrapper .sidebar-header .user-pic {\n  width: 70px;\n  padding: 2px;\n  border-radius: 12px;\n  overflow: hidden;\n}\n.sidebar-wrapper .sidebar-header .user-pic img {\n  -o-object-fit: cover;\n     object-fit: cover;\n  height: 100%;\n  width: 100%;\n}\n\n/* .sidebar-wrapper .sidebar-header .user-info {\n  float: left;\n} */\n.sidebar-wrapper .sidebar-header .user-info > span {\n  display: block;\n}\n.sidebar-wrapper .sidebar-header .user-info .user-role {\n  font-size: 12px;\n}\n.sidebar-wrapper .sidebar-header .user-info .user-status {\n  font-size: 11px;\n  margin-top: 4px;\n}\n.sidebar-wrapper .sidebar-header .user-info .user-status i {\n  font-size: 8px;\n  margin-right: 4px;\n  color: #5cb85c;\n}\n\n/*-----------------------sidebar-search------------------------*/\n.sidebar-wrapper .sidebar-search > div {\n  padding: 10px 20px;\n}\n\n/*----------------------sidebar-menu-------------------------*/\n.sidebar-wrapper .sidebar-menu {\n  padding-bottom: 10px;\n}\n.sidebar-wrapper .sidebar-menu .header-menu span {\n  font-weight: bold;\n  font-size: 14px;\n  padding: 15px 20px 5px 20px;\n  /* display: inline-block; */\n}\n.sidebar-wrapper .sidebar-menu ul li a {\n  /* display: inline-block; */\n  width: 100%;\n  text-decoration: none;\n  position: relative;\n  padding: 25px 30px 25px 20px;\n}\n.sidebar-wrapper .sidebar-menu ul li a i {\n  margin-right: 10px;\n  font-size: 12px;\n  width: 30px;\n  height: 30px;\n  line-height: 30px;\n  text-align: center;\n  border-radius: 4px;\n}\n.sidebar-wrapper .sidebar-menu ul li a:hover > i::before {\n  /* display: inline-block; */\n  -webkit-animation: swing ease-in-out 0.5s 1 alternate;\n          animation: swing ease-in-out 0.5s 1 alternate;\n}\n\n/* .sidebar-wrapper .sidebar-menu .sidebar-dropdown > a:after {\n  font-family: \"Font Awesome 5 Free\";\n  font-weight: 900;\n  content: \"\\f105\";\n  font-style: normal;\n  display: inline-block;\n  font-style: normal;\n  font-variant: normal;\n  text-rendering: auto;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  text-align: center;\n  background: 0 0;\n  position: absolute;\n  right: 15px;\n  top: 26px;\n} */\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu ul {\n  padding: 5px 0;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li {\n  padding-left: 25px;\n  font-size: 13px;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before {\n  content: \"\\f111\";\n  font-family: \"Font Awesome 5 Free\";\n  font-weight: 400;\n  font-style: normal;\n  display: inline-block;\n  text-align: center;\n  text-decoration: none;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  margin-right: 10px;\n  font-size: 8px;\n}\n.sidebar-wrapper .sidebar-menu ul li a span.label,\n.sidebar-wrapper .sidebar-menu ul li a span.badge {\n  float: right;\n  margin-top: 8px;\n  margin-left: 5px;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a .badge,\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a .label {\n  float: right;\n  margin-top: 0px;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-submenu {\n  display: none;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown.active > a:after {\n  transform: rotate(90deg);\n  right: 17px;\n}\n\n/*--------------------------side-footer------------------------------*/\n.sidebar-footer {\n  position: absolute;\n  width: 100%;\n  bottom: 0;\n  display: flex;\n}\n.sidebar-footer > a {\n  flex-grow: 1;\n  text-align: center;\n  height: 30px;\n  line-height: 30px;\n  position: relative;\n}\n.sidebar-footer > a .notification {\n  position: absolute;\n  top: 0;\n}\n.badge-sonar {\n  display: inline-block;\n  background: #980303;\n  border-radius: 50%;\n  height: 8px;\n  width: 8px;\n  position: absolute;\n  top: 0;\n}\n.badge-sonar:after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  border: 2px solid #980303;\n  opacity: 0;\n  border-radius: 50%;\n  width: 100%;\n  height: 100%;\n  -webkit-animation: sonar 1.5s infinite;\n          animation: sonar 1.5s infinite;\n}\n\n/*--------------------------page-content-----------------------------*/\n.page-wrapper .page-content {\n  display: inline-block;\n  width: 100%;\n  padding-left: 0px;\n  padding-top: 20px;\n}\n.page-wrapper .page-content > div {\n  padding: 20px 40px;\n}\n.page-wrapper .page-content {\n  overflow-x: hidden;\n}\n\n/*------scroll bar---------------------*/\n::-webkit-scrollbar {\n  width: 5px;\n  height: 7px;\n}\n::-webkit-scrollbar-button {\n  width: 0px;\n  height: 0px;\n}\n::-webkit-scrollbar-thumb {\n  background: #525965;\n  border: 0px none #ffffff;\n  border-radius: 0px;\n}\n::-webkit-scrollbar-thumb:hover {\n  background: #525965;\n}\n/* ::-webkit-scrollbar-thumb:active {\n  background: #525965;\n} */\n::-webkit-scrollbar-track {\n  background: transparent;\n  border: 0px none #ffffff;\n  border-radius: 50px;\n}\n::-webkit-scrollbar-track:hover {\n  background: transparent;\n}\n/* ::-webkit-scrollbar-track:active {\n  background: transparent;\n} */\n::-webkit-scrollbar-corner {\n  background: transparent;\n}\n\n\n/*-----------------------------chiller-theme-------------------------------------------------*/\n.chiller-theme .sidebar-wrapper {\n    background: #ffffff;\n}\n.chiller-theme .sidebar-wrapper .sidebar-header,\n.chiller-theme .sidebar-wrapper .sidebar-search,\n.chiller-theme .sidebar-wrapper .sidebar-menu {\n    --tw-border-opacity: 1;\n    border-top: 1px solid rgba(243, 244, 246, var(--tw-border-opacity));\n}\n.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,\n.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {\n    border-color: transparent;\n    box-shadow: none;\n}\n\n/* .chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-role,\n.chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-status,\n.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,\n.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text,\n.chiller-theme .sidebar-wrapper .sidebar-brand>a,\n.chiller-theme .sidebar-wrapper .sidebar-menu ul li a,\n.chiller-theme .sidebar-footer>a {\n    color: rgba(31, 41, 55, var(--tw-text-opacity));;\n} */\n.chiller-theme .sidebar-wrapper .sidebar-menu ul li:hover>a,\n.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active>a,\n.chiller-theme .sidebar-wrapper .sidebar-header .user-info,\n.chiller-theme .sidebar-wrapper .sidebar-brand>a:hover,\n.chiller-theme .sidebar-footer>a:hover i {\n    color: #b8bfce;\n}\n.page-wrapper.chiller-theme.toggled #close-sidebar {\n    color: #bdbdbd;\n}\n.page-wrapper.chiller-theme.toggled #close-sidebar:hover {\n    color: #6c7b88;\n}\n\n/* .chiller-theme .sidebar-wrapper ul li:active a i,\n.chiller-theme .sidebar-wrapper .sidebar-dropdown .sidebar-submenu li a:active:before,\n.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu:focus+span,\n.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active a i {\n    color: #16c7ff!important;\n    text-shadow:0px 0px 10px rgba(22, 199, 255, 0.5);\n} */\n\n/* .sidebar-dropdown:active{\n  color: #16c7ff!important;\n} */\n\n/* .sidebar-dropdown:focus{\n  color: #16c7ff!important;\n} */\n.chiller-theme .sidebar-wrapper .sidebar-menu ul li a i,\n.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown div,\n.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,\n.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {\n    background: #3a3f48;\n}\n.chiller-theme .sidebar-wrapper .sidebar-menu .header-menu span {\n    color: #6c7b88;\n}\n@media (max-width: 500px){\n}\n@media (max-width:375px){\n.page-wrapper .page-content > div {\n    padding: 0px 23px!important;\n}\n}\n@media (max-width:320px){\n.page-wrapper .page-content > div {\n    padding: 0px 5px!important;\n}\n}\n\n\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

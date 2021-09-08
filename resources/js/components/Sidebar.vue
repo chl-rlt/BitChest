@@ -15,7 +15,10 @@
 
       <div class="sidebar-header">
         <div class="user-pic">
-          <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="User picture">
+          <!-- 'https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg' -->
+          <Link :href="route('profile.show')">
+          <figure class="object-cover"><img class="max-h-20 max-w-20 rounded-full overflow-hidden object-cover border-indigo-900" :src="user.profile_photo_path ?? user.profile_photo_url " alt="User picture"></figure>
+          </Link>
         </div>
         <div class="block">
           <span class="block text-center capitalize">{{user.name}}</span>
@@ -173,6 +176,17 @@ body {
 }
 
 /*----------------page-wrapper----------------*/
+
+.user-pic figure img {
+  -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .5s ease-in-out;
+    transition: .5s ease-in-out;
+}
+.user-pic figure img:hover {
+  -webkit-transform: scale(1.1);
+	transform: scale(1.1);
+}
 
 .page-wrapper {
   min-height: calc(100vh - 4rem);
