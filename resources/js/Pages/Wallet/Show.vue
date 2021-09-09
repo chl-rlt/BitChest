@@ -25,7 +25,7 @@
         </thead>
         <tbody class="font-bold">
             <tr v-for="purchase in purchases" :key="purchase.id">
-                <td class="p-3 text-center">{{  purchase.bought_at }}</td>
+                <td class="p-3 text-center">{{  purchase.created_at }}</td>
                 <td class="p-3 text-center">{{  totalPrice(purchase.quantity, purchase.price) }} €</td>
                 <td class="p-3 text-center">{{  purchase.quantity  }}</td>
                 <td class="p-3 text-center">{{ purchase.price }}</td>
@@ -40,7 +40,8 @@
             </tr>
         </tbody>
     </table>
-    <ConfirmationModal v-if="isModalVisible" @close="closeModal" @delete-confirmation="sell" :title="'Sell ' + purchaseToSell.name " button="SELL" :id="purchaseToSell.id">
+    <ConfirmationModal v-if="isModalVisible" @close="closeModal" @delete-confirmation="sell"
+    :title="'Sell ' + purchaseToSell.name " button="SELL" :data="{id:purchaseToSell.id, selling_price:purchaseToSell.selling_price}">
         <img :src="'/images/logo/'+ purchaseToSell.logo" class="my-1.5">
         Are you sure you want to sell <strong class="font-bold">{{purchaseToSell.quantity}} {{purchaseToSell.tag}}</strong> for <strong class="font-bold">{{purchaseToSell.price}} €</strong>
     </ConfirmationModal>
@@ -78,7 +79,8 @@ export default {
                 logo: '',
                 tag:'',
                 price: '',
-                quantity: ''
+                quantity: '',
+                selling_price: ''
             }
         }
     },
@@ -105,8 +107,8 @@ export default {
             return (quantity * price).toFixed(2);
         },
 
-        sell(id) {
-            this.$inertia.patch(route('wallet.sell.one', id));
+        sell({id, selling_price}) {
+            this.$inertia.patch(route('wallet.sell.one', {id, selling_price}));
         },
 
 
@@ -123,11 +125,21 @@ export default {
                 logo: purchase.logo,
                 price:  this.totalPrice(purchase.quantity, this.currentLatest.price),
                 quantity: purchase.quantity,
+                selling_price: this.currentPrice(purchase.crypto_id)
             }
             this.isModalVisible = true;
         },
         closeModal() {
             this.isModalVisible = false;
+            this.purchaseToSell= {
+                id: '',
+                name:'',
+                logo: '',
+                tag:'',
+                price: '',
+                quantity: '',
+                selling_price: ''
+            }
         },
     },
 

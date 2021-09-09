@@ -16,12 +16,12 @@ class CreatePurchasesTable extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->float('quantity');
-            //$table->float('price_bought');
-            $table->datetime('bought_at');
+            $table->float('selling_price')->nullable();
             $table->unsignedInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('market_id')->nullable();
             $table->foreign('market_id')->references('id')->on('markets');
+            $table->timestamps();
         });
     }
 

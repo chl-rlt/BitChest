@@ -22,10 +22,15 @@ class PurchaseFactory extends Factory
      */
     public function definition()
     {
-        return [
+        $data = [
             'quantity'=>$this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 5),
-            'bought_at'=>$this->faker->dateTime(),
             'status'=> $this->faker->randomElement($array = array('sold','holding')),
         ];
+
+        if($data['status'] == 'sold') {
+            $data['selling_price'] = $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 300);
+        }
+
+        return $data;
     }
 }

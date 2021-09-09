@@ -26,7 +26,7 @@
                     </div>
                 </td>
             </tr>
-            <ConfirmationModal v-show="isModalVisible" @close="closeModal" @delete-confirmation="deleteUser" :id="idUser" title="Delete Client" button="Delete">
+            <ConfirmationModal v-show="isModalVisible" @close="closeModal" @delete-confirmation="deleteUser" :data="{id:idUser}" title="Delete Client" button="Delete">
                 Are you sure you want to delete this client ?
             </ConfirmationModal>
         </tbody>
@@ -75,7 +75,7 @@ export default {
         closeModal() {
             this.isModalVisible = false;
         },
-        deleteUser($id) {
+        deleteUser({$id}) {
             this.$inertia.delete(route('users.destroy',$id))
             this.idUser = null,
             this.closeModal()

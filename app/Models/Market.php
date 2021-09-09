@@ -16,7 +16,7 @@ class Market extends Model
 
     public $timestamps = false;
 
-    public function cryptocurrencies() {
+    public function cryptocurrencie() {
         return $this->belongsTo(Cryptocurrencie::class);
     }
 
