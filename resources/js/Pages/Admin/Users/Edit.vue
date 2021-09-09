@@ -34,7 +34,10 @@ export default {
 
     methods: {
         submit(user) {
-            console.log(user)
+            if(user.profile_photo_path) return this.$inertia.post(route('users.update', user), {
+                _method: 'patch',
+                user
+            })
             this.$inertia.patch(route('users.update', user), user)
         }
     },

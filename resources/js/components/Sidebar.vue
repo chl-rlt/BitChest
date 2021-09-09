@@ -177,7 +177,7 @@ body {
 
 /*----------------page-wrapper----------------*/
 
-.user-pic figure img {
+/* .user-pic figure img {
   -webkit-transform: scale(1);
     transform: scale(1);
     -webkit-transition: .5s ease-in-out;
@@ -186,7 +186,7 @@ body {
 .user-pic figure img:hover {
   -webkit-transform: scale(1.1);
 	transform: scale(1.1);
-}
+} */
 
 .page-wrapper {
   min-height: calc(100vh - 4rem);

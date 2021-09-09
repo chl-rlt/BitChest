@@ -1,6 +1,6 @@
 <template>
     <td :class="className">
-        <Link :href="href" class="p-3 flex items-center w-full justify-center">
+        <Link :href="href" class="p-3 flex items-center w-full">
             <slot />
         </Link>
     </td>

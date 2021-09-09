@@ -57,6 +57,9 @@
 
                         <span class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Browse</span>
                         <input type="file" class="hidden" ref="file" @change="onFileChange">
+                        <div class="error" v-if="v$.user.profile_photo_path.$error || errors.profile_photo_path">
+                            <p class="text-sm">{{ v$.user.profile_photo_path.$error ? v$.user.profile_photo_path.$errors[0].$message : errors.profile_photo_path }}</p>
+                        </div>
 
                     </label>
                 </div>
@@ -155,7 +158,6 @@ export default {
         onFileChange(event){
             // Set the local file variable to what the user has selected.
             const file = this.user.profile_photo_path = event.target.files[0];
-
             this.url = URL.createObjectURL(file);
         },
     }

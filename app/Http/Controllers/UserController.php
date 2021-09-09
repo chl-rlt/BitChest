@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -112,38 +113,56 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
 
-    //     // dd($request);
         $validated = $request->validate([
-            'name' => 'required|min:3',
-            'email' => 'required|email',
-            // 'password' => Password::min(6)->letters()->mixedCase()->numbers(),
-            // 'password_confirm' => 'same:password',
-            // 'profile_photo_path' => 'mimes:jpg,jpeg,png,csv,txt,xlx,xls,pdf|max:2048',
-            'role_id' => 'required',
+            'user.name' => 'required|min:3',
+            'user.email' => 'required|email',
+            'user.password' => Password::min(6)->letters()->mixedCase()->numbers(),
+            'user.password_confirm' => 'same:password',
+            'user.role_id' => 'required',
         ]);
 
+        $toUpdate = [
+            'name' => $validated['user']['name'],
+            'email' => $validated['user']['email'],
+            'role_id' => $validated['user']['role_id'],
+        ];
 
-        // if($request->input('password')) {
-        //     $validated['password'] = Hash::make($request->input('password'));
+        $user_picture = $request->file('user.profile_photo_path');
 
-        // };
+        if (!empty($user_picture)) {
 
-        // $user_picture = $request->file('profile_photo_path');
-        // if (!empty($user_picture)) {
-        //     $destinationPath = '/user_picture/';
-        //     $profileImage = date('YmdHis') . "." . $user_picture->getClientOriginalExtension();
-        //     $user_picture->storeAs($destinationPath, $profileImage);
-        //     $input['profile_photo_path'] = "$profileImage";
+            // $file_path = base_path().''.$user->profile_photo_path;
+            
+            // if($user->profile_photo_path){ //If it exits, delete it from folder
+                
+            //     // $picture = explode("/" , $user->profile_photo_path)[3]; 
+            //     // Storage::disk('local/user_picture')->delete($picture);
+            //     File::delete($picture);
+            // }
 
-        // };
+            $picture = explode("/" , $user->profile_photo_path)[3]; 
+            if(File::exists(public_path($picture[2]."/".$picture[3])))
+            {
+                
+                File::delete(public_path($picture[2]."/".$picture[3])); 
+            }
 
-        $user->update([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            // 'password' => Hash::make(['password']),
-            //'profile_photo_path' => '/images'.$destinationPath.$profileImage,
-            'role_id' => $validated['role_id'],
-        ]);
+            $destinationPath = '/user_picture/';
+            $profileImage = date('YmdHis') . "." . $user_picture->getClientOriginalExtension();
+            $user_picture->storeAs($destinationPath, $profileImage);
+            $input['profile_photo_path'] = "$profileImage";
+
+            $toUpdate['profile_photo_path'] = '/images'.$destinationPath.$profileImage;
+
+            
+
+        };
+
+        if (isset($validated['user']['password'] )){
+            $toUpdate['password'] = $validated['user']['password'];
+        }
+
+        $user->update($toUpdate); 
 
         return Redirect::route('users.index')->with('message', 'User has been updated successfully !');
     }
@@ -158,11 +177,20 @@ class UserController extends Controller
     {
         //
         $user = User::find($id);
+
+        $file_path = base_path().''.$user->profile_photo_path;
+            if(File::exists($file_path)){ //If it exits, delete it from folder
+                File::delete($file_path);
+        }
         $user->delete();
+
+        
 
         return Redirect::route('users.index')->with('message', 'Client Deleted');
 
 
 
     }
+
+    
 }
