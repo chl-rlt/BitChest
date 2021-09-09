@@ -75,11 +75,10 @@ export default {
         closeModal() {
             this.isModalVisible = false;
         },
-        deleteUser({$id}) {
-            this.$inertia.delete(route('users.destroy',$id))
+        deleteUser({id}) {
+            this.$inertia.delete(route('users.destroy',id))
             this.idUser = null,
             this.closeModal()
-            console.log($id);
         }
     },
 }

@@ -15,7 +15,6 @@
 
       <div class="sidebar-header">
         <div class="user-pic">
-          <!-- 'https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg' -->
           <Link :href="route('profile.show')">
           <figure class="object-cover"><img class="max-h-20 max-w-20 rounded-full overflow-hidden object-cover border-indigo-900" :src="user.profile_photo_path ?? user.profile_photo_url " alt="User picture"></figure>
           </Link>
@@ -27,19 +26,6 @@
       </div>
       <!-- sidebar-header  -->
 
-      <!-- <div class="sidebar-search">
-        <div>
-          <div class="input-group">
-            <input type="text" class="form-control search-menu" placeholder="Search...">
-            <div class="input-group-append">
-              <span class="input-group-text">
-                <i class="fa fa-search" aria-hidden="true"></i>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div> -->
-      <!-- sidebar-search  -->
 
       <div class="sidebar-menu">
         <ul>
@@ -59,17 +45,16 @@
                     <span class="flex items-center">Markets</span>
                 </Link>
             </li>
-            <li class="sidebar-dropdown ">
-                <!-- v-if="user.role" == 'client' -->
-                <Link class="flex flex-row" :href="route('wallet.index',user.id)">
+            <li class="sidebar-dropdown " v-if="user.role == 'client' ">
+                <Link class="flex flex-row" :href="route('wallet.index',user.id)" >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-1/5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <span class="flex items-center">Wallet</span>
                 </Link>
             </li>
-            <li class="sidebar-dropdown active:text-yellow-300">
-                <Link class="flex flex-row" :href="route('users.index')" v-if="user.role == 'admin'">
+            <li class="sidebar-dropdown active:text-yellow-300" v-if="user.role == 'admin'">
+                <Link class="flex flex-row" :href="route('users.index')" >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-1/5 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                     </svg>

@@ -129,22 +129,19 @@ class UserController extends Controller
 
         $user_picture = $request->file('user.profile_photo_path');
 
+
         if (!empty($user_picture)) {
 
-            // $file_path = base_path().''.$user->profile_photo_path;
-            
-            // if($user->profile_photo_path){ //If it exits, delete it from folder
-                
-            //     // $picture = explode("/" , $user->profile_photo_path)[3]; 
-            //     // Storage::disk('local/user_picture')->delete($picture);
-            //     File::delete($picture);
-            // }
+            // If user got an image in DB
+            if($user->profile_photo_path){
+                $picture = explode("/" , $user->profile_photo_path);
 
-            $picture = explode("/" , $user->profile_photo_path)[3]; 
-            if(File::exists(public_path($picture[2]."/".$picture[3])))
-            {
-                
-                File::delete(public_path($picture[2]."/".$picture[3])); 
+                // If Image stored
+                if(Storage::disk('local')->get($picture[2]."/".$picture[3])) {
+                    Storage::disk('local')->delete($picture[2]."/".$picture[3]);
+                }
+
+                $user->update(['profile_photo_path'=> NULL]);
             }
 
             $destinationPath = '/user_picture/';
@@ -154,7 +151,7 @@ class UserController extends Controller
 
             $toUpdate['profile_photo_path'] = '/images'.$destinationPath.$profileImage;
 
-            
+
 
         };
 
@@ -162,7 +159,7 @@ class UserController extends Controller
             $toUpdate['password'] = $validated['user']['password'];
         }
 
-        $user->update($toUpdate); 
+        $user->update($toUpdate);
 
         return Redirect::route('users.index')->with('message', 'User has been updated successfully !');
     }
@@ -175,16 +172,23 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
         $user = User::find($id);
 
-        $file_path = base_path().''.$user->profile_photo_path;
-            if(File::exists($file_path)){ //If it exits, delete it from folder
-                File::delete($file_path);
+        // If user got an image in DB
+        if($user->profile_photo_path){
+            $picture = explode("/" , $user->profile_photo_path);
+
+            // If Image stored
+            if(Storage::disk('local')->get($picture[2]."/".$picture[3])) {
+                Storage::disk('local')->delete($picture[2]."/".$picture[3]);
+            }
+
+            $user->update(['profile_photo_path'=> NULL]);
         }
+
         $user->delete();
 
-        
+
 
         return Redirect::route('users.index')->with('message', 'Client Deleted');
 
@@ -192,5 +196,5 @@ class UserController extends Controller
 
     }
 
-    
+
 }
