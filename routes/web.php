@@ -35,23 +35,32 @@ Route::get('/', function() {
     return Redirect::route('markets.index');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function(){
+Route::middleware('auth:sanctum')->group(function(){
 
     Route::prefix('home')->group(function() {
         Route::get('/', function () {
             return Inertia::render('Dashboard');
         })->name('dashboard');
 
-        Route::resource('users', UserController::class);
+        // Only Admin can access it
+        Route::resource('users', UserController::class)->middleware('role:admin');
 
+        // Available for all
         Route::get('/market', [MarketController::class, 'index'])->name('markets.index');
         Route::get('/market/{id}', [MarketController::class, 'show'])->name('markets.show');
-        Route::post('/wallet', [WalletController::class, 'buy'])->name('wallet.buy');
-        Route::patch('/wallet/sell', [WalletController::class, 'sellAll'])->name('wallet.sell.all');
-        Route::patch('/wallet/sell/{id}', [WalletController::class, 'sell'])->name('wallet.sell.one');
 
-        Route::get('/mywallet/{id}', [WalletController::class, 'index'])->name('wallet.index');
-        Route::get('/mywallet/{user_id}/market/{crypto_id}', [WalletController::class, 'show'])->name('wallet.show');
+
+        // Only Client
+        Route::middleware('role:client')->group(function(){
+            Route::post('/wallet', [WalletController::class, 'buy'])->name('wallet.buy');
+            Route::patch('/wallet/sell', [WalletController::class, 'sellAll'])->name('wallet.sell.all');
+            Route::patch('/wallet/sell/{id}', [WalletController::class, 'sell'])->name('wallet.sell.one');
+            Route::get('/mywallet/{id}', [WalletController::class, 'index'])->name('wallet.index');
+            Route::get('/mywallet/{user_id}/market/{crypto_id}', [WalletController::class, 'show'])->name('wallet.show');
+        });
+
+
+
     });
 
 });

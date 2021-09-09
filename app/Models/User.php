@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Role;
 use App\Models\Purchase;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -73,6 +74,10 @@ class User extends Authenticatable
 
     public function purchases(){
         return $this->belongsToMany(Purchase::class);
+    }
+
+    public function hasRole($role) {
+        return Auth::user()->role->name == $role;
     }
 
 
