@@ -11,12 +11,15 @@ class Purchase extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
+    // public $timestamps = false;
 
-    protected $fillable = ['quantity', 'bought_at', 'user_id', 'market_id', 'status'];
+    protected $fillable = ['quantity', 'user_id', 'market_id', 'selling_price', 'status'];
 
-    public function setBoughtAtAttribute($value) {
-        $this->attributes['bought_at'] = date('Y-m-d H:i:s');
+    public function getCreatedAtAttribute($value) {
+        return date('m-d-Y H:i:s',strtotime("$value"));
+    }
+    public function getUpdatedAtAttribute($value) {
+        return date('m-d-Y H:i:s',strtotime("$value"));
     }
 
     public function scopeHolding($query) {

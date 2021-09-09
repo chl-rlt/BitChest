@@ -18,7 +18,7 @@ class EnsureUserHasRole
     public function handle(Request $request, Closure $next, $role)
     {
         if(! $request->user()->hasRole($role)) {
-            return Redirect::route('dashboard');
+            return Redirect::route('markets.index');
         }
 
         return $next($request);

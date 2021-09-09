@@ -39,10 +39,5 @@ class MarketController extends Controller
         return Inertia::render('Market/Show', ['cryptoShow' => $crypto, 'markets' => $markets ]);
     }
 
-    public function getLastValues() {
-        $last_markets = Market::orderByDesc('date')->take(10)->get();
-        dd($last_markets);
-    }
-
 }
 

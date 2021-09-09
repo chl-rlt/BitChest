@@ -27,12 +27,16 @@ class WalletController extends Controller
             cryptocurrencies.logo as crypto_logo,
             cryptocurrencies.tag as crypto_tag,
             ROUND(SUM(purchases.quantity), 2) as quantity,
-            ROUND(SUM(markets.price * purchases.quantity), 2) as prices"
+            ROUND(SUM(markets.price * purchases.quantity), 2) as prices",
             )
         ->groupBy('cryptocurrencies.id', 'cryptocurrencies.name', 'cryptocurrencies.logo', 'cryptocurrencies.tag' )
         ->get();
 
-        return Inertia::render('Wallet/Index', ['purchases'=>$purchases]);
+        $sold = Purchase::where('user_id',$id)->sold()
+        ->with('market.cryptocurrencie')
+        ->get();
+
+        return Inertia::render('Wallet/Index', ['purchases'=>$purchases, 'sold'=>$sold]);
     }
 
 
@@ -64,12 +68,10 @@ class WalletController extends Controller
         $purchases = Purchase::holding()
         ->join('markets', 'market_id', '=', 'markets.id')
         ->where(['markets.cryptocurrencie_id' => $request->input('id'), 'user_id' => $user])
-        ->select('purchases.id', 'quantity', 'bought_at', 'user_id', 'market_id', 'status')->get();
-
-        // dd($purchases);
+        ->select('purchases.*')->get();
 
         foreach($purchases as $purchase) {
-            $purchase->update(['status' => 'sold']);
+            $purchase->update(['status' => 'sold','selling_price' => $request->input('selling_price')]);
         }
 
         return Redirect::route('wallet.index', $user)->with('message', 'Crypto successfully sold !');
@@ -106,7 +108,7 @@ class WalletController extends Controller
         ->join('markets', 'market_id','=','markets.id')
         ->join('cryptocurrencies','markets.cryptocurrencie_id','=','cryptocurrencies.id')
         ->where(['user_id'=> $user_id, 'cryptocurrencie_id' => $crypto_id])
-        ->orderBy('bought_at', 'DESC')
+        ->orderBy('created_at', 'DESC')
         ->select('purchases.*',
         'cryptocurrencies.name', 'cryptocurrencies.logo', 'cryptocurrencies.tag',
         'markets.cryptocurrencie_id', 'markets.id as market_id', 'markets.date', 'markets.price')
