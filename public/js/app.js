@@ -22600,11 +22600,16 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.$inertia.post(route('wallet.buy'), purchase);
     },
     getDailyMarket: function getDailyMarket(key) {
-      var _this = this;
-
-      return Object.keys(this.marketPerDay).reduce(function (acc, res) {
-        return acc.concat([_this.marketPerDay[res][0][key], _this.marketPerDay[res][_this.marketPerDay[res].length - 1][key]]);
-      }, []).reverse();
+      var marketPerDay = this.markets.reduce(function (acc, res) {
+        var date = new Date(res.date);
+        var cle = date.getMonth() + 1 + '-' + date.getDate();
+        if (!acc[cle]) acc[cle] = [];
+        acc[cle].push(res);
+        return acc;
+      }, {});
+      return Object.keys(marketPerDay).reduce(function (acc, res) {
+        return acc.concat([key === 'date' ? Date.parse(marketPerDay[res][0][key]) : marketPerDay[res][0][key], key === 'date' ? Date.parse(marketPerDay[res][marketPerDay[res].length - 1][key]) : marketPerDay[res][marketPerDay[res].length - 1][key]]);
+      }, []);
     },
     getHourlyMarket: function getHourlyMarket(key) {
       var _ref;
@@ -22620,10 +22625,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }).reverse();
     },
     getEveryMinutesMarket: function getEveryMinutesMarket(key) {
-      var _this2 = this;
+      var _this = this;
 
       return this.markets.reduce(function (prev, curr) {
-        if (Date.parse(curr.date) + 86400000 >= Date.parse(_this2.markets[0].date)) {
+        if (Date.parse(curr.date) + 86400000 >= Date.parse(_this.markets[0].date)) {
           prev.push(key === 'date' ? Date.parse(curr[key]) : curr[key]);
         }
 
@@ -22651,10 +22656,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }, {});
     },
     marketPerHour: function marketPerHour() {
-      var _this3 = this;
+      var _this2 = this;
 
       return Object.keys(this.marketPerDay).map(function (market) {
-        return _this3.marketPerDay[market].reverse().reduce(function (acc, res) {
+        return _this2.marketPerDay[market].reverse().reduce(function (acc, res) {
           var date = new Date(res.date);
           var cle = date.getHours();
           if (!acc[cle]) acc[cle] = [];
@@ -22665,9 +22670,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     }
   }),
   created: function created() {
-    this.chartData.date = this.getDailyMarket('date').map(function (date) {
-      return Date.parse(date);
-    });
+    this.chartData.date = this.getDailyMarket('date');
     this.chartData.prices = this.getDailyMarket('price');
   },
   watch: {
@@ -22684,9 +22687,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           break;
 
         case 'D':
-          this.chartData.date = this.getDailyMarket('date').map(function (date) {
-            return Date.parse(date);
-          });
+          this.chartData.date = this.getDailyMarket('date');
           this.chartData.prices = this.getDailyMarket('price');
           break;
 
