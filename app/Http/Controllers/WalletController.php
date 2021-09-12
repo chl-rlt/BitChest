@@ -57,7 +57,10 @@ class WalletController extends Controller
 
         $purchase = Purchase::create($request->all());
 
-        return Redirect::route('markets.index')->with('message', 'Successful purchase !');
+        return Redirect::route('markets.index')->with('message', [
+            'status' => 'success',
+            'message' => 'Successful purchase !'
+        ]);
     }
 
     // SELL ALL PURCHASES OF ONE CRYPTO
@@ -91,7 +94,10 @@ class WalletController extends Controller
         $purchase = Purchase::where(['id' => $id, 'user_id' => $user])->with('market')->firstOrFail();
         $purchase->update(['status' => 'sold']);
 
-        return Redirect::route('wallet.index', $user)->with('message', 'Crypto successfully sold !');
+        return Redirect::route('wallet.index', $user)->with('message', [
+            'status' => 'success',
+            'message' => 'Crypto successfully sold !'
+        ]);
 
     }
 

@@ -92,7 +92,7 @@
                         <jet-responsive-nav-link :href="route('markets.index')" :active="route().current('markets.index')">
                             Markets
                         </jet-responsive-nav-link>
-                        <jet-responsive-nav-link :href="route('wallet.index', user.id)" :active="route().current('wallet.index', user.id)">
+                        <jet-responsive-nav-link :href="route('wallet.index', user.id)" :active="route().current('wallet.index', user.id)" v-if="user.role == 'client'">
                             Wallet
                         </jet-responsive-nav-link>
                         <jet-responsive-nav-link :href="route('users.index')" :active="route().current('users.index')" v-if="user.role == 'admin'">

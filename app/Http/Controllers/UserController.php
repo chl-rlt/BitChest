@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Role;
+use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Purchase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rules\Password;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -78,7 +79,10 @@ class UserController extends Controller
 
 
 
-        return Redirect::route('users.index')->with('message', 'User has been added successfully !');
+        return Redirect::route('users.index')->with('message', [
+            'status' => 'success',
+            'User has been added successfully !'
+        ]);
     }
 
     /**
@@ -162,7 +166,10 @@ class UserController extends Controller
 
         $user->update($toUpdate);
 
-        return Redirect::route('users.index')->with('message', 'User has been updated successfully !');
+        return Redirect::route('users.index')->with('message', [
+            'status' => 'success',
+            'message' => 'User has been updated successfully !'
+        ]);
     }
 
     /**
@@ -174,6 +181,15 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
+
+        $purchases = Purchase::where('user_id',$id)->get();
+
+        if( count($purchases) > 0 ) {
+            return Redirect::route('users.index')->with('message', [
+                'status' => 'error',
+                'message'=>'This Client still has cryptocurrencies in is wallet. You cannot delete him.'
+            ]);
+        }
 
         // If user got an image in DB
         if($user->profile_photo_path){
@@ -189,7 +205,10 @@ class UserController extends Controller
 
         $user->delete();
 
-        return Redirect::route('users.index')->with('message', 'Client Deleted');
+        return Redirect::route('users.index')->with('message', [
+            'status' => 'success',
+            'message' => 'Client Deleted'
+        ]);
 
     }
 

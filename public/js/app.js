@@ -23139,14 +23139,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         price: '',
         quantity: '',
         selling_price: ''
-      },
-      cryptoValue: []
+      }
     };
   },
   computed: _objectSpread({
-    // totalBTC() {
-    //     return this.purchases.reduce( (acc, item) => acc + (item.quantity), 0)
-    // },
     totalInvested: function totalInvested() {
       return this.purchases.reduce(function (acc, item) {
         return acc + item.prices;
@@ -23155,11 +23151,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     currentPrice: function currentPrice() {
       var _this = this;
 
-      return function (id, quantity) {
-        return _this.lastPrice(_this.initial_latest_markets_values, id) * quantity;
+      return function (id) {
+        return _this.lastPrice(_this.initial_latest_markets_values, id);
       };
-    },
-    totalValue: function totalValue() {// return this.cryptoValue.red
     }
   }, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)({
     current_lasts_markets: 'markets/getLastsMarkets',
@@ -23654,10 +23648,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   })),
   methods: {
     selectUser: function selectUser(cryptoId) {
-      // this.idUser = id;
-      // console.log(cryptoId)
-      this.idCrypto = cryptoId; // this.isModalVisible = true;
-
+      this.idCrypto = cryptoId;
       this.showModal();
     },
     showModal: function showModal() {
@@ -24006,7 +23997,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
-    message: String
+    message: Object
   } // emits: ['close-toast'],
 
 });
@@ -25406,7 +25397,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["href", "active"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_jet_responsive_nav_link, {
+  , ["href", "active"]), $setup.user.role == 'client' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_jet_responsive_nav_link, {
+    key: 0,
     href: _ctx.route('wallet.index', $setup.user.id),
     active: _ctx.route().current('wallet.index', $setup.user.id)
   }, {
@@ -25418,8 +25410,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["href", "active"]), $setup.user.role == 'admin' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_jet_responsive_nav_link, {
-    key: 0,
+  , ["href", "active"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.user.role == 'admin' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_jet_responsive_nav_link, {
+    key: 1,
     href: _ctx.route('users.index'),
     active: _ctx.route().current('users.index')
   }, {
@@ -26792,7 +26784,7 @@ var _hoisted_3 = {
   "class": "bg-white overflow-hidden shadow-xl sm:rounded-lg p-5"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <app-layout title=\"Dashboard\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template #header>\n            <h2 class=\"font-semibold text-xl text-gray-800 leading-tight\">\n                Dashboard\n            </h2>\n        </template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"\">\n            <Sidebar :user=\"user\"/>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <client v-if=\"user.role == 'client'\"/> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <admin v-if=\"user.role == 'admin'\" > "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <slot></slot> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </admin> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Bonjour " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.user.name) + " 🙂 ", 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <app-layout title=\"Dashboard\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <template #header>\r\n            <h2 class=\"font-semibold text-xl text-gray-800 leading-tight\">\r\n                Dashboard\r\n            </h2>\r\n        </template> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"\">\r\n            <Sidebar :user=\"user\"/>\r\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <client v-if=\"user.role == 'client'\"/> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <admin v-if=\"user.role == 'admin'\" > "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <slot></slot> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </admin> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Bonjour " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.user.name) + " 🙂 ", 1
   /* TEXT */
   )])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </app-layout> ")], 2112
   /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
@@ -27927,92 +27919,101 @@ var _hoisted_8 = {
   "class": "font-bold"
 };
 var _hoisted_9 = {
-  "class": "overflow-hidden mt-3 bg-white p-10 rounded-md shadow-md md:w-full"
+  "class": "mt-3"
 };
 var _hoisted_10 = {
+  "class": "font-bold"
+};
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Cryptocurrencies possessed.");
+
+var _hoisted_12 = {
+  "class": "overflow-hidden mt-3 bg-white p-10 rounded-md shadow-md md:w-full"
+};
+var _hoisted_13 = {
   "class": "container mx-auto px-2 sm:px-4"
 };
-var _hoisted_11 = {
+var _hoisted_14 = {
   "class": "py-4"
 };
 
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
   "class": "text-2xl font-semibold leading-tight"
 }, "Your cryptos")], -1
 /* HOISTED */
 );
 
-var _hoisted_13 = {
+var _hoisted_16 = {
   "class": "-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto"
 };
-var _hoisted_14 = {
+var _hoisted_17 = {
   "class": "inline-block min-w-full shadow-md rounded-lg overflow-hidden"
 };
-var _hoisted_15 = {
+var _hoisted_18 = {
   "class": "min-w-full leading-normal"
 };
-var _hoisted_16 = {
+var _hoisted_19 = {
   "class": ""
 };
-var _hoisted_17 = {
+var _hoisted_20 = {
   "class": "px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
 };
 
-var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
 }, "Quantity", -1
 /* HOISTED */
 );
 
-var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
 }, "Invested", -1
 /* HOISTED */
 );
 
-var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
 }, "AVG. Open", -1
 /* HOISTED */
 );
 
-var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
 }, "P/L(€)", -1
 /* HOISTED */
 );
 
-var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
 }, "P/L(%)", -1
 /* HOISTED */
 );
 
-var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
 }, "Value", -1
 /* HOISTED */
 );
 
-var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   "class": "px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
 }, "Sell", -1
 /* HOISTED */
 );
 
-var _hoisted_25 = ["src"];
-var _hoisted_26 = {
+var _hoisted_28 = ["src"];
+var _hoisted_29 = {
   "class": "px-5 py-5 border-b border-gray-200 bg-white text-sm"
 };
-var _hoisted_27 = {
+var _hoisted_30 = {
   "class": "px-5 py-5 border-b border-gray-200 bg-white text-sm"
 };
-var _hoisted_28 = {
+var _hoisted_31 = {
   "class": "px-5 py-5 text-sm"
 };
-var _hoisted_29 = ["onClick"];
+var _hoisted_32 = ["onClick"];
 
-var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   "stroke-width": "2",
@@ -28022,17 +28023,17 @@ var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_31 = [_hoisted_30];
+var _hoisted_34 = [_hoisted_33];
 
-var _hoisted_32 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Are you sure you want to sell ");
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Are you sure you want to sell ");
 
-var _hoisted_33 = {
+var _hoisted_36 = {
   "class": "font-bold"
 };
 
-var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" for ");
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" for ");
 
-var _hoisted_35 = {
+var _hoisted_38 = {
   "class": "font-bold"
 };
 
@@ -28051,21 +28052,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: _ctx.$page.props.flash.message
   }, null, 8
   /* PROPS */
-<<<<<<< HEAD
-  , ["message"]), _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"mt-3\">Account balance : {{ totalBTC }} BTC </p> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_4, "Invested : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalInvested) + " € ", 1
-  /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.purchases.length) + " Cryptocurrencies possessed.", 1
-  /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"mt-3\">Current value : {{ totalValue }} € </p> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_10, "Market (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.purchases.length) + ")", 1
-  /* TEXT */
-  ), _hoisted_11, _hoisted_12, _hoisted_13, _hoisted_14, _hoisted_15, _hoisted_16, _hoisted_17])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.purchases, function (purchase) {
-=======
   , ["message"]), _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalInvested) + " € ", 1
   /* TEXT */
-  )])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_17, "Market (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.purchases.length) + ")", 1
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.purchases.length), 1
   /* TEXT */
-  ), _hoisted_18, _hoisted_19, _hoisted_20, _hoisted_21, _hoisted_22, _hoisted_23, _hoisted_24])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.purchases, function (purchase) {
->>>>>>> 0048446fe971bfd84a4561964f695beec6b623b5
+  ), _hoisted_11])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_20, "Market (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.purchases.length) + ")", 1
+  /* TEXT */
+  ), _hoisted_21, _hoisted_22, _hoisted_23, _hoisted_24, _hoisted_25, _hoisted_26, _hoisted_27])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.purchases, function (purchase) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
       key: purchase.crypto_id,
       "class": "bg-white"
@@ -28080,7 +28073,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           alt: "logo"
         }, null, 8
         /* PROPS */
-        , _hoisted_25), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(purchase.crypto_name), 1
+        , _hoisted_28), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(purchase.crypto_name), 1
         /* TEXT */
         )];
       }),
@@ -28117,28 +28110,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
     }, 1032
     /* PROPS, DYNAMIC_SLOTS */
-    , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((purchase.prices / purchase.quantity).toFixed(4)), 1
+    , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((purchase.prices / purchase.quantity).toFixed(4)), 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-<<<<<<< HEAD
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-3 text-center", [purchase.prices <= $options.currentPrice(purchase.crypto_id, purchase.quantity).toFixed(2) ? 'text-green-500' : 'text-red-500']])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.differenceCurrency($props.initial_latest_markets_values, purchase.crypto_id, purchase.quantity, purchase.prices)) + " € ", 3
-    /* TEXT, CLASS */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-3 text-center", [purchase.prices <= $options.currentPrice(purchase.crypto_id, purchase.quantity).toFixed(2) ? 'text-green-500' : 'text-red-500']])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.differencePercentage($props.initial_latest_markets_values, purchase.crypto_id, purchase.quantity, purchase.prices)) + " % ", 3
-    /* TEXT, CLASS */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentPrice(purchase.crypto_id, purchase.quantity).toFixed(2)) + " € ", 1
-    /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded border border-gray-500 p-1 hover:text-white cursor-pointer", [purchase.prices <= $options.currentPrice(purchase.crypto_id, purchase.quantity).toFixed(2) ? 'hover:border-green-500 hover:bg-green-400' : 'hover:border-red-500 hover:bg-red-400']]),
-      onClick: function onClick($event) {
-        return $options.showModal(purchase);
-      }
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentPrice(purchase.crypto_id, 1).toFixed(4)), 11
-    /* TEXT, CLASS, PROPS */
-    , _hoisted_22)])]);
-=======
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["px-5 py-5 border-b border-gray-200 bg-white text-sm", [purchase.prices <= ($options.currentPrice(purchase.crypto_id) * purchase.quantity).toFixed(2) ? 'text-green-500' : 'text-red-500']])
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.differenceCurrency($props.initial_latest_markets_values, purchase.crypto_id, purchase.quantity, purchase.prices)) + " € ", 3
     /* TEXT, CLASS */
@@ -28146,9 +28120,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["px-5 py-5 border-b border-gray-200 bg-white text-sm", [purchase.prices <= ($options.currentPrice(purchase.crypto_id) * purchase.quantity).toFixed(2) ? 'text-green-500' : 'text-red-500']])
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.differencePercentage($props.initial_latest_markets_values, purchase.crypto_id, purchase.quantity, purchase.prices)) + " % ", 3
     /* TEXT, CLASS */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(($options.currentPrice(purchase.crypto_id) * purchase.quantity).toFixed(2)) + " € ", 1
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(($options.currentPrice(purchase.crypto_id) * purchase.quantity).toFixed(2)) + " € ", 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "p-1 cursor-pointer",
       onClick: function onClick($event) {
         return $options.showModal(purchase);
@@ -28159,12 +28133,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       fill: "none",
       viewBox: "0 0 24 24",
       stroke: "currentColor"
-    }, _hoisted_31, 2
+    }, _hoisted_34, 2
     /* CLASS */
     )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" {{ currentPrice(purchase.crypto_id)  }} ")], 8
     /* PROPS */
-    , _hoisted_29)])]);
->>>>>>> 0048446fe971bfd84a4561964f695beec6b623b5
+    , _hoisted_32)])]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SalesHistory, {
@@ -28183,9 +28156,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     button: "SELL"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img :src=\"'/images/logo/'+ purchaseToSell.logo\" class=\"my-1.5\"> "), _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.purchaseToSell.quantity) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.purchaseToSell.tag), 1
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img :src=\"'/images/logo/'+ purchaseToSell.logo\" class=\"my-1.5\"> "), _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.purchaseToSell.quantity) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.purchaseToSell.tag), 1
       /* TEXT */
-      ), _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.purchaseToSell.price) + " €", 1
+      ), _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.purchaseToSell.price) + " €", 1
       /* TEXT */
       )];
     }),
@@ -28336,7 +28309,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_dynamic_value, null, {
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getLastMarket(purchase.cryptocurrencie_id).price.toFixed(4)), 1
+        return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getLastMarket(purchase.cryptocurrencie_id).price), 1
         /* TEXT */
         )];
       }),
@@ -28346,21 +28319,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, 1024
     /* DYNAMIC_SLOTS */
     )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-<<<<<<< HEAD
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-3 text-center", [$options.differenceCurrency(purchase.price, purchase.quantity) >= 0 ? 'text-green-500' : 'text-red-500']])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.differenceCurrency(purchase.price, purchase.quantity)) + " € ", 3
-    /* TEXT, CLASS */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-3 text-center", [$options.differencePercentage(purchase.price) >= 0 ? 'text-green-500' : 'text-red-500']])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.differencePercentage(purchase.price)) + " % ", 3
-=======
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["px-5 py-5 border-b border-gray-200 bg-white text-sm font-semibold text-gray-700", [$options.differenceCurrency(purchase.price, purchase.quantity) >= 0 ? 'text-green-500' : 'text-red-500']])
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.differenceCurrency(purchase.price, purchase.quantity)), 3
     /* TEXT, CLASS */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["px-5 py-5 border-b border-gray-200 bg-white text-sm font-semibold text-gray-700", [$options.differencePercentage(purchase.price) >= 0 ? 'text-green-500' : 'text-red-500']])
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.differencePercentage(purchase.price)) + " %", 3
->>>>>>> 0048446fe971bfd84a4561964f695beec6b623b5
     /* TEXT, CLASS */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
@@ -28721,12 +28685,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, {
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_dynamic_value, {
-<<<<<<< HEAD
-          data: $options.currentPrice(crypto.cryptocurrencie_id).toFixed(2)
-=======
           data: $options.currentPrice(crypto.cryptocurrencie_id),
           "class": "font-normal text-gray-500"
->>>>>>> 0048446fe971bfd84a4561964f695beec6b623b5
         }, {
           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
             return [_hoisted_9];
@@ -28797,9 +28757,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     initial_latest_markets: $props.initial_latest_markets
   }, null, 8
   /* PROPS */
-  , ["onClose", "user", "crypto_id", "initial_latest_markets"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.idCrypto), 1
-  /* TEXT */
-  )])]);
+  , ["onClose", "user", "crypto_id", "initial_latest_markets"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
 }
 
 /***/ }),
@@ -29337,7 +29295,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.user.role), 1
   /* TEXT */
-  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" sidebar-header  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <li class=\"sidebar-dropdown \">\n                <Link class=\"flex flex-row\" :href=\"route('dashboard')\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-6 w-1/5 mt-0.5\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">\n                        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6\" />\n                    </svg>\n                    <span class=\"flex items-center\">Dashboard</span>\n                </Link>\n            </li> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" sidebar-header  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <li class=\"sidebar-dropdown \">\r\n                <Link class=\"flex flex-row\" :href=\"route('dashboard')\">\r\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-6 w-1/5 mt-0.5\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">\r\n                        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6\" />\r\n                    </svg>\r\n                    <span class=\"flex items-center\">Dashboard</span>\r\n                </Link>\r\n            </li> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
     "class": "flex flex-row",
     href: _ctx.route('markets.index'),
     active: _ctx.route().current('markets.index')
@@ -29591,14 +29549,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = {
-  key: 0,
-  "class": "alert relative bg-green-100 text-green-800 my-6 p-2 text-center rounded-lg border-solid border border-green-400 mx-10"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return $props.message ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.message), 1
+  return $props.message ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    key: 0,
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["alert relative my-6 p-2 text-center rounded-lg border-solid border mx-10", [$props.message.status == 'error' ? 'bg-red-100 text-red-800 border-red-400' : 'bg-green-100 text-green-800 border-green-400']])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.message.message), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"absolute text-green-800 cursor-pointer top-0 right-1.5 hover:text-white\" @click=\"$emit('close-toast')\">X</span> ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"absolute text-green-800 cursor-pointer top-0 right-1.5 hover:text-white\" @click=\"$emit('close-toast')\">X</span> ")], 2
+  /* CLASS */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
 }
 
 /***/ }),
@@ -44881,11 +44840,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-<<<<<<< HEAD
-___CSS_LOADER_EXPORT___.push([module.id, "\n.table[data-v-30c7e22a] {\n    border-spacing: 0 15px;\n}\ni[data-v-30c7e22a] {\n    font-size: 1rem !important;\n}\n.table tr[data-v-30c7e22a] {\n    border-radius: 20px;\n}\ntr td[data-v-30c7e22a]:nth-child(n+5),\n  tr th[data-v-30c7e22a]:nth-child(n+5) {\n    border-radius: 0 .625rem .625rem 0;\n}\ntr td[data-v-30c7e22a]:nth-child(1),\n  tr th[data-v-30c7e22a]:nth-child(1) {\n    border-radius: .625rem 0 0 .625rem;\n}\n\n", ""]);
-=======
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.table[data-v-30c7e22a] {\n    border-spacing: 0 15px;\n}\ni[data-v-30c7e22a] {\n    font-size: 1rem !important;\n}\n\n", ""]);
->>>>>>> 0048446fe971bfd84a4561964f695beec6b623b5
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -44909,7 +44864,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@-webkit-keyframes swing {\n0% {\n    transform: rotate(0deg);\n}\n10% {\n    transform: rotate(10deg);\n}\n30% {\n    transform: rotate(0deg);\n}\n40% {\n    transform: rotate(-10deg);\n}\n50% {\n    transform: rotate(0deg);\n}\n60% {\n    transform: rotate(5deg);\n}\n70% {\n    transform: rotate(0deg);\n}\n80% {\n    transform: rotate(-5deg);\n}\n100% {\n    transform: rotate(0deg);\n}\n}\n@keyframes swing {\n0% {\n    transform: rotate(0deg);\n}\n10% {\n    transform: rotate(10deg);\n}\n30% {\n    transform: rotate(0deg);\n}\n40% {\n    transform: rotate(-10deg);\n}\n50% {\n    transform: rotate(0deg);\n}\n60% {\n    transform: rotate(5deg);\n}\n70% {\n    transform: rotate(0deg);\n}\n80% {\n    transform: rotate(-5deg);\n}\n100% {\n    transform: rotate(0deg);\n}\n}\n@-webkit-keyframes sonar {\n0% {\n    transform: scale(0.9);\n    opacity: 1;\n}\n100% {\n    transform: scale(2);\n    opacity: 0;\n}\n}\n@keyframes sonar {\n0% {\n    transform: scale(0.9);\n    opacity: 1;\n}\n100% {\n    transform: scale(2);\n    opacity: 0;\n}\n}\nbody {\n  font-size: 0.9rem;\n}\n.page-wrapper .sidebar-wrapper,\n.sidebar-wrapper .sidebar-brand > a,\n.sidebar-wrapper .sidebar-dropdown > a:after,\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before,\n.sidebar-wrapper ul li a i,\n.page-wrapper .page-content,\n.sidebar-wrapper .sidebar-search input.search-menu,\n.sidebar-wrapper .sidebar-search .input-group-text,\n.sidebar-wrapper .sidebar-menu ul li a,\n#show-sidebar,\n#close-sidebar {\n  transition: all 0.3s ease;\n}\n\n/*----------------page-wrapper----------------*/\n\n/* .user-pic figure img {\n  -webkit-transform: scale(1);\n    transform: scale(1);\n    -webkit-transition: .5s ease-in-out;\n    transition: .5s ease-in-out;\n}\n.user-pic figure img:hover {\n  -webkit-transform: scale(1.1);\n\ttransform: scale(1.1);\n} */\n.page-wrapper {\n  min-height: calc(100vh - 4rem);\n}\n.page-wrapper .theme {\n  width: 40px;\n  height: 40px;\n  display: inline-block;\n  border-radius: 4px;\n  margin: 2px;\n}\n.page-wrapper .theme.chiller-theme {\n  background: #ffffff;\n}\n\n/*----------------toggeled sidebar----------------*/\n.page-wrapper.toggled .sidebar-wrapper {\n  left: 0px;\n}\n@media screen and (min-width: 768px) {\n.page-wrapper.toggled .page-content {\n    padding-left: 330px;\n}\n}\n/*----------------show sidebar button----------------*/\n#show-sidebar {\n  position: fixed;\n  left: 0;\n  border-radius: 0 4px 4px 0px;\n  width: 35px;\n  transition-delay: 0.3s;\n}\n.page-wrapper.toggled #show-sidebar {\n  left: -40px;\n}\n/*----------------sidebar-wrapper----------------*/\n.sidebar-wrapper {\n  /* width: 300px; */\n  height: 100%;\n  max-height: 100%;\n  position: fixed;\n  top: 64px;\n  left: -100%;\n  z-index: 1;\n}\n.sidebar-wrapper ul {\n  list-style-type: none;\n  padding: 0;\n  margin: 0;\n}\n.sidebar-wrapper a {\n  text-decoration: none;\n}\n\n/*----------------sidebar-content----------------*/\n.sidebar-content {\n  /* max-height: calc(100% - 30px);\n  height: calc(100% - 30px); */\n  overflow-y: auto;\n  position: relative;\n}\n.sidebar-content.desktop {\n  overflow-y: hidden;\n}\n\n/*--------------------sidebar-brand----------------------*/\n.sidebar-wrapper .sidebar-brand {\n  padding: 10px 20px;\n  display: flex;\n  align-items: center;\n}\n.sidebar-wrapper .sidebar-brand > a {\n  text-transform: uppercase;\n  font-weight: bold;\n  flex-grow: 1;\n}\n.sidebar-wrapper .sidebar-brand #close-sidebar {\n  cursor: pointer;\n  font-size: 20px;\n}\n/*--------------------sidebar-header----------------------*/\n.sidebar-header {\n    display: flex;\n    flex-direction: column;\n    align-content: stretch;\n    justify-content: space-evenly;\n    align-items: center;\n}\n.sidebar-wrapper .sidebar-header {\n  padding: 20px;\n  overflow: hidden;\n}\n.sidebar-wrapper .sidebar-header .user-pic {\n  width: 70px;\n  padding: 2px;\n  border-radius: 12px;\n  overflow: hidden;\n}\n.sidebar-wrapper .sidebar-header .user-pic img {\n  -o-object-fit: cover;\n     object-fit: cover;\n  height: 100%;\n  width: 100%;\n}\n\n/* .sidebar-wrapper .sidebar-header .user-info {\n  float: left;\n} */\n.sidebar-wrapper .sidebar-header .user-info > span {\n  display: block;\n}\n.sidebar-wrapper .sidebar-header .user-info .user-role {\n  font-size: 12px;\n}\n.sidebar-wrapper .sidebar-header .user-info .user-status {\n  font-size: 11px;\n  margin-top: 4px;\n}\n.sidebar-wrapper .sidebar-header .user-info .user-status i {\n  font-size: 8px;\n  margin-right: 4px;\n  color: #5cb85c;\n}\n\n/*-----------------------sidebar-search------------------------*/\n.sidebar-wrapper .sidebar-search > div {\n  padding: 10px 20px;\n}\n\n/*----------------------sidebar-menu-------------------------*/\n.sidebar-wrapper .sidebar-menu {\n  padding-bottom: 10px;\n}\n.sidebar-wrapper .sidebar-menu .header-menu span {\n  font-weight: bold;\n  font-size: 14px;\n  padding: 15px 20px 5px 20px;\n  /* display: inline-block; */\n}\n.sidebar-wrapper .sidebar-menu ul li a {\n  /* display: inline-block; */\n  width: 100%;\n  text-decoration: none;\n  position: relative;\n  padding: 25px 30px 25px 20px;\n}\n.sidebar-wrapper .sidebar-menu ul li a i {\n  margin-right: 10px;\n  font-size: 12px;\n  width: 30px;\n  height: 30px;\n  line-height: 30px;\n  text-align: center;\n  border-radius: 4px;\n}\n.sidebar-wrapper .sidebar-menu ul li a:hover > i::before {\n  /* display: inline-block; */\n  -webkit-animation: swing ease-in-out 0.5s 1 alternate;\n          animation: swing ease-in-out 0.5s 1 alternate;\n}\n\n/* .sidebar-wrapper .sidebar-menu .sidebar-dropdown > a:after {\n  font-family: \"Font Awesome 5 Free\";\n  font-weight: 900;\n  content: \"\\f105\";\n  font-style: normal;\n  display: inline-block;\n  font-style: normal;\n  font-variant: normal;\n  text-rendering: auto;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  text-align: center;\n  background: 0 0;\n  position: absolute;\n  right: 15px;\n  top: 26px;\n} */\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu ul {\n  padding: 5px 0;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li {\n  padding-left: 25px;\n  font-size: 13px;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before {\n  content: \"\\f111\";\n  font-family: \"Font Awesome 5 Free\";\n  font-weight: 400;\n  font-style: normal;\n  display: inline-block;\n  text-align: center;\n  text-decoration: none;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  margin-right: 10px;\n  font-size: 8px;\n}\n.sidebar-wrapper .sidebar-menu ul li a span.label,\n.sidebar-wrapper .sidebar-menu ul li a span.badge {\n  float: right;\n  margin-top: 8px;\n  margin-left: 5px;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a .badge,\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a .label {\n  float: right;\n  margin-top: 0px;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-submenu {\n  display: none;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown.active > a:after {\n  transform: rotate(90deg);\n  right: 17px;\n}\n\n/*--------------------------side-footer------------------------------*/\n.sidebar-footer {\n  position: absolute;\n  width: 100%;\n  bottom: 0;\n  display: flex;\n}\n.sidebar-footer > a {\n  flex-grow: 1;\n  text-align: center;\n  height: 30px;\n  line-height: 30px;\n  position: relative;\n}\n.sidebar-footer > a .notification {\n  position: absolute;\n  top: 0;\n}\n.badge-sonar {\n  display: inline-block;\n  background: #980303;\n  border-radius: 50%;\n  height: 8px;\n  width: 8px;\n  position: absolute;\n  top: 0;\n}\n.badge-sonar:after {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  border: 2px solid #980303;\n  opacity: 0;\n  border-radius: 50%;\n  width: 100%;\n  height: 100%;\n  -webkit-animation: sonar 1.5s infinite;\n          animation: sonar 1.5s infinite;\n}\n\n/*--------------------------page-content-----------------------------*/\n.page-wrapper .page-content {\n  display: inline-block;\n  width: 100%;\n  padding-left: 0px;\n  padding-top: 20px;\n}\n.page-wrapper .page-content > div {\n  padding: 20px 40px;\n}\n.page-wrapper .page-content {\n  overflow-x: hidden;\n}\n\n/*------scroll bar---------------------*/\n::-webkit-scrollbar {\n  width: 5px;\n  height: 7px;\n}\n::-webkit-scrollbar-button {\n  width: 0px;\n  height: 0px;\n}\n::-webkit-scrollbar-thumb {\n  background: #525965;\n  border: 0px none #ffffff;\n  border-radius: 0px;\n}\n::-webkit-scrollbar-thumb:hover {\n  background: #525965;\n}\n/* ::-webkit-scrollbar-thumb:active {\n  background: #525965;\n} */\n::-webkit-scrollbar-track {\n  background: transparent;\n  border: 0px none #ffffff;\n  border-radius: 50px;\n}\n::-webkit-scrollbar-track:hover {\n  background: transparent;\n}\n/* ::-webkit-scrollbar-track:active {\n  background: transparent;\n} */\n::-webkit-scrollbar-corner {\n  background: transparent;\n}\n\n\n/*-----------------------------chiller-theme-------------------------------------------------*/\n.chiller-theme .sidebar-wrapper {\n    background: #ffffff;\n}\n.chiller-theme .sidebar-wrapper .sidebar-header,\n.chiller-theme .sidebar-wrapper .sidebar-search,\n.chiller-theme .sidebar-wrapper .sidebar-menu {\n    --tw-border-opacity: 1;\n    border-top: 1px solid rgba(243, 244, 246, var(--tw-border-opacity));\n}\n.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,\n.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {\n    border-color: transparent;\n    box-shadow: none;\n}\n\n/* .chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-role,\n.chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-status,\n.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,\n.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text,\n.chiller-theme .sidebar-wrapper .sidebar-brand>a,\n.chiller-theme .sidebar-wrapper .sidebar-menu ul li a,\n.chiller-theme .sidebar-footer>a {\n    color: rgba(31, 41, 55, var(--tw-text-opacity));;\n} */\n.chiller-theme .sidebar-wrapper .sidebar-menu ul li:hover>a,\n.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active>a,\n.chiller-theme .sidebar-wrapper .sidebar-header .user-info,\n.chiller-theme .sidebar-wrapper .sidebar-brand>a:hover,\n.chiller-theme .sidebar-footer>a:hover i {\n    color: #b8bfce;\n}\n.page-wrapper.chiller-theme.toggled #close-sidebar {\n    color: #bdbdbd;\n}\n.page-wrapper.chiller-theme.toggled #close-sidebar:hover {\n    color: #6c7b88;\n}\n\n/* .chiller-theme .sidebar-wrapper ul li:active a i,\n.chiller-theme .sidebar-wrapper .sidebar-dropdown .sidebar-submenu li a:active:before,\n.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu:focus+span,\n.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active a i {\n    color: #16c7ff!important;\n    text-shadow:0px 0px 10px rgba(22, 199, 255, 0.5);\n} */\n\n/* .sidebar-dropdown:active{\n  color: #16c7ff!important;\n} */\n\n/* .sidebar-dropdown:focus{\n  color: #16c7ff!important;\n} */\n.chiller-theme .sidebar-wrapper .sidebar-menu ul li a i,\n.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown div,\n.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,\n.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {\n    background: #3a3f48;\n}\n.chiller-theme .sidebar-wrapper .sidebar-menu .header-menu span {\n    color: #6c7b88;\n}\n@media (max-width: 500px){\n}\n@media (max-width:375px){\n.page-wrapper .page-content > div {\n    padding: 0px 23px!important;\n}\n}\n@media (max-width:320px){\n.page-wrapper .page-content > div {\n    padding: 0px 5px!important;\n}\n}\n\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@-webkit-keyframes swing {\n0% {\r\n    transform: rotate(0deg);\n}\n10% {\r\n    transform: rotate(10deg);\n}\n30% {\r\n    transform: rotate(0deg);\n}\n40% {\r\n    transform: rotate(-10deg);\n}\n50% {\r\n    transform: rotate(0deg);\n}\n60% {\r\n    transform: rotate(5deg);\n}\n70% {\r\n    transform: rotate(0deg);\n}\n80% {\r\n    transform: rotate(-5deg);\n}\n100% {\r\n    transform: rotate(0deg);\n}\n}\n@keyframes swing {\n0% {\r\n    transform: rotate(0deg);\n}\n10% {\r\n    transform: rotate(10deg);\n}\n30% {\r\n    transform: rotate(0deg);\n}\n40% {\r\n    transform: rotate(-10deg);\n}\n50% {\r\n    transform: rotate(0deg);\n}\n60% {\r\n    transform: rotate(5deg);\n}\n70% {\r\n    transform: rotate(0deg);\n}\n80% {\r\n    transform: rotate(-5deg);\n}\n100% {\r\n    transform: rotate(0deg);\n}\n}\n@-webkit-keyframes sonar {\n0% {\r\n    transform: scale(0.9);\r\n    opacity: 1;\n}\n100% {\r\n    transform: scale(2);\r\n    opacity: 0;\n}\n}\n@keyframes sonar {\n0% {\r\n    transform: scale(0.9);\r\n    opacity: 1;\n}\n100% {\r\n    transform: scale(2);\r\n    opacity: 0;\n}\n}\nbody {\r\n  font-size: 0.9rem;\n}\n.page-wrapper .sidebar-wrapper,\r\n.sidebar-wrapper .sidebar-brand > a,\r\n.sidebar-wrapper .sidebar-dropdown > a:after,\r\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before,\r\n.sidebar-wrapper ul li a i,\r\n.page-wrapper .page-content,\r\n.sidebar-wrapper .sidebar-search input.search-menu,\r\n.sidebar-wrapper .sidebar-search .input-group-text,\r\n.sidebar-wrapper .sidebar-menu ul li a,\r\n#show-sidebar,\r\n#close-sidebar {\r\n  transition: all 0.3s ease;\n}\r\n\r\n/*----------------page-wrapper----------------*/\r\n\r\n/* .user-pic figure img {\r\n  -webkit-transform: scale(1);\r\n    transform: scale(1);\r\n    -webkit-transition: .5s ease-in-out;\r\n    transition: .5s ease-in-out;\r\n}\r\n.user-pic figure img:hover {\r\n  -webkit-transform: scale(1.1);\r\n\ttransform: scale(1.1);\r\n} */\n.page-wrapper {\r\n  min-height: calc(100vh - 4rem);\n}\n.page-wrapper .theme {\r\n  width: 40px;\r\n  height: 40px;\r\n  display: inline-block;\r\n  border-radius: 4px;\r\n  margin: 2px;\n}\n.page-wrapper .theme.chiller-theme {\r\n  background: #ffffff;\n}\r\n\r\n/*----------------toggeled sidebar----------------*/\n.page-wrapper.toggled .sidebar-wrapper {\r\n  left: 0px;\n}\n@media screen and (min-width: 768px) {\n.page-wrapper.toggled .page-content {\r\n    padding-left: 330px;\n}\n}\r\n/*----------------show sidebar button----------------*/\n#show-sidebar {\r\n  position: fixed;\r\n  left: 0;\r\n  border-radius: 0 4px 4px 0px;\r\n  width: 35px;\r\n  transition-delay: 0.3s;\n}\n.page-wrapper.toggled #show-sidebar {\r\n  left: -40px;\n}\r\n/*----------------sidebar-wrapper----------------*/\n.sidebar-wrapper {\r\n  /* width: 300px; */\r\n  height: 100%;\r\n  max-height: 100%;\r\n  position: fixed;\r\n  top: 64px;\r\n  left: -100%;\r\n  z-index: 1;\n}\n.sidebar-wrapper ul {\r\n  list-style-type: none;\r\n  padding: 0;\r\n  margin: 0;\n}\n.sidebar-wrapper a {\r\n  text-decoration: none;\n}\r\n\r\n/*----------------sidebar-content----------------*/\n.sidebar-content {\r\n  /* max-height: calc(100% - 30px);\r\n  height: calc(100% - 30px); */\r\n  overflow-y: auto;\r\n  position: relative;\n}\n.sidebar-content.desktop {\r\n  overflow-y: hidden;\n}\r\n\r\n/*--------------------sidebar-brand----------------------*/\n.sidebar-wrapper .sidebar-brand {\r\n  padding: 10px 20px;\r\n  display: flex;\r\n  align-items: center;\n}\n.sidebar-wrapper .sidebar-brand > a {\r\n  text-transform: uppercase;\r\n  font-weight: bold;\r\n  flex-grow: 1;\n}\n.sidebar-wrapper .sidebar-brand #close-sidebar {\r\n  cursor: pointer;\r\n  font-size: 20px;\n}\r\n/*--------------------sidebar-header----------------------*/\n.sidebar-header {\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-content: stretch;\r\n    justify-content: space-evenly;\r\n    align-items: center;\n}\n.sidebar-wrapper .sidebar-header {\r\n  padding: 20px;\r\n  overflow: hidden;\n}\n.sidebar-wrapper .sidebar-header .user-pic {\r\n  width: 70px;\r\n  padding: 2px;\r\n  border-radius: 12px;\r\n  overflow: hidden;\n}\n.sidebar-wrapper .sidebar-header .user-pic img {\r\n  -o-object-fit: cover;\r\n     object-fit: cover;\r\n  height: 100%;\r\n  width: 100%;\n}\r\n\r\n/* .sidebar-wrapper .sidebar-header .user-info {\r\n  float: left;\r\n} */\n.sidebar-wrapper .sidebar-header .user-info > span {\r\n  display: block;\n}\n.sidebar-wrapper .sidebar-header .user-info .user-role {\r\n  font-size: 12px;\n}\n.sidebar-wrapper .sidebar-header .user-info .user-status {\r\n  font-size: 11px;\r\n  margin-top: 4px;\n}\n.sidebar-wrapper .sidebar-header .user-info .user-status i {\r\n  font-size: 8px;\r\n  margin-right: 4px;\r\n  color: #5cb85c;\n}\r\n\r\n/*-----------------------sidebar-search------------------------*/\n.sidebar-wrapper .sidebar-search > div {\r\n  padding: 10px 20px;\n}\r\n\r\n/*----------------------sidebar-menu-------------------------*/\n.sidebar-wrapper .sidebar-menu {\r\n  padding-bottom: 10px;\n}\n.sidebar-wrapper .sidebar-menu .header-menu span {\r\n  font-weight: bold;\r\n  font-size: 14px;\r\n  padding: 15px 20px 5px 20px;\r\n  /* display: inline-block; */\n}\n.sidebar-wrapper .sidebar-menu ul li a {\r\n  /* display: inline-block; */\r\n  width: 100%;\r\n  text-decoration: none;\r\n  position: relative;\r\n  padding: 25px 30px 25px 20px;\n}\n.sidebar-wrapper .sidebar-menu ul li a i {\r\n  margin-right: 10px;\r\n  font-size: 12px;\r\n  width: 30px;\r\n  height: 30px;\r\n  line-height: 30px;\r\n  text-align: center;\r\n  border-radius: 4px;\n}\n.sidebar-wrapper .sidebar-menu ul li a:hover > i::before {\r\n  /* display: inline-block; */\r\n  -webkit-animation: swing ease-in-out 0.5s 1 alternate;\r\n          animation: swing ease-in-out 0.5s 1 alternate;\n}\r\n\r\n/* .sidebar-wrapper .sidebar-menu .sidebar-dropdown > a:after {\r\n  font-family: \"Font Awesome 5 Free\";\r\n  font-weight: 900;\r\n  content: \"\\f105\";\r\n  font-style: normal;\r\n  display: inline-block;\r\n  font-style: normal;\r\n  font-variant: normal;\r\n  text-rendering: auto;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n  text-align: center;\r\n  background: 0 0;\r\n  position: absolute;\r\n  right: 15px;\r\n  top: 26px;\r\n} */\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu ul {\r\n  padding: 5px 0;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li {\r\n  padding-left: 25px;\r\n  font-size: 13px;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a:before {\r\n  content: \"\\f111\";\r\n  font-family: \"Font Awesome 5 Free\";\r\n  font-weight: 400;\r\n  font-style: normal;\r\n  display: inline-block;\r\n  text-align: center;\r\n  text-decoration: none;\r\n  -webkit-font-smoothing: antialiased;\r\n  -moz-osx-font-smoothing: grayscale;\r\n  margin-right: 10px;\r\n  font-size: 8px;\n}\n.sidebar-wrapper .sidebar-menu ul li a span.label,\r\n.sidebar-wrapper .sidebar-menu ul li a span.badge {\r\n  float: right;\r\n  margin-top: 8px;\r\n  margin-left: 5px;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a .badge,\r\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown .sidebar-submenu li a .label {\r\n  float: right;\r\n  margin-top: 0px;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-submenu {\r\n  display: none;\n}\n.sidebar-wrapper .sidebar-menu .sidebar-dropdown.active > a:after {\r\n  transform: rotate(90deg);\r\n  right: 17px;\n}\r\n\r\n/*--------------------------side-footer------------------------------*/\n.sidebar-footer {\r\n  position: absolute;\r\n  width: 100%;\r\n  bottom: 0;\r\n  display: flex;\n}\n.sidebar-footer > a {\r\n  flex-grow: 1;\r\n  text-align: center;\r\n  height: 30px;\r\n  line-height: 30px;\r\n  position: relative;\n}\n.sidebar-footer > a .notification {\r\n  position: absolute;\r\n  top: 0;\n}\n.badge-sonar {\r\n  display: inline-block;\r\n  background: #980303;\r\n  border-radius: 50%;\r\n  height: 8px;\r\n  width: 8px;\r\n  position: absolute;\r\n  top: 0;\n}\n.badge-sonar:after {\r\n  content: \"\";\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  border: 2px solid #980303;\r\n  opacity: 0;\r\n  border-radius: 50%;\r\n  width: 100%;\r\n  height: 100%;\r\n  -webkit-animation: sonar 1.5s infinite;\r\n          animation: sonar 1.5s infinite;\n}\r\n\r\n/*--------------------------page-content-----------------------------*/\n.page-wrapper .page-content {\r\n  display: inline-block;\r\n  width: 100%;\r\n  padding-left: 0px;\r\n  padding-top: 20px;\n}\n.page-wrapper .page-content > div {\r\n  padding: 20px 40px;\n}\n.page-wrapper .page-content {\r\n  overflow-x: hidden;\n}\r\n\r\n/*------scroll bar---------------------*/\n::-webkit-scrollbar {\r\n  width: 5px;\r\n  height: 7px;\n}\n::-webkit-scrollbar-button {\r\n  width: 0px;\r\n  height: 0px;\n}\n::-webkit-scrollbar-thumb {\r\n  background: #525965;\r\n  border: 0px none #ffffff;\r\n  border-radius: 0px;\n}\n::-webkit-scrollbar-thumb:hover {\r\n  background: #525965;\n}\r\n/* ::-webkit-scrollbar-thumb:active {\r\n  background: #525965;\r\n} */\n::-webkit-scrollbar-track {\r\n  background: transparent;\r\n  border: 0px none #ffffff;\r\n  border-radius: 50px;\n}\n::-webkit-scrollbar-track:hover {\r\n  background: transparent;\n}\r\n/* ::-webkit-scrollbar-track:active {\r\n  background: transparent;\r\n} */\n::-webkit-scrollbar-corner {\r\n  background: transparent;\n}\r\n\r\n\r\n/*-----------------------------chiller-theme-------------------------------------------------*/\n.chiller-theme .sidebar-wrapper {\r\n    background: #ffffff;\n}\n.chiller-theme .sidebar-wrapper .sidebar-header,\r\n.chiller-theme .sidebar-wrapper .sidebar-search,\r\n.chiller-theme .sidebar-wrapper .sidebar-menu {\r\n    --tw-border-opacity: 1;\r\n    border-top: 1px solid rgba(243, 244, 246, var(--tw-border-opacity));\n}\n.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,\r\n.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {\r\n    border-color: transparent;\r\n    box-shadow: none;\n}\r\n\r\n/* .chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-role,\r\n.chiller-theme .sidebar-wrapper .sidebar-header .user-info .user-status,\r\n.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,\r\n.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text,\r\n.chiller-theme .sidebar-wrapper .sidebar-brand>a,\r\n.chiller-theme .sidebar-wrapper .sidebar-menu ul li a,\r\n.chiller-theme .sidebar-footer>a {\r\n    color: rgba(31, 41, 55, var(--tw-text-opacity));;\r\n} */\n.chiller-theme .sidebar-wrapper .sidebar-menu ul li:hover>a,\r\n.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active>a,\r\n.chiller-theme .sidebar-wrapper .sidebar-header .user-info,\r\n.chiller-theme .sidebar-wrapper .sidebar-brand>a:hover,\r\n.chiller-theme .sidebar-footer>a:hover i {\r\n    color: #b8bfce;\n}\n.page-wrapper.chiller-theme.toggled #close-sidebar {\r\n    color: #bdbdbd;\n}\n.page-wrapper.chiller-theme.toggled #close-sidebar:hover {\r\n    color: #6c7b88;\n}\r\n\r\n/* .chiller-theme .sidebar-wrapper ul li:active a i,\r\n.chiller-theme .sidebar-wrapper .sidebar-dropdown .sidebar-submenu li a:active:before,\r\n.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu:focus+span,\r\n.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown.active a i {\r\n    color: #16c7ff!important;\r\n    text-shadow:0px 0px 10px rgba(22, 199, 255, 0.5);\r\n} */\r\n\r\n/* .sidebar-dropdown:active{\r\n  color: #16c7ff!important;\r\n} */\r\n\r\n/* .sidebar-dropdown:focus{\r\n  color: #16c7ff!important;\r\n} */\n.chiller-theme .sidebar-wrapper .sidebar-menu ul li a i,\r\n.chiller-theme .sidebar-wrapper .sidebar-menu .sidebar-dropdown div,\r\n.chiller-theme .sidebar-wrapper .sidebar-search input.search-menu,\r\n.chiller-theme .sidebar-wrapper .sidebar-search .input-group-text {\r\n    background: #3a3f48;\n}\n.chiller-theme .sidebar-wrapper .sidebar-menu .header-menu span {\r\n    color: #6c7b88;\n}\n@media (max-width: 500px){\n}\n@media (max-width:375px){\n.page-wrapper .page-content > div {\r\n    padding: 0px 23px!important;\n}\n}\n@media (max-width:320px){\n.page-wrapper .page-content > div {\r\n    padding: 0px 5px!important;\n}\n}\r\n\r\n\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
