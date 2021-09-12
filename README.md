@@ -10,20 +10,19 @@
 <p>1. Launch Apache with MAMP, XAMP or LAMP depending on your operating system</p>
 <p>2. Create a Database </p>
 <p>3. Edit the ".env" file at the root of the project according to your configuration : 
-DB_DATABASE=name of your database
-DB_USERNAME=root by default
-DB_PASSWORD=your password
+    <li>DB_DATABASE=name of your database</li>
+    <li>DB_USERNAME=root by default</li>
+     <li>DB_PASSWORD=your password</li>
 </p>
-<p>4. In your terminal, then paste the followng commands:
-npm install
-composer install
-php artisan migrate --seed
-php artisan key:generate
-npm run dev
-php artisan schedule:work (to launch the dynamic creation of market prices)
-php artisan serve
-npm run watch 
-</p>
+<p>4. In your terminal, then paste the followng commands:</p>
+    <li>npm install</li>
+    <li>composer install</li>
+    <li>php artisan migrate --seed</li>
+    <li>php artisan key:generate</li>
+    <li>npm run dev</li>
+    <li>php artisan schedule:work (to launch the dynamic creation of market prices)</li>
+    <li>php artisan serve</li>
+    <li>npm run watch </li>
 
 # Login 
 
