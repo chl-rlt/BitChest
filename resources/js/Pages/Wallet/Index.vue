@@ -89,15 +89,11 @@
 </template>
 
 <script>
-
 import RowLink from '@/components/RowLink.vue'
 import { mapGetters } from 'vuex'
 import Toast from '@/components/Toast.vue'
 import ConfirmationModal from '@/components/ConfirmationModal'
 import SalesHistory from '@/components/SalesHistory'
-
-
-
 export default {
     props: {
         purchases: Array,
@@ -113,7 +109,6 @@ export default {
         ConfirmationModal,
         SalesHistory
     },
-
     data() {
         return {
             isModalVisible: false,
@@ -128,23 +123,18 @@ export default {
             }
         }
     },
-
     computed: {
-
         totalBTC() {
             return this.purchases.reduce( (acc, item) => acc + (item.quantity), 0)
         },
-
         totalInvested() {
             return this.purchases.reduce( (acc, item) =>  acc + (item.prices), 0).toFixed(2)
         },
-
         currentPrice() {
             return (id) => {
                 return this.lastPrice(this.initial_latest_markets_values, id)
             }
         },
-
         ...mapGetters({
             current_lasts_markets : 'markets/getLastsMarkets',
             lastPrice : 'prices/lastPrice',
@@ -152,7 +142,6 @@ export default {
             differencePercentage : 'prices/differencePercentage',
         }),
     },
-
     methods: {
         sell({id, selling_price}) {
             this.$inertia.patch(route('wallet.sell.all'), {id, selling_price});
@@ -183,7 +172,6 @@ export default {
             }
         },
     }, 
-
 }
 </script>
 
@@ -192,16 +180,13 @@ export default {
     table {
       display: inline-table !important;
     }
-
     thead tr:not(:first-child) {
       display: none;
     }
   }
-
   td:not(:last-child) {
     border-bottom: 0;
   }
-
   th:not(:last-child) {
     border-bottom: 2px solid rgba(0, 0, 0, .1);
   }
