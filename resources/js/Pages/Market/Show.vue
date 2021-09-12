@@ -1,38 +1,32 @@
 <template>
 <div>
-<div class="flex align-items-center">
-    <img class="h-12 w-12 object-cover" :src="'/images/logo/'+ cryptoShow.logo" alt="logo">
-    <div class="ml-3 mt-2">
-        <p class="text-3xl font-semibold">{{cryptoShow.name}}<span class="text-gray-500 mt-1.5 ml-1 text-xl font-light"> {{ cryptoShow.tag }}</span></p>
+    <div class="flex align-items-center">
+        <img class="h-12 w-12 object-cover" :src="'/images/logo/'+ cryptoShow.logo" alt="logo">
+        <div class="ml-3 mt-2">
+            <p class="text-3xl font-semibold">{{cryptoShow.name}}<span class="text-gray-500 mt-1.5 ml-1 text-xl font-light"> {{ cryptoShow.tag }}</span></p>
+        </div>
     </div>
-</div>
-<div class="flex flex-wrap overflow-hidden mt-3">
-
-  <div class="w-full overflow-hidden md:w-8/12 lg:w-8/12 bg-white mb-4 rounded-md p-5 mr-4 bloc-chart relative">
-
-    <div>
-        <select v-model="periodicity">
-            <option value="D" selected>Daily</option>
-            <option value="H">Hourly</option>
-        </select>
+    <div class="flex flex-wrap overflow-hidden mt-3">
+    <div class="w-full overflow-hidden md:w-8/12 lg:w-8/12 bg-white mb-4 rounded-md p-5 mr-4 bloc-chart relative h-auto">
+        <div>
+            <select v-model="periodicity">
+                <option value="D" selected>Daily</option>
+                <option value="H">Hourly</option>
+                <option value="M">1 Minutes</option>
+            </select>
+        </div>
+        <CryptoChart  :chartData="chartData" :lastValues="lastValues" :periodicity="periodicity"/>
     </div>
-
-    <CryptoChart  :chartData="chartData" :lastValues="lastValues"/>
-
-  </div>
-
-  <div class="w-full overflow-hidden  h-full bloc-buy">
-    <div class="bg-white rounded-md p-5 mb-3 ml-0.3" v-if="user.role != 'admin'">
-      <purchase-form  @on-submit="submit" :purchases="purchases" :errors="$page.props.errors" :user_id="user.id" :market="getLatestMarket" :crypto="{name:cryptoShow.name, tag:cryptoShow.tag}"/>
+    <div class="w-full overflow-hidden  h-full bloc-buy">
+        <div class="bg-white rounded-md p-5 mb-3 ml-0.3" v-if="user.role != 'admin'">
+        <purchase-form  @on-submit="submit" :purchases="purchases" :errors="$page.props.errors" :user_id="user.id" :market="getLatestMarket" :crypto="{name:cryptoShow.name, tag:cryptoShow.tag}"/>
+        </div>
+        <div class="w-full overflow-hidden p-5 bg-white mb-3 rounded-md ml-0.3 h-full mt-4">
+        <h1 class="font-bold">About {{cryptoShow.name}}</h1>
+        <p class="mt-3 text-gray-500">{{cryptoShow.description}}</p>
+        </div>
     </div>
-    <div class="w-full overflow-hidden p-5 bg-white mb-3 rounded-md ml-0.3 h-full mt-4">
-      <h1 class="font-bold">About {{cryptoShow.name}}</h1>
-      <p class="mt-3 text-gray-500">{{cryptoShow.description}}</p>
     </div>
-  </div>
-
-</div>
-
 </div>
 
 </template>
@@ -98,22 +92,27 @@ export default defineComponent ({
         },
 
         getDailyMarket(key) {
-            const marketPerDay = this.markets.reduce((acc, res) => {
-                let date = new Date(res.date)
-                let cle = date.getMonth()+1 +'-'+ date.getDate()
-                if(!acc[cle]) acc[cle] = []
-                acc[cle].push(res)
-                return acc;
-            }, {})
-
-            return Object.keys(marketPerDay).reduce((acc, res) => {
-                return acc.concat([ marketPerDay[res][0][key], marketPerDay[res][marketPerDay[res].length-1][key] ])
-            }, [])
+            return Object.keys(this.marketPerDay).reduce((acc, res) => {
+                return acc.concat([
+                    this.marketPerDay[res][0][key],
+                    this.marketPerDay[res][this.marketPerDay[res].length-1][key]
+                    ])
+            }, []).reverse()
         },
 
         getHourlyMarket(key) {
-            return this.markets.map(data => key ? Date.parse(data.date) : data.price).reverse()
-        }
+            const arr =  [].concat(...this.marketPerHour.map(el => Object.values(el) ) ).sort((first, second) => Date.parse(second.date) - Date.parse(first.date))
+            return arr.map(el => key === 'date' ? Date.parse(el[key]) : el[key]).reverse()
+        },
+
+        getEveryMinutesMarket(key) {
+            return this.markets.reduce((prev, curr) => {
+                if(Date.parse(curr.date) + 86400000 >= Date.parse(this.markets[0].date)) {
+                    prev.push(key === 'date' ? Date.parse(curr[key]) : curr[key])
+                }
+                return prev;
+            }, []).reverse()
+        },
     },
 
     computed: {
@@ -129,7 +128,26 @@ export default defineComponent ({
             return this.lastCryptoMarket(this.cryptoShow.id, this.markets)
         },
 
-
+        marketPerDay() {
+            return this.markets.reduce((acc, res) => {
+                let date = new Date(res.date)
+                let cle = date.getMonth()+1 +'-'+ date.getDate()
+                if(!acc[cle]) acc[cle] = []
+                acc[cle].push(res)
+                return acc;
+            }, {})
+        },
+        marketPerHour() {
+            return Object.keys(this.marketPerDay).map(market => {
+                return this.marketPerDay[market].reverse().reduce((acc, res) => {
+                    let date = new Date(res.date)
+                    let cle = date.getHours()
+                    if(!acc[cle]) acc[cle] = []
+                    acc[cle] = res
+                    return acc;
+                }, {})
+            })
+        }
     },
 
     created() {
@@ -146,12 +164,16 @@ export default defineComponent ({
         periodicity(e) {
             switch(e) {
                 case 'H':
-                    this.chartData.date = this.getHourlyMarket(true)
-                    this.chartData.prices = this.getHourlyMarket(false)
+                    this.chartData.date = this.getHourlyMarket('date')
+                    this.chartData.prices = this.getHourlyMarket('price')
                     break;
                 case 'D':
                     this.chartData.date = this.getDailyMarket('date').map(date => Date.parse(date))
                     this.chartData.prices = this.getDailyMarket('price')
+                    break;
+                case 'M':
+                    this.chartData.date = this.getEveryMinutesMarket('date')
+                    this.chartData.prices = this.getEveryMinutesMarket('price')
                     break;
                 default:
                     break;

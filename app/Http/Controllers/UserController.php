@@ -66,6 +66,7 @@ class UserController extends Controller
             'role_id' => $validated['role_id'],
         ];
 
+        // picture user 
         $user_picture = $request->file('profile_photo_path');
         if (!empty($user_picture)) {
             $destinationPath = '/user_picture/';
@@ -77,11 +78,9 @@ class UserController extends Controller
 
         $user = User::create($toStore);
 
-
-
         return Redirect::route('users.index')->with('message', [
             'status' => 'success',
-            'User has been added successfully !'
+            'message' => 'User has been added successfully !'
         ]);
     }
 
@@ -117,7 +116,6 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-
         $validated = $request->validate([
             'user.name' => 'required|min:3',
             'user.email' => 'required|email',
@@ -149,6 +147,7 @@ class UserController extends Controller
                 $user->update(['profile_photo_path'=> NULL]);
             }
 
+            // Picture user 
             $destinationPath = '/user_picture/';
             $profileImage = date('YmdHis') . "." . $user_picture->getClientOriginalExtension();
             $user_picture->storeAs($destinationPath, $profileImage);
@@ -184,6 +183,7 @@ class UserController extends Controller
 
         $purchases = Purchase::where('user_id',$id)->get();
 
+        // Delete user only if user don't have crypto in his wallet
         if( count($purchases) > 0 ) {
             return Redirect::route('users.index')->with('message', [
                 'status' => 'error',

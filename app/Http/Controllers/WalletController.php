@@ -77,7 +77,10 @@ class WalletController extends Controller
             $purchase->update(['status' => 'sold','selling_price' => $request->input('selling_price')]);
         }
 
-        return Redirect::route('wallet.index', $user)->with('message', 'Crypto successfully sold !');
+        return Redirect::route('wallet.index', $user)->with('message', [
+            'status' => 'success',
+            'message' => 'Crypto successfully sold !'
+        ]);
 
     }
 

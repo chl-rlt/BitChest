@@ -27,8 +27,6 @@
 <script>
     // import AppLayout from '@/Layouts/AppLayout.vue'
     import Sidebar from '@/components/Sidebar.vue'
-    import Client from '@/Pages/Client/Index.vue'
-    import Admin from '@/Pages/Admin/Index.vue'
     import { computed } from 'vue'
     import { usePage } from '@inertiajs/inertia-vue3'
 
@@ -37,8 +35,6 @@
         components: {
             // AppLayout,
             Sidebar,
-            Client,
-            Admin
         },
         setup() {
             const user = computed(()=> usePage().props.value.auth.user);
