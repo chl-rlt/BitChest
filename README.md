@@ -18,7 +18,6 @@
     <li>npm install</li>
     <li>composer install</li>
     <li>php artisan migrate --seed</li>
-    <li>php artisan key:generate</li>
     <li>npm run dev</li>
     <li>php artisan schedule:work (to launch the dynamic creation of market prices)</li>
     <li>php artisan serve</li>
