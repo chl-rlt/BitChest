@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <toast :message="$page.props.flash.message" />
+        <toast :message="$page.props.flash.message" v-if="showToast" @close-toast="closeToast"/>
         <h1 class="text-gray-800 text-3xl font-semibold py-5 uppercase">Markets</h1>
         <CryptoList :initial_latest_markets="initial_latest_markets_values" :day_markets="markets"/>
     </div>
@@ -27,6 +27,20 @@ export default {
        },
 
     },
+
+    computed: {
+        showToast() {
+            return this.$page.props.flash.message ? true : false
+        }
+    },
+
+    methods: {
+        closeToast() {
+            this.$page.props.flash.message = null
+        }
+    },
+
+    
 
 }
 </script>

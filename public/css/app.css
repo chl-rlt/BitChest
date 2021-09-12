@@ -1135,12 +1135,6 @@ select {
 .top-20 {
 	top: 5rem;
 }
-.right-1\.5 {
-	right: 0.375rem;
-}
-.right-1 {
-	right: 0.25rem;
-}
 .z-0 {
 	z-index: 0;
 }
@@ -2807,10 +2801,6 @@ select {
 		display: table-row;
 	}
 
-	.lg\:hidden {
-		display: none;
-	}
-
 	.lg\:h-auto {
 		height: auto;
 	}
@@ -2833,10 +2823,6 @@ select {
 
 	.lg\:flex-row {
 		flex-direction: row;
-	}
-
-	.lg\:items-center {
-		align-items: center;
 	}
 
 	.lg\:overflow-visible {

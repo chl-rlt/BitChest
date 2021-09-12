@@ -2,7 +2,7 @@
 
 <div>
 
-    <toast :message="$page.props.flash.message" />
+    <toast :message="$page.props.flash.message" v-if="showToast" @close-toast='closeToast'/>
     <h1 class="text-gray-800 text-3xl font-semibold py-5 uppercase">My wallet</h1>
 
     <section class="max-w-sm w-full lg:max-w-full lg:flex mx-auto my-10">
@@ -139,11 +139,18 @@ export default {
             differenceCurrency : 'prices/differenceCurrency',
             differencePercentage : 'prices/differencePercentage',
         }),
+
+        showToast() {
+            return this.$page.props.flash.message ? true : false
+        }
     },
     methods: {
         sell({id, selling_price}) {
             this.$inertia.patch(route('wallet.sell.all'), {id, selling_price});
             this.closeModal();
+        },
+        closeToast() {
+            this.$page.props.flash.message = null
         },
         showModal(purchase) {
             this.purchaseToSell = {

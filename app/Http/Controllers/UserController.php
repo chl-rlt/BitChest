@@ -80,7 +80,7 @@ class UserController extends Controller
 
         return Redirect::route('users.index')->with('message', [
             'status' => 'success',
-            'User has been added successfully !'
+            'message' => 'User has been added successfully !'
         ]);
     }
 
