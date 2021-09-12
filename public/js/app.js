@@ -23275,16 +23275,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     sell: function sell(_ref) {
       var id = _ref.id,
           selling_price = _ref.selling_price;
-      this.$inertia.patch(route('wallet.sell.one', {
-        id: id,
+      // console.log(selling_price)
+      this.$inertia.patch(route('wallet.sell.one', id), {
         selling_price: selling_price
-      }));
+      });
     },
     getLastMarket: function getLastMarket() {
       return this.currentLatest = this.lastCryptoMarket(this.purchases[0].cryptocurrencie_id, this.initial_latest_markets_values);
     },
     showModal: function showModal(purchase) {
-      console.log(purchase);
       this.purchaseToSell = {
         id: purchase.id,
         name: purchase.name,
@@ -23292,7 +23291,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         logo: purchase.logo,
         price: this.totalPrice(purchase.quantity, this.currentLatest.price),
         quantity: purchase.quantity,
-        selling_price: this.currentPrice(purchase.crypto_id)
+        selling_price: this.currentLatest.price
       };
       this.isModalVisible = true;
     },
@@ -23435,7 +23434,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       date: Array,
       prices: Array
     },
-    lastValues: Object
+    lastValues: Object,
+    periodicity: String
   },
   data: function data() {
     return {
@@ -23470,19 +23470,20 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           x: {
             type: 'time',
             ticks: {
-              source: {
-                auto: true
-              } // autoSkip: true,
-              // autoSkipPadding: 50,
-              // maxRotation: 0
-
+              // source: {
+              //     auto: true
+              // }
+              autoSkip: true,
+              autoSkipPadding: 50,
+              maxRotation: 0
             },
             time: {
+              stepSize: 1,
               displayFormats: {
-                quarter: 'MMM YYYY' // hour: 'HH:mm',
-                // minute: 'HH:mm',
-                // second: 'HH:mm:ss'
-
+                // quarter: 'MMM YYYY'
+                hour: 'HH:mm',
+                minute: 'HH:mm',
+                second: 'HH:mm:ss'
               }
             }
           },
@@ -23503,9 +23504,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
               wheel: {
                 enabled: true
               },
-              pinch: {
-                enabled: true
-              },
+              // pinch: {
+              //     enabled: true
+              // },
               mode: 'xy'
             },
             pan: {
@@ -23530,14 +23531,40 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   watch: {
     'lastValues.date': function lastValuesDate() {
-      this.config.data.labels[this.config.data.labels.length] = this.lastValues.date;
-      this.config.data.datasets[0].data[this.config.data.datasets[0].data.length] = this.lastValues.price;
-      this.chart.update();
+      if (this.periodicity === 'H') {
+        // if chart hourly
+        if (new Date(this.config.data.labels[this.config.data.labels.length - 1]).getHours() == new Date(this.lastValues.date).getHours() && new Date(this.config.data.labels[this.config.data.labels.length - 1]).getDate() == new Date(this.lastValues.date).getDate()) {
+          // if prev value same date and hour, replace
+          this.config.data.labels[this.config.data.labels.length - 1] = this.lastValues.date;
+          this.config.data.datasets[0].data[this.config.data.datasets[0].data.length - 1] = this.lastValues.price;
+        } else {
+          // else add to the array
+          this.config.data.labels[this.config.data.labels.length] = this.lastValues.date;
+          this.config.data.datasets[0].data[this.config.data.datasets[0].data.length] = this.lastValues.price;
+        }
+      } else if (this.periodicity === 'D') {
+        // if chart daily
+        if (new Date(this.config.data.labels[this.config.data.labels.length - 1]).getDate() == new Date(this.lastValues.date).getDate() && new Date(this.config.data.labels[this.config.data.labels.length - 2]).getDate() == new Date(this.lastValues.date).getDate()) {
+          // if 2 lasts values same date, replace la value
+          this.config.data.labels[this.config.data.labels.length - 1] = this.lastValues.date;
+          this.config.data.datasets[0].data[this.config.data.datasets[0].data.length - 1] = this.lastValues.price;
+        } else {
+          // else add to the array
+          this.config.data.labels[this.config.data.labels.length] = this.lastValues.date;
+          this.config.data.datasets[0].data[this.config.data.datasets[0].data.length] = this.lastValues.price;
+        }
+      } else {
+        // chart every minutes, add to the array
+        this.config.data.labels[this.config.data.labels.length] = this.lastValues.date;
+        this.config.data.datasets[0].data[this.config.data.datasets[0].data.length] = this.lastValues.price;
+      }
+
+      this.chart.update('none');
     },
     'chartData.date': function chartDataDate() {
       this.config.data.labels = _toConsumableArray(this.chartData.date);
       this.config.data.datasets[0].data = _toConsumableArray(this.chartData.prices);
-      this.chart.update();
+      this.chart.update('none');
     }
   }
 });
@@ -28003,17 +28030,23 @@ var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 
 var _hoisted_28 = ["src"];
 var _hoisted_29 = {
-  "class": "px-5 py-5 border-b border-gray-200 bg-white text-sm"
+  "class": "hidden sm:block"
 };
 var _hoisted_30 = {
-  "class": "px-5 py-5 border-b border-gray-200 bg-white text-sm"
+  "class": "block sm:hidden"
 };
 var _hoisted_31 = {
+  "class": "px-5 py-5 border-b border-gray-200 bg-white text-sm"
+};
+var _hoisted_32 = {
+  "class": "px-5 py-5 border-b border-gray-200 bg-white text-sm"
+};
+var _hoisted_33 = {
   "class": "px-5 py-5 text-sm"
 };
-var _hoisted_32 = ["onClick"];
+var _hoisted_34 = ["onClick"];
 
-var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   "stroke-width": "2",
@@ -28023,17 +28056,17 @@ var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_34 = [_hoisted_33];
+var _hoisted_36 = [_hoisted_35];
 
-var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Are you sure you want to sell ");
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Are you sure you want to sell ");
 
-var _hoisted_36 = {
+var _hoisted_38 = {
   "class": "font-bold"
 };
 
-var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" for ");
+var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" for ");
 
-var _hoisted_38 = {
+var _hoisted_40 = {
   "class": "font-bold"
 };
 
@@ -28064,7 +28097,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "bg-white"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_row_link, {
       href: _ctx.route('wallet.show', [_ctx.$page.props.user.id, purchase.crypto_id]),
-      className: "px-5 py-5 border-b border-gray-200 bg-white text-sm flex"
+      className: "px-5 py-5 border-b border-gray-200 bg-white text-sm"
     }, {
       "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
         return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -28073,7 +28106,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           alt: "logo"
         }, null, 8
         /* PROPS */
-        , _hoisted_28), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(purchase.crypto_name), 1
+        , _hoisted_28), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(purchase.crypto_name), 1
+        /* TEXT */
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(purchase.crypto_tag), 1
         /* TEXT */
         )];
       }),
@@ -28110,7 +28145,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
     }, 1032
     /* PROPS, DYNAMIC_SLOTS */
-    , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((purchase.prices / purchase.quantity).toFixed(4)), 1
+    , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((purchase.prices / purchase.quantity).toFixed(4)), 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["px-5 py-5 border-b border-gray-200 bg-white text-sm", [purchase.prices <= ($options.currentPrice(purchase.crypto_id) * purchase.quantity).toFixed(2) ? 'text-green-500' : 'text-red-500']])
@@ -28120,9 +28155,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["px-5 py-5 border-b border-gray-200 bg-white text-sm", [purchase.prices <= ($options.currentPrice(purchase.crypto_id) * purchase.quantity).toFixed(2) ? 'text-green-500' : 'text-red-500']])
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.differencePercentage($props.initial_latest_markets_values, purchase.crypto_id, purchase.quantity, purchase.prices)) + " % ", 3
     /* TEXT, CLASS */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(($options.currentPrice(purchase.crypto_id) * purchase.quantity).toFixed(2)) + " € ", 1
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(($options.currentPrice(purchase.crypto_id) * purchase.quantity).toFixed(2)) + " € ", 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "p-1 cursor-pointer",
       onClick: function onClick($event) {
         return $options.showModal(purchase);
@@ -28133,11 +28168,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       fill: "none",
       viewBox: "0 0 24 24",
       stroke: "currentColor"
-    }, _hoisted_34, 2
+    }, _hoisted_36, 2
     /* CLASS */
-    )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" {{ currentPrice(purchase.crypto_id)  }} ")], 8
+    ))], 8
     /* PROPS */
-    , _hoisted_32)])]);
+    , _hoisted_34)])]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SalesHistory, {
@@ -28156,9 +28191,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     button: "SELL"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img :src=\"'/images/logo/'+ purchaseToSell.logo\" class=\"my-1.5\"> "), _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.purchaseToSell.quantity) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.purchaseToSell.tag), 1
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img :src=\"'/images/logo/'+ purchaseToSell.logo\" class=\"my-1.5\"> "), _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.purchaseToSell.quantity) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.purchaseToSell.tag), 1
       /* TEXT */
-      ), _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.purchaseToSell.price) + " €", 1
+      ), _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.purchaseToSell.price) + " €", 1
       /* TEXT */
       )];
     }),
@@ -28972,7 +29007,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($props.className)
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
     href: $props.href,
-    "class": "p-3 flex items-center w-full"
+    "class": "p-3 flex sm:items-center w-full"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default")];
@@ -44792,7 +44827,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.bloc-buy[data-v-274e21f7] {\n    width: 30%;\n}\n@media (max-width:700px){\n.bloc-buy[data-v-274e21f7] {\n    width: 100%;\n}\n.bloc-chart[data-v-274e21f7] {\n  margin-right: 0px;\n}\n}\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.bloc-buy[data-v-274e21f7] {\r\n    width: 30%;\n}\n@media (max-width:700px){\n.bloc-buy[data-v-274e21f7] {\r\n    width: 100%;\n}\n.bloc-chart[data-v-274e21f7] {\r\n  margin-right: 0px;\n}\n}\r\n\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

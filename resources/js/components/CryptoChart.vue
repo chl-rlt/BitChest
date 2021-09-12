@@ -16,7 +16,8 @@ export default {
             date: Array,
             prices: Array
         },
-        lastValues: Object
+        lastValues: Object,
+        periodicity: String
     },
 
     data() {
@@ -56,19 +57,21 @@ export default {
                     x: {
                         type: 'time',
                         ticks: {
-                            source: {
-                                auto: true
-                            }
-                            // autoSkip: true,
-                            // autoSkipPadding: 50,
-                            // maxRotation: 0
+                            // source: {
+                            //     auto: true
+                            // }
+                            autoSkip: true,
+                            autoSkipPadding: 50,
+                            maxRotation: 0
                         },
                         time: {
+                            stepSize: 1,
                             displayFormats: {
-                                quarter: 'MMM YYYY'
-                                // hour: 'HH:mm',
-                                // minute: 'HH:mm',
-                                // second: 'HH:mm:ss'
+                                // quarter: 'MMM YYYY'
+
+                                hour: 'HH:mm',
+                                minute: 'HH:mm',
+                                second: 'HH:mm:ss'
                             }
                         }
                     },
@@ -92,9 +95,9 @@ export default {
                             wheel: {
                                 enabled: true
                             },
-                            pinch: {
-                                enabled: true
-                            },
+                            // pinch: {
+                            //     enabled: true
+                            // },
                             mode: 'xy',
                         },
                         pan: {
@@ -111,19 +114,46 @@ export default {
         }
 
         this.chart = shallowRef( new Chart(ctx, this.config))
-
     },
 
     watch: {
         'lastValues.date'() {
-            this.config.data.labels[this.config.data.labels.length] = this.lastValues.date
-            this.config.data.datasets[0].data[this.config.data.datasets[0].data.length] = this.lastValues.price
-            this.chart.update()
+            if(this.periodicity === 'H') { // if chart hourly
+                if(new Date(this.config.data.labels[this.config.data.labels.length-1]).getHours() == new Date(this.lastValues.date).getHours()
+                    && new Date(this.config.data.labels[this.config.data.labels.length-1]).getDate() == new Date(this.lastValues.date).getDate()
+                    ) { // if prev value same date and hour, replace
+                    this.config.data.labels[this.config.data.labels.length-1] = this.lastValues.date
+                    this.config.data.datasets[0].data[this.config.data.datasets[0].data.length-1] = this.lastValues.price
+                }
+                else { // else add to the array
+                    this.config.data.labels[this.config.data.labels.length] = this.lastValues.date
+                    this.config.data.datasets[0].data[this.config.data.datasets[0].data.length] = this.lastValues.price
+                }
+            }
+            else if(this.periodicity === 'D') { // if chart daily
+                if(new Date(this.config.data.labels[this.config.data.labels.length-1]).getDate() == new Date(this.lastValues.date).getDate()
+                    && new Date(this.config.data.labels[this.config.data.labels.length-2]).getDate() == new Date(this.lastValues.date).getDate())
+                { // if 2 lasts values same date, replace la value
+                    this.config.data.labels[this.config.data.labels.length - 1] = this.lastValues.date
+                    this.config.data.datasets[0].data[this.config.data.datasets[0].data.length - 1] = this.lastValues.price
+                }
+                else { // else add to the array
+                    this.config.data.labels[this.config.data.labels.length] = this.lastValues.date
+                    this.config.data.datasets[0].data[this.config.data.datasets[0].data.length] = this.lastValues.price
+                }
+
+            }
+            else { // chart every minutes, add to the array
+                this.config.data.labels[this.config.data.labels.length] = this.lastValues.date
+                this.config.data.datasets[0].data[this.config.data.datasets[0].data.length] = this.lastValues.price
+            }
+
+            this.chart.update('none')
         },
         'chartData.date'() {
             this.config.data.labels = [...this.chartData.date]
             this.config.data.datasets[0].data = [...this.chartData.prices]
-            this.chart.update()
+            this.chart.update('none')
         }
     },
 }

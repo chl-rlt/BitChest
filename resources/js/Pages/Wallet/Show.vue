@@ -112,7 +112,8 @@ export default {
         },
 
         sell({id, selling_price}) {
-            this.$inertia.patch(route('wallet.sell.one', {id, selling_price}));
+            // console.log(selling_price)
+            this.$inertia.patch(route('wallet.sell.one',id), {selling_price: selling_price});
         },
 
 
@@ -121,7 +122,6 @@ export default {
         },
 
         showModal(purchase) {
-            console.log(purchase)
             this.purchaseToSell = {
                 id: purchase.id,
                 name: purchase.name,
@@ -129,8 +129,9 @@ export default {
                 logo: purchase.logo,
                 price:  this.totalPrice(purchase.quantity, this.currentLatest.price),
                 quantity: purchase.quantity,
-                selling_price: this.currentPrice(purchase.crypto_id)
+                selling_price: this.currentLatest.price
             }
+
             this.isModalVisible = true;
         },
         closeModal() {

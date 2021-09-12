@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 class MarketController extends Controller
 {
+
+    // AFFICHAGE DES MARKETS DES DERNIERES 24H
     public function index()
     {
         $markets = DB::table('markets')
@@ -28,6 +30,7 @@ class MarketController extends Controller
 
     }
 
+    // AFFICHAGE DU MARCHÉ D'UNE CRYPTOCURRENCIE
     public function show($id)
     {
         $crypto = Cryptocurrencie::find($id);

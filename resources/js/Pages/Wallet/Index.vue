@@ -39,9 +39,10 @@
                 </thead>
                 <tbody>
                     <tr v-for="purchase in purchases" :key="purchase.crypto_id" class="bg-white">
-                        <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="px-5 py-5 border-b border-gray-200 bg-white text-sm flex">
+                        <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <img class="rounded-full h-7 w-6 object-contain mr-4" :src="'/images/logo/'+ purchase.crypto_logo" alt="logo">
-                            <span>{{ purchase.crypto_name }}</span>
+                            <span class="hidden sm:block">{{ purchase.crypto_name }}</span>
+                            <span class="block sm:hidden">{{ purchase.crypto_tag }}</span>
                         </row-link>
                         <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ purchase.quantity }}</row-link>
                         <row-link :href="route('wallet.show',[$page.props.user.id, purchase.crypto_id])" className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{{ purchase.prices }} €</row-link>
@@ -65,7 +66,6 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 -mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" :class="[purchase.prices <= (currentPrice(purchase.crypto_id) * purchase.quantity).toFixed(2) ? 'hover:border-green-400 hover:bg-green-400 hover:rounded-md' : 'hover:border-red-400 hover:bg-red-400 hover:rounded-md' ]">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 15.536c-1.171 1.952-3.07 1.952-4.242 0-1.172-1.953-1.172-5.119 0-7.072 1.171-1.952 3.07-1.952 4.242 0M8 10.5h4m-4 3h4m9-1.5a9 9 0 11-18 0 9 9 0 0118 0z" class="text-gray-700 font-normal" />
                             </svg>
-                            <!-- {{ currentPrice(purchase.crypto_id)  }} -->
 
                             </span>
                         </td>
