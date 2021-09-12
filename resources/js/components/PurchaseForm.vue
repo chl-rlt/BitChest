@@ -2,10 +2,9 @@
 <p class="text-3xl font-semibold">{{ crypto?.name ?? market.name }}
     <span class="text-gray-500 mt-1.5 ml-1 text-xl font-light"> {{ crypto?.tag ?? market.tag }}</span>
 </p>
-<p class="text-gray-500 text-sm mt-3"> Price : </p>
-{{ market.price }} €
+<p class="text-gray-600 text-xl mt-3 font-normal">{{ market.price }} €</p>
 <div>
-    <form @submit.prevent="onSubmit" class="flex flex-col mt-10">
+    <form @submit.prevent="onSubmit" class="flex flex-col mt-4">
         <label for="quantity" class="text-gray-500 text-sm mb-2 " >Quantity:  </label>
         <input type="number" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md mb-5" v-model="purchase.quantity"  id="quantity" min="1">
 

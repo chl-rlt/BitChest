@@ -1,21 +1,23 @@
 <template>
 
-<div>
+<div class="">
+    <div class="flex">
     <img class="h-7 w-6 object-contain mr-4" :src="'/images/logo/'+ purchases[0].logo" alt="logo">
-
-    <h2>{{ purchases[0].name }}</h2><span>{{ purchases[0].tag }}</span>
-
-    <table class="table text-gray-400 border-separate space-y-6 text-sm w-full">
-        <thead class="bg-gray-300 text-gray-500">
+    <h2 class="mt-1 text-xl font-semibold leading-tight">{{ purchases[0].name }}</h2><span class="mt-1 text-xl font-semibold leading-tight">{{ purchases[0].tag }}</span>
+    </div>
+    <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+    <div class="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
+    <table class="table min-w-full leading-normal w-full">
+        <thead class="bg-blue-200 text-gray-500">
             <tr>
-                <th class="p-3 text-left pl-8">Date</th>
-                <th class="p-3 text-center">Amount</th>
-                <th class="p-3 text-center">Units</th>
-                <th class="p-3 text-center">Open</th>
-                <th class="p-3 text-center">Current</th>
-                <th class="p-3 text-center">P/L(€)</th>
-                <th class="p-3 text-center">P/L(%)</th>
-                <th class="p-3 text-center">
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-blue-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Date</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-blue-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Amount</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-blue-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Units</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-blue-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Open</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-blue-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Current</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-blue-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">P/L(€)</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-blue-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">P/L(%)</th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 bg-blue-200 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -25,21 +27,23 @@
         </thead>
         <tbody class="font-bold">
             <tr v-for="purchase in purchases" :key="purchase.id">
-                <td class="p-3 text-center">{{  purchase.created_at }}</td>
-                <td class="p-3 text-center">{{  totalPrice(purchase.quantity, purchase.price) }} €</td>
-                <td class="p-3 text-center">{{  purchase.quantity  }}</td>
-                <td class="p-3 text-center">{{ purchase.price }}</td>
-                <td class="p-3 text-center">
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm font-semibold text-gray-700">{{  purchase.created_at }}</td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm font-semibold text-gray-700">{{  totalPrice(purchase.quantity, purchase.price) }} €</td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm font-semibold text-gray-700">{{  purchase.quantity  }}</td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm font-semibold text-gray-700" >{{ purchase.price }}</td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm font-semibold text-gray-700">
                     <dynamic-value>{{ getLastMarket(purchase.cryptocurrencie_id).price }}</dynamic-value>
                 </td>
-                <td class="p-3 text-center" :class="[differenceCurrency(purchase.price, purchase.quantity) >= 0 ? 'text-green-500' : 'text-red-500']">{{ differenceCurrency(purchase.price, purchase.quantity) }}</td>
-                <td class="p-3 text-center" :class="[differencePercentage(purchase.price) >= 0 ? 'text-green-500' : 'text-red-500']">{{ differencePercentage(purchase.price) }} %</td>
-                <td class="p-3 text-center">
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm font-semibold text-gray-700" :class="[differenceCurrency(purchase.price, purchase.quantity) >= 0 ? 'text-green-500' : 'text-red-500']">{{ differenceCurrency(purchase.price, purchase.quantity) }}</td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm font-semibold text-gray-700" :class="[differencePercentage(purchase.price) >= 0 ? 'text-green-500' : 'text-red-500']">{{ differencePercentage(purchase.price) }} %</td>
+                <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm font-semibold text-gray-700">
                     <button type=button class="rounded border border-gray-500 p-1 hover:bg-red-400 hover:text-white hover:border-red-500" @click="showModal(purchase)">Sell</button>
                 </td>
             </tr>
         </tbody>
     </table>
+    </div>
+    </div>
     <ConfirmationModal v-if="isModalVisible" @close="closeModal" @delete-confirmation="sell"
     :title="'Sell ' + purchaseToSell.name " button="SELL" :data="{id:purchaseToSell.id, selling_price:purchaseToSell.selling_price}">
         <img :src="'/images/logo/'+ purchaseToSell.logo" class="my-1.5">

@@ -3,7 +3,7 @@
 <div class="flex justify-center">
     <div class="overflow-auto lg:overflow-visible md:w-full">
       <table class="table text-gray-400 border-separate space-y-6 text-sm md:w-full">
-        <thead class="bg-gray-300 text-gray-500">
+        <thead class="bg-gray-200 text-gray-500">
             <tr>
                 <th class="p-3 text-left pl-8">Crypto</th>
                 <th class="p-3 text-center">Last Price</th>
@@ -13,7 +13,7 @@
         </thead>
         <tbody>
 
-            <tr class="bg-white shadow-md" v-for="crypto in initial_latest_markets" :key='crypto.id' >
+            <tr class="bg-white shadow-md rounded-md" v-for="crypto in initial_latest_markets" :key='crypto.id' >
                 <row-link :href="route('markets.show', crypto.cryptocurrencie_id)" class="text-left">
                     <div class="flex align-items-center">
                         <img class="rounded-full h-7 w-6 object-contain" :src="'/images/logo/'+ crypto.logo" alt="logo">
@@ -23,22 +23,21 @@
                     </div>
                 </row-link>
                 <row-link :href="route('markets.show', crypto.cryptocurrencie_id)" class="font-bold text-center">
-                    <dynamic-value :data="currentPrice(crypto.cryptocurrencie_id)"> €</dynamic-value>
+                    <dynamic-value :data="currentPrice(crypto.cryptocurrencie_id)" class="font-normal text-gray-500"> €</dynamic-value>
                 </row-link>
-                <row-link :href="route('markets.show', crypto.cryptocurrencie_id)" class="p-3 font-bold text-center" :class="[dayPriceVariation(crypto.price, crypto.cryptocurrencie_id) > 0 ? 'text-green-500' : 'text-red-500']">
+                <row-link :href="route('markets.show', crypto.cryptocurrencie_id)" class="p-3 font-semibold text-center" :class="[dayPriceVariation(crypto.price, crypto.cryptocurrencie_id) > 0 ? 'text-green-400' : 'text-red-400']">
                     <dynamic-value :data="dayPriceVariation(crypto.price, crypto.cryptocurrencie_id)"> %</dynamic-value>
                 </row-link>
                 <td class="p-3 text-center">
                     <Link class="" :href="route('markets.show', crypto.cryptocurrencie_id)" >
-                    <span class="bg-green-400 text-gray-50 rounded-md px-2">Show </span>
+                    <span class="bg-blue-400 text-gray-50 rounded-md px-2 py-0.5">Show </span>
                     </Link>
-                    <button class="bg-red-400 text-gray-50 rounded-md px-2 ml-1.5" @click="selectUser(crypto.cryptocurrencie_id)" v-if="user.role != 'admin'"> Buy</button>
+                    <button class="bg-red-400 text-gray-50 rounded-md px-2 ml-1.5 py-0.5" @click="selectUser(crypto.cryptocurrencie_id)" v-if="user.role != 'admin'"> Buy</button>
                 </td>
             </tr>
             <PurchaseModal v-if="isModalVisible" @close="closeModal" :user="user" :crypto_id="idCrypto" :initial_latest_markets="initial_latest_markets"/>
         </tbody>
       </table>
-      {{idCrypto}}
     </div>
 </div>
 
@@ -122,10 +121,7 @@ export default {
 
     methods: {
         selectUser(cryptoId) {
-            // this.idUser = id;
-            console.log(cryptoId)
             this.idCrypto = cryptoId
-            // this.isModalVisible = true;
             this.showModal()
         },
         showModal() {
@@ -152,20 +148,6 @@ export default {
 
   i {
     font-size: 1rem !important;
-  }
-
-  .table tr {
-    border-radius: 20px;
-  }
-
-  tr td:nth-child(n+5),
-  tr th:nth-child(n+5) {
-    border-radius: 0 .625rem .625rem 0;
-  }
-
-  tr td:nth-child(1),
-  tr th:nth-child(1) {
-    border-radius: .625rem 0 0 .625rem;
   }
 
 </style>

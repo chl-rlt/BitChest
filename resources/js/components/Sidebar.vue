@@ -40,7 +40,7 @@
             <li class="sidebar-dropdown">
                 <Link class="flex flex-row" :href="route('markets.index')" :active="route().current('markets.index')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-1/5 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                        <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" class="text-gray-400" />
                     </svg>
                     <span class="flex items-center">Markets</span>
                 </Link>
@@ -48,7 +48,7 @@
             <li class="sidebar-dropdown " v-if="user.role == 'client' ">
                 <Link class="flex flex-row" :href="route('wallet.index',user.id)" >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-1/5 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" class="text-gray-400" />
                     </svg>
                     <span class="flex items-center">Wallet</span>
                 </Link>
@@ -56,7 +56,7 @@
             <li class="sidebar-dropdown active:text-yellow-300" v-if="user.role == 'admin'">
                 <Link class="flex flex-row" :href="route('users.index')" >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-1/5 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" class="text-gray-400" />
                     </svg>
                     <span class="flex items-center">Users</span>
                 </Link>
