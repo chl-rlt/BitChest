@@ -147,10 +147,11 @@ export default {
     },
     methods: {
         onSubmit() {
-            this.v$.$validate();
             if(!this.user.password) delete this.user.password
             if(!this.user.password_confirm) delete this.user.password_confirm
             if(!this.user.profile_photo_path) delete this.user.profile_photo_path
+
+            this.v$.$validate();
             if(this.v$.$error) return
             this.$emit('on-submit',this.user);
 

@@ -1,9 +1,11 @@
 <template>
-<canvas id="cryptoChart" width="400" height="400"></canvas>
+    <canvas id="cryptoChart"></canvas>
 </template>
 
 <script>
 import Chart from 'chart.js/auto';
+import 'chartjs-adapter-luxon';
+import zoomPlugin from 'chartjs-plugin-zoom';
 import { shallowRef } from 'vue';
 
 export default {
@@ -25,6 +27,10 @@ export default {
         }
     },
 
+    created() {
+        Chart.register(zoomPlugin)
+    },
+
     mounted() {
         let ctx = document.getElementById('cryptoChart');
 
@@ -35,32 +41,72 @@ export default {
                 datasets: [{
                     label: 'Prices',
                     data: this.chartData.prices,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2,
+                    fill:false,
+                    // pointRadius: 0,
+                    // tension: 0.3
                 }]
             },
             // ...this.chartOptions
             options: {
+
                 scales: {
+                    x: {
+                        type: 'time',
+                        ticks: {
+                            source: {
+                                auto: true
+                            }
+                            // autoSkip: true,
+                            // autoSkipPadding: 50,
+                            // maxRotation: 0
+                        },
+                        time: {
+                            displayFormats: {
+                                quarter: 'MMM YYYY'
+                                // hour: 'HH:mm',
+                                // minute: 'HH:mm',
+                                // second: 'HH:mm:ss'
+                            }
+                        }
+                    },
                     y: {
-                        beginAtZero: false
+                        beginAtZero: false,
+                        position: 'right',
                     }
-                }
+                },
+
+                responsive: true,
+
+                elements: {
+                    point:{
+                        radius: 0
+                    }
+                },
+
+                plugins: {
+                    zoom: {
+                        zoom: {
+                            wheel: {
+                                enabled: true
+                            },
+                            pinch: {
+                                enabled: true
+                            },
+                            mode: 'xy',
+                        },
+                        pan: {
+                            enabled: true,
+                            mode: 'xy'
+                        },
+                        limits: {
+                            x: {min: 'original', max:'original'},
+                            y: {min: 'original', max:'original'},
+                        }
+                    }
+                },
             }
         }
 
@@ -72,6 +118,11 @@ export default {
         'lastValues.date'() {
             this.config.data.labels[this.config.data.labels.length] = this.lastValues.date
             this.config.data.datasets[0].data[this.config.data.datasets[0].data.length] = this.lastValues.price
+            this.chart.update()
+        },
+        'chartData.date'() {
+            this.config.data.labels = [...this.chartData.date]
+            this.config.data.datasets[0].data = [...this.chartData.prices]
             this.chart.update()
         }
     },

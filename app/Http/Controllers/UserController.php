@@ -58,22 +58,23 @@ class UserController extends Controller
 
         ]);
 
+        $toStore = [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role_id' => $validated['role_id'],
+        ];
+
         $user_picture = $request->file('profile_photo_path');
         if (!empty($user_picture)) {
             $destinationPath = '/user_picture/';
             $profileImage = date('YmdHis') . "." . $user_picture->getClientOriginalExtension();
             $user_picture->storeAs($destinationPath, $profileImage);
             $input['profile_photo_path'] = "$profileImage";
-
+            $toStore['profile_photo_path'] = '/images'.$destinationPath.$profileImage;
         }
 
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'profile_photo_path' => '/images'.$destinationPath.$profileImage,
-            'role_id' => $validated['role_id'],
-        ]);
+        $user = User::create($toStore);
 
 
 
@@ -117,7 +118,7 @@ class UserController extends Controller
             'user.name' => 'required|min:3',
             'user.email' => 'required|email',
             'user.password' => Password::min(6)->letters()->mixedCase()->numbers(),
-            'user.password_confirm' => 'same:password',
+            'user.password_confirm' => 'same:user.password',
             'user.role_id' => 'required',
         ]);
 
@@ -155,8 +156,8 @@ class UserController extends Controller
 
         };
 
-        if (isset($validated['user']['password'] )){
-            $toUpdate['password'] = $validated['user']['password'];
+        if(isset($validated['user']['password'])) {
+            $toUpdate['password'] = Hash::make($validated['user']['password']);
         }
 
         $user->update($toUpdate);
@@ -167,7 +168,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
+     * @param  int $user
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -188,11 +189,7 @@ class UserController extends Controller
 
         $user->delete();
 
-
-
         return Redirect::route('users.index')->with('message', 'Client Deleted');
-
-
 
     }
 
