@@ -35,6 +35,9 @@
         "@vuelidate/core": "^2.0.0-alpha.24",
         "@vuelidate/validators": "^2.0.0-alpha.21",
         "chart.js": "^3.5.1",
+        "chartjs-adapter-luxon": "^1.1.0",
+        "chartjs-plugin-zoom": "^1.1.1",
+        "luxon": "^2.0.2",
         "vue": "^3.0.0",
         "vuex": "^4.0.2"
     }

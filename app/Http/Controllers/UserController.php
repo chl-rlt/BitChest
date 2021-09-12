@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Role;
+use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Purchase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rules\Password;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -58,26 +59,29 @@ class UserController extends Controller
 
         ]);
 
+        $toStore = [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role_id' => $validated['role_id'],
+        ];
+
+        // picture user 
         $user_picture = $request->file('profile_photo_path');
         if (!empty($user_picture)) {
             $destinationPath = '/user_picture/';
             $profileImage = date('YmdHis') . "." . $user_picture->getClientOriginalExtension();
             $user_picture->storeAs($destinationPath, $profileImage);
             $input['profile_photo_path'] = "$profileImage";
-
+            $toStore['profile_photo_path'] = '/images'.$destinationPath.$profileImage;
         }
 
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'profile_photo_path' => '/images'.$destinationPath.$profileImage,
-            'role_id' => $validated['role_id'],
+        $user = User::create($toStore);
+
+        return Redirect::route('users.index')->with('message', [
+            'status' => 'success',
+            'User has been added successfully !'
         ]);
-
-
-
-        return Redirect::route('users.index')->with('message', 'User has been added successfully !');
     }
 
     /**
@@ -112,12 +116,11 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-
         $validated = $request->validate([
             'user.name' => 'required|min:3',
             'user.email' => 'required|email',
             'user.password' => Password::min(6)->letters()->mixedCase()->numbers(),
-            'user.password_confirm' => 'same:password',
+            'user.password_confirm' => 'same:user.password',
             'user.role_id' => 'required',
         ]);
 
@@ -144,6 +147,7 @@ class UserController extends Controller
                 $user->update(['profile_photo_path'=> NULL]);
             }
 
+            // Picture user 
             $destinationPath = '/user_picture/';
             $profileImage = date('YmdHis') . "." . $user_picture->getClientOriginalExtension();
             $user_picture->storeAs($destinationPath, $profileImage);
@@ -155,24 +159,37 @@ class UserController extends Controller
 
         };
 
-        if (isset($validated['user']['password'] )){
-            $toUpdate['password'] = $validated['user']['password'];
+        if(isset($validated['user']['password'])) {
+            $toUpdate['password'] = Hash::make($validated['user']['password']);
         }
 
         $user->update($toUpdate);
 
-        return Redirect::route('users.index')->with('message', 'User has been updated successfully !');
+        return Redirect::route('users.index')->with('message', [
+            'status' => 'success',
+            'message' => 'User has been updated successfully !'
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
+     * @param  int $user
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $user = User::find($id);
+
+        $purchases = Purchase::where('user_id',$id)->get();
+
+        // Delete user only if user don't have crypto in his wallet
+        if( count($purchases) > 0 ) {
+            return Redirect::route('users.index')->with('message', [
+                'status' => 'error',
+                'message'=>'This Client still has cryptocurrencies in is wallet. You cannot delete him.'
+            ]);
+        }
 
         // If user got an image in DB
         if($user->profile_photo_path){
@@ -188,11 +205,10 @@ class UserController extends Controller
 
         $user->delete();
 
-
-
-        return Redirect::route('users.index')->with('message', 'Client Deleted');
-
-
+        return Redirect::route('users.index')->with('message', [
+            'status' => 'success',
+            'message' => 'Client Deleted'
+        ]);
 
     }
 

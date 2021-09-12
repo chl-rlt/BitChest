@@ -27,7 +27,8 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         Inertia::share('initial_latest_markets_values', function() {
-            return Market::where('date', Market::max('date'))
+            // return Market::where('date', Market::max('date'))
+            return Market::orderBy('date','desc')->take(10)
                 ->orderBy('cryptocurrencie_id', 'asc')
                 ->join('cryptocurrencies', 'markets.cryptocurrencie_id', '=', 'cryptocurrencies.id')
                 ->select('markets.*','cryptocurrencies.logo','cryptocurrencies.name','cryptocurrencies.tag')

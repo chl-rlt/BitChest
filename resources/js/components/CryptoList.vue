@@ -38,7 +38,6 @@
             <PurchaseModal v-if="isModalVisible" @close="closeModal" :user="user" :crypto_id="idCrypto" :initial_latest_markets="initial_latest_markets"/>
         </tbody>
       </table>
-      {{idCrypto}}
     </div>
 </div>
 
@@ -122,10 +121,7 @@ export default {
 
     methods: {
         selectUser(cryptoId) {
-            // this.idUser = id;
-            console.log(cryptoId)
             this.idCrypto = cryptoId
-            // this.isModalVisible = true;
             this.showModal()
         },
         showModal() {

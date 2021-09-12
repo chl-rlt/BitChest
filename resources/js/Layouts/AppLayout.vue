@@ -7,9 +7,9 @@
         <div class="bg-gray-100 relative content-area">
 
             <!-- Nav -->
-            <nav class="bg-white border-b border-gray-100 fixed top-0 w-full">
+            <nav class="bg-white border-b border-gray-100 fixed top-0 w-full z-10">
                 <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
@@ -92,7 +92,7 @@
                         <jet-responsive-nav-link :href="route('markets.index')" :active="route().current('markets.index')">
                             Markets
                         </jet-responsive-nav-link>
-                        <jet-responsive-nav-link :href="route('wallet.index', user.id)" :active="route().current('wallet.index', user.id)">
+                        <jet-responsive-nav-link :href="route('wallet.index', user.id)" :active="route().current('wallet.index', user.id)" v-if="user.role == 'client'">
                             Wallet
                         </jet-responsive-nav-link>
                         <jet-responsive-nav-link :href="route('users.index')" :active="route().current('users.index')" v-if="user.role == 'admin'">
