@@ -92,12 +92,20 @@ export default defineComponent ({
         },
 
         getDailyMarket(key) {
-            return Object.keys(this.marketPerDay).reduce((acc, res) => {
+            const marketPerDay = this.markets.reduce((acc, res) => {
+                let date = new Date(res.date)
+                let cle = date.getMonth()+1 +'-'+ date.getDate()
+                if(!acc[cle]) acc[cle] = []
+                acc[cle].push(res)
+                return acc;
+            }, {})
+
+            return Object.keys(marketPerDay).reduce((acc, res) => {
                 return acc.concat([
-                    this.marketPerDay[res][0][key],
-                    this.marketPerDay[res][this.marketPerDay[res].length-1][key]
+                    key === 'date' ? Date.parse(marketPerDay[res][0][key]) : marketPerDay[res][0][key],
+                    key === 'date' ? Date.parse(marketPerDay[res][marketPerDay[res].length-1][key]) : marketPerDay[res][marketPerDay[res].length-1][key]
                     ])
-            }, []).reverse()
+            }, [])
         },
 
         getHourlyMarket(key) {
@@ -137,6 +145,7 @@ export default defineComponent ({
                 return acc;
             }, {})
         },
+
         marketPerHour() {
             return Object.keys(this.marketPerDay).map(market => {
                 return this.marketPerDay[market].reverse().reduce((acc, res) => {
@@ -151,7 +160,7 @@ export default defineComponent ({
     },
 
     created() {
-        this.chartData.date = this.getDailyMarket('date').map(date => Date.parse(date))
+        this.chartData.date = this.getDailyMarket('date')
         this.chartData.prices = this.getDailyMarket('price')
     },
 
@@ -168,7 +177,7 @@ export default defineComponent ({
                     this.chartData.prices = this.getHourlyMarket('price')
                     break;
                 case 'D':
-                    this.chartData.date = this.getDailyMarket('date').map(date => Date.parse(date))
+                    this.chartData.date = this.getDailyMarket('date')
                     this.chartData.prices = this.getDailyMarket('price')
                     break;
                 case 'M':
